@@ -1,0 +1,8 @@
+{
+  "name": "BERSERKER",
+  "maxHp": 80,
+  "speed": 0.6,
+  "damage": 12,
+  "flavorText": "enrages and charges!",
+  "scrapValue": 15
+}

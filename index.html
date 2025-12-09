@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="NEON VANGUARD: Sector Zero - Jeu de combat mech tactique avec accessibilité complète pour lecteurs d'écran" />
+  <meta name="theme-color" content="#050505" />
+  <title>NEON VANGUARD: Sector Zero</title>
+
+  <style>
+    body {
+      background-color: #050505;
+      font-family: 'Courier New', Courier, monospace;
+      overflow: hidden;
+    }
+
+    /* Custom Scrollbar for Terminal Feel */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #111;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #333;
+      border: 1px solid #000;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    .crt-flicker {
+      animation: flicker 0.15s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes flicker {
+      0% {
+        opacity: 0.97;
+      }
+
+      50% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0.98;
+      }
+    }
+
+    .scanline {
+      width: 100%;
+      height: 100px;
+      z-index: 10;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.04) 50%, rgba(0, 0, 0, 0) 100%);
+      opacity: 0.1;
+      position: absolute;
+      bottom: 100%;
+      animation: scanline 10s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes scanline {
+      0% {
+        bottom: 100%;
+      }
+
+      100% {
+        bottom: -100px;
+      }
+    }
+
+    /* Combat Log Animations */
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .log-entry {
+      animation: slideIn 0.2s ease-out forwards;
+    }
+
+    /* Hazard Effects */
+    @keyframes warningPulse {
+      0% {
+        background-color: rgba(220, 38, 38, 0.1);
+        border-color: rgba(220, 38, 38, 0.3);
+      }
+
+      50% {
+        background-color: rgba(220, 38, 38, 0.25);
+        border-color: rgba(220, 38, 38, 0.8);
+      }
+
+      100% {
+        background-color: rgba(220, 38, 38, 0.1);
+        border-color: rgba(220, 38, 38, 0.3);
+      }
+    }
+
+    @keyframes shake {
+      0% {
+        transform: translate(1px, 1px) rotate(0deg);
+      }
+
+      10% {
+        transform: translate(-1px, -2px) rotate(-1deg);
+      }
+
+      20% {
+        transform: translate(-3px, 0px) rotate(1deg);
+      }
+
+      30% {
+        transform: translate(3px, 2px) rotate(0deg);
+      }
+
+      40% {
+        transform: translate(1px, -1px) rotate(1deg);
+      }
+
+      50% {
+        transform: translate(-1px, 2px) rotate(-1deg);
+      }
+
+      60% {
+        transform: translate(-3px, 1px) rotate(0deg);
+      }
+
+      70% {
+        transform: translate(3px, 1px) rotate(-1deg);
+      }
+
+      80% {
+        transform: translate(-1px, -1px) rotate(1deg);
+      }
+
+      90% {
+        transform: translate(1px, 2px) rotate(0deg);
+      }
+
+      100% {
+        transform: translate(1px, -2px) rotate(-1deg);
+      }
+    }
+
+    @keyframes rain {
+      0% {
+        background-position: 0% 0%;
+      }
+
+      100% {
+        background-position: 20% 100%;
+      }
+    }
+
+    .hazard-active {
+      animation: warningPulse 1.5s infinite;
+    }
+
+    .hazard-quake {
+      animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both infinite;
+    }
+
+    .hazard-rain {
+      background-image: linear-gradient(to bottom, rgba(50, 255, 50, 0.1) 0%, rgba(0, 0, 0, 0) 100%),
+        repeating-linear-gradient(135deg, transparent 0, transparent 10px, rgba(50, 255, 50, 0.1) 10px, rgba(50, 255, 50, 0.2) 11px);
+      background-size: 100% 100%, 40px 40px;
+      animation: rain 1s linear infinite;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .hazard-ion {
+      background-image: radial-gradient(circle, rgba(100, 100, 255, 0.1) 10%, transparent 10%), radial-gradient(circle, rgba(100, 100, 255, 0.1) 10%, transparent 10%);
+      background-size: 20px 20px;
+      background-position: 0 0, 10px 10px;
+      animation: flicker 0.2s infinite;
+      opacity: 0.3;
+      pointer-events: none;
+      mix-blend-mode: hard-light;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root" role="application" aria-label="NEON VANGUARD Sector Zero - Jeu de Combat Mech"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+
+</html>

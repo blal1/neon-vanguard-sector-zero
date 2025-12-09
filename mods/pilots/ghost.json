@@ -1,0 +1,30 @@
+{
+  "id": "ghost",
+  "name": "Ghost",
+  "mechName": "SPECTRE",
+  "flavor": "A mysterious pilot who haunts the battlefield.",
+  "color": "#a855f7",
+  "textColor": "text-purple-400",
+  "borderColor": "border-purple-400",
+  "statsDescription": "SPEED+ | HP- | COOLDOWN-",
+  "mechanicDescription": "CLOAKING. SHIFT to become untargetable for a short duration.",
+  "baseHp": 90,
+  "baseSpeed": 1.2,
+  "baseDamage": 12,
+  "unlockCodex": 75,
+  "abilities": [
+    {
+      "id": "ghost_strike",
+      "name": "GHOST STRIKE",
+      "description": "A swift, silent strike.",
+      "damageMult": 1.1,
+      "cooldownMs": 0
+    },
+    {
+      "id": "ghost_vanish",
+      "name": "VANISH",
+      "description": "Become untargetable for 5s.",
+      "cooldownMs": 12000
+    }
+  ]
+}

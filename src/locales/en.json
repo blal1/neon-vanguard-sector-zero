@@ -1,0 +1,515 @@
+{
+  "translation": {
+    "mainMenu": {
+      "loadouts": "Loadouts",
+      "endlessMode": "Endless Mode",
+      "statistics": "Statistics",
+      "achievements": "Achievements",
+      "database": "Database",
+      "replays": "Replays",
+      "talents": "Talents",
+      "newRun": "New Run",
+      "continueRun": "Continue Run",
+      "settings": "Settings"
+    },
+    "common": {
+      "start": "Start",
+      "back": "Back",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "close": "Close",
+      "continue": "Continue",
+      "loading": "Loading",
+      "save": "Save",
+      "delete": "Delete",
+      "reset": "Reset",
+      "unlock": "Unlock",
+      "locked": "Locked",
+      "unlocked": "Unlocked",
+      "purchase": "Purchase",
+      "equipped": "Equipped",
+      "maxed": "Maxed"
+    },
+    "combat": {
+      "victory": "VICTORY",
+      "defeat": "DEFEAT",
+      "health": "Health",
+      "energy": "Energy",
+      "heat": "Heat",
+      "charge": "Charge",
+      "armor": "Armor",
+      "damage": "Damage",
+      "critical": "Critical",
+      "combo": "Combo",
+      "stunned": "Stunned",
+      "burning": "Burning",
+      "shielded": "Shielded",
+      "survive": "Survive",
+      "coreIntegrity": "Core Integrity",
+      "missionComplete": "Mission Complete",
+      "targetDestroyed": "Target Destroyed",
+      "waveClear": "Wave Clear",
+      "bossIntro": "Boss Encounter!",
+      "phaseShift": "PHASE SHIFT Active",
+      "counterAttack": "COUNTER ATTACK!",
+      "comboActive": "COMBO ACTIVE"
+    },
+    "pilots": {
+      "vanguard": {
+        "name": "Cpt. Iron Jackson",
+        "mech": "IRON VANGUARD",
+        "flavor": "Battle-scarred veteran with a cybernetic eye. Built for endurance.",
+        "stats": "HP++ | SPEED- | REGEN+",
+        "mechanic": "NANITE REPAIR. Passive Armor Regen. Standard cooldowns."
+      },
+      "solaris": {
+        "name": "Caelan Spark Voss",
+        "mech": "SOLARIS UNIT",
+        "flavor": "Tech prodigy. Wired directly into the mainframe.",
+        "stats": "HP- | SPEED++ | ENERGY++",
+        "mechanic": "ENERGY SYSTEM. Attacks drain Energy. SHIFT to Recharge."
+      },
+      "hydra": {
+        "name": "Magnus Hammertoes",
+        "mech": "HYDRA M-40",
+        "flavor": "Mercenary with a love for rotary cannons and noise.",
+        "stats": "DMG++ | SPEED-- | HEAT!!",
+        "mechanic": "HEAT SYSTEM. Fire raises Heat. 100% Heat = JAMMED. SHIFT to Vent."
+      },
+      "wyrm": {
+        "name": "Subject 89",
+        "mech": "GRAVEL WYRM",
+        "flavor": "A bio-mechanical horror retrieved from the deep mines.",
+        "stats": "HP+ | SPECIAL++",
+        "mechanic": "AMBUSH. SHIFT to Burrow (Invulnerable). SPACE to Devour from below."
+      }
+    },
+    "abilities": {
+      "vanguard_shot": {
+        "name": "AUTOCANNON",
+        "description": "Standard kinetic round."
+      },
+      "vanguard_stun": {
+        "name": "SHOCK ROUND",
+        "description": "Low DMG. Resets enemy Action Bar."
+      },
+      "solaris_beam": {
+        "name": "PHOTON RAY",
+        "description": "Precise laser beam. Low Cost."
+      },
+      "solaris_aoe": {
+        "name": "CORONA DISCHARGE",
+        "description": "Hits ALL enemies. High Cost."
+      },
+      "hydra_spin": {
+        "name": "VULCAN SPIN",
+        "description": "Heavy fire. Builds Heat."
+      },
+      "hydra_missile": {
+        "name": "HELLFIRE SALVO",
+        "description": "Massive DMG. Massive Heat."
+      },
+      "wyrm_spit": {
+        "name": "ACID BILE",
+        "description": "Corrosive bio-matter."
+      },
+      "wyrm_tunnel": {
+        "name": "TECTONIC BITE",
+        "description": "High DMG if Burrowed."
+      }
+    },
+    "consumables": {
+      "nano_stim": {
+        "name": "NANO-STIM",
+        "description": "Repair 50 HP."
+      },
+      "coolant": {
+        "name": "L-COOLANT",
+        "description": "-50 HEAT / +20 ENERGY"
+      },
+      "emp_grenade": {
+        "name": "EMP CHARGE",
+        "description": "STUN all enemies (5s)."
+      },
+      "overdrive_inj": {
+        "name": "OVERDRIVE",
+        "description": "+50% DMG (10s). Takes HP."
+      },
+      "mega_stim": {
+        "name": "MEGA-STIM",
+        "description": "Repair 100 HP."
+      },
+      "cryo_bomb": {
+        "name": "CRYO-BOMB",
+        "description": "STUN all enemies (8s) + SLOW."
+      },
+      "repair_kit": {
+        "name": "REPAIR KIT",
+        "description": "Restores 40 HP."
+      },
+      "temp_shield": {
+        "name": "TEMP SHIELD",
+        "description": "Grants temporary shield."
+      }
+    },
+    "augmentations": {
+      "thermal_conv": {
+        "name": "THERMAL CONVERTER",
+        "description": "+1 DMG per 10% HEAT."
+      },
+      "vamp_nanites": {
+        "name": "VAMPIRIC NANITES",
+        "description": "+5 HP on KILL."
+      },
+      "static_shell": {
+        "name": "STATIC SHELL",
+        "description": "Attackers take 5 DMG."
+      },
+      "adrenaline_inj": {
+        "name": "ADRENALINE INJECTOR",
+        "description": "2x SPEED if HP < 30%."
+      },
+      "overclock_chip": {
+        "name": "OVERCLOCK CHIP",
+        "description": "-20% all cooldowns."
+      },
+      "plasma_coating": {
+        "name": "PLASMA COATING",
+        "description": "Burn enemies on hit."
+      }
+    },
+    "synergies": {
+      "INFERNO": {
+        "name": "INFERNO",
+        "description": "+50% fire damage, enemies burn longer"
+      },
+      "BLOOD_SHELL": {
+        "name": "BLOOD SHELL",
+        "description": "Heal when enemies attack you"
+      }
+    },
+    "crafting": {
+      "mega_stim": "MEGA-STIM",
+      "cryo_bomb": "CRYO-BOMB",
+      "scrap_converter": "SCRAP CONVERTER",
+      "repair_kit": "REPAIR KIT",
+      "requirements": "Requirements:",
+      "craft": "Craft"
+    },
+    "bosses": {
+      "alpha_sentinel": {
+        "name": "ALPHA SENTINEL",
+        "title": "ALPHA SENTINEL: PERIMETER GUARDIAN",
+        "flavor": "charges fusion cannon",
+        "intro1": "ALPHA SENTINEL ONLINE. SCANNING TARGET...",
+        "intro2": "THREAT LEVEL: MODERATE. ENGAGING PROTOCOL SIGMA.",
+        "intro3": "ELIMINATING INTRUDER.",
+        "phase1": "ALPHA SENTINEL ONLINE. SCANNING TARGET...",
+        "phase2": "DAMAGE DETECTED. ACTIVATING SHIELD PROTOCOLS.",
+        "defeat": "CRITICAL FAILURE... UPLINK... COM__ROMISED..."
+      },
+      "hydra_core": {
+        "name": "HYDRA CORE",
+        "title": "HYDRA CORE: BIO-MECHANICAL NIGHTMARE",
+        "flavor": "pulses with corrupted energy",
+        "intro1": "HYDRA CORE ACTIVE. BIOLOGICAL MATTER DETECTED.",
+        "intro2": "ANOMALY SIGNATURE CONFIRMED. NEUTRALIZATION AUTHORIZED.",
+        "intro3": "ASSIMILATION SEQUENCE: COMMENCE.",
+        "phase2": "STRUCTURAL INTEGRITY FAILING. DEPLOYING REPAIR DRONES.",
+        "phase3": "CORE DESTABILIZING. INITIATE EMERGENCY PROTOCOLS.",
+        "defeat": "C-CORE... MELTDOWN... CONTA__INATION SPREAD___"
+      },
+      "crimson_phantom": {
+        "name": "CRIMSON PHANTOM",
+        "title": "CRIMSON PHANTOM: STEALTH ASSASSIN",
+        "flavor": "flickers in and out of reality",
+        "intro1": "...",
+        "intro2": "TARGET LOCKED. GHOST PROTOCOL ENGAGED.",
+        "intro3": "YOUR DEATH WILL BE... SILENT.",
+        "phase2": "YOU CANNOT HIT WHAT YOU CANNOT SEE.",
+        "defeat": "IMPOS__SIBLE... CLOAK... FAILUR___"
+      },
+      "omega_prime": {
+        "name": "OMEGA PRIME",
+        "title": "OMEGA PRIME: COMMAND UNIT",
+        "flavor": "calculates optimal strike vector",
+        "intro1": "OMEGA PRIME ONLINE. COMMAND AUTHORIZATION VERIFIED.",
+        "intro2": "ANALYZING COMBAT PARAMETERS...",
+        "intro3": "PROBABILITY OF YOUR SURVIVAL: 12.7%. ENGAGING.",
+        "phase2": "THREAT ASSESSMENT: ELEVATED. SWITCHING TO SIEGE MODE.",
+        "phase3": "CRITICAL DAMAGE. ALL LIMITERS RELEASED.",
+        "defeat": "UNACCEPTABLE... RECALCULATING... ERR__OR... SHUTTING DO___"
+      },
+      "the_architect": {
+        "name": "THE ARCHITECT",
+        "title": "THE ARCHITECT: SECTOR ZERO OVERSEER",
+        "flavor": "manipulates reality itself",
+        "intro1": "AT LAST... A VISITOR.",
+        "intro2": "I AM THE ARCHITECT. THIS IS MY DOMAIN.",
+        "intro3": "YOU HAVE DISRUPTED MY WORK. THAT WAS... UNWISE.",
+        "intro4": "PREPARE TO BE DELETED.",
+        "phase2": "FASCINATING. YOU'VE MADE IT THIS FAR. LET'S TEST YOUR RESOLVE.",
+        "phase3": "ENOUGH GAMES. WITNESS TRUE POWER.",
+        "phase4": "IMPOSSIBLE! I AM THE ARCHITECT! I CONTROL EVERYTHING!",
+        "defeat": "NO... THIS ISN'T... HOW IT ENDS...",
+        "victory": "PREDICTABLE. YOUR STRUGGLE WAS... AMUSING."
+      },
+      "minions": {
+        "repair_drone": "REPAIR DRONE",
+        "elite_enforcer": "ELITE ENFORCER"
+      }
+    },
+    "affixes": {
+      "VOLATILE": "VOLATILE",
+      "SHIELDED": "SHIELDED",
+      "VAMPIRIC": "VAMPIRIC",
+      "SWIFT": "SWIFT",
+      "ARMORED": "ARMORED"
+    },
+    "achievements": {
+      "first_blood": {
+        "name": "First Blood",
+        "description": "Win your first combat."
+      },
+      "centurion": {
+        "name": "Centurion",
+        "description": "Eliminate 100 enemies."
+      },
+      "sharpshooter": {
+        "name": "Sharpshooter",
+        "description": "Land 50 critical hits."
+      },
+      "boss_slayer": {
+        "name": "Boss Slayer",
+        "description": "Defeat 5 bosses."
+      },
+      "david_vs_goliath": {
+        "name": "David vs Goliath",
+        "description": "Defeat a boss with less than 20% HP."
+      },
+      "iron_curtain": {
+        "name": "Iron Curtain",
+        "description": "Complete a run without taking damage."
+      },
+      "pacifist": {
+        "name": "Pacifist",
+        "description": "Win a stage without using consumables."
+      },
+      "deep_dive": {
+        "name": "Deep Dive",
+        "description": "Reach Stage 15."
+      },
+      "speed_demon": {
+        "name": "Speed Demon",
+        "description": "Win a combat in under 30 seconds."
+      },
+      "lightning_fast": {
+        "name": "Lightning Fast",
+        "description": "Complete a full run (Stage 1-5) in under 10 minutes."
+      },
+      "collector": {
+        "name": "The Collector",
+        "description": "Acquire all 6 augmentations in a single run."
+      },
+      "pilot_roster": {
+        "name": "Full Roster",
+        "description": "Unlock all 4 pilots."
+      },
+      "veteran": {
+        "name": "Veteran",
+        "description": "Reach Level 10."
+      },
+      "unstoppable": {
+        "name": "Unstoppable",
+        "description": "Win 5 combats in a row."
+      },
+      "architect_nemesis": {
+        "name": "Architect's Nemesis",
+        "description": "Defeat The Architect (Stage 25)."
+      },
+      "perfectionist": {
+        "name": "Perfectionist",
+        "description": "Defeat a boss without taking any damage."
+      },
+      "marathon_runner": {
+        "name": "Marathon Runner",
+        "description": "Play for over 2 hours (total)."
+      },
+      "survival_king": {
+        "name": "Survival King",
+        "description": "Win 10 Survival missions."
+      },
+      "categories": {
+        "COMBAT": "Combat",
+        "SURVIVAL": "Survival",
+        "SPEED": "Speed",
+        "COLLECTION": "Collection",
+        "MASTERY": "Mastery"
+      },
+      "rarity": {
+        "COMMON": "Common",
+        "RARE": "Rare",
+        "EPIC": "Epic",
+        "LEGENDARY": "Legendary"
+      }
+    },
+    "settings": {
+      "audio": "Audio",
+      "visual": "Visual",
+      "gameplay": "Gameplay",
+      "masterVolume": "Master Volume",
+      "musicVolume": "Music Volume",
+      "sfxVolume": "Sound Effects",
+      "voiceLines": "Voice Lines",
+      "screenShake": "Screen Shake",
+      "damageNumbers": "Damage Numbers",
+      "combatLog": "Combat Log",
+      "difficulty": "Difficulty",
+      "keybindings": "Keybindings",
+      "particles": "Particle Effects",
+      "reducedMotion": "Reduced Motion"
+    },
+    "hangar": {
+      "shop": "Shop",
+      "augmentations": "Augmentations",
+      "consumables": "Consumables",
+      "scrap": "Scrap",
+      "purchase": "Purchase",
+      "equipped": "Equipped",
+      "maxed": "Maxed",
+      "locked": "Locked",
+      "repair": "Repair Hull",
+      "upgradeHp": "Upgrade Max HP",
+      "upgradeDamage": "Upgrade Damage",
+      "craftingStation": "Crafting Station"
+    },
+    "stats": {
+      "totalKills": "Total Kills",
+      "highestStage": "Highest Stage",
+      "totalDamage": "Total Damage Dealt",
+      "gamesPlayed": "Games Played",
+      "victories": "Victories",
+      "defeats": "Defeats",
+      "winRate": "Win Rate",
+      "playtime": "Total Playtime",
+      "favoritePilot": "Favorite Pilot",
+      "longestCombo": "Longest Combo",
+      "criticalHits": "Critical Hits",
+      "bossesDefeated": "Bosses Defeated",
+      "winStreak": "Win Streak",
+      "perfectRuns": "Perfect Runs"
+    },
+    "difficulties": {
+      "RECRUIT": {
+        "name": "Recruit",
+        "description": "Easy mode. Enemies have 50% HP, +50% scrap rewards."
+      },
+      "VETERAN": {
+        "name": "Veteran",
+        "description": "Normal difficulty. Balanced challenge."
+      },
+      "ELITE": {
+        "name": "Elite",
+        "description": "Hard mode. Enemies +50% HP/DMG, +100% scrap."
+      },
+      "NIGHTMARE": {
+        "name": "Nightmare",
+        "description": "EXTREME. +100% HP/DMG, Permadeath, 1 life only."
+      }
+    },
+    "missions": {
+      "ASSAULT": {
+        "type": "Assault",
+        "description": "Destroy all enemies"
+      },
+      "DEFENSE": {
+        "type": "Defense",
+        "description": "Protect the objective"
+      },
+      "SURVIVAL": {
+        "type": "Survival",
+        "description": "Survive the time limit"
+      }
+    },
+    "stages": {
+      "stage1": "PERIMETER BREACH",
+      "stage2": "UPLINK DEFENSE",
+      "stage3": "DEEP SECTOR",
+      "stage4": "SWARM SURVIVAL",
+      "stage5": "CORE ASSAULT"
+    },
+    "events": {
+      "salvage_pod": {
+        "title": "ABANDONED SUPPLY POD",
+        "text": "You discover a pristine supply pod half-buried in rubble. It's locked with biometric scanners. Forcing it might damage the contents or trigger a failsafe.",
+        "choice1": "FORCE OPEN [STR]",
+        "outcome1": "You rip the door open. You find scrap, but shrapnel damages your hull.",
+        "choice2": "LEAVE IT",
+        "outcome2": "You decide it's not worth the risk and move on."
+      },
+      "strange_signal": {
+        "title": "GHOST SIGNAL",
+        "text": "Your comms pick up a distress signal from a fallen pilot nearby. It could be a trap, or they might have valuable data.",
+        "choice1": "INVESTIGATE",
+        "outcome1": "It was a trap! An automated turret fires before you disable it. You salvage its parts.",
+        "choice2": "IGNORE",
+        "outcome2": "You block the frequency and focus on the mission."
+      },
+      "repair_station": {
+        "title": "AUTO-DOC STATION",
+        "text": "An active medical repair station hums in the corner of a ruined lab. It has one charge left.",
+        "choice1": "USE REPAIR [FREE]",
+        "outcome1": "Nanites swarm your hull, knitting metal back together.",
+        "choice2": "SALVAGE FOR PARTS",
+        "outcome2": "You strip the valuable components."
+      }
+    },
+    "notifications": {
+      "levelUp": "Level Up!",
+      "unlockedPilot": "Pilot Unlocked",
+      "unlockedAchievement": "Achievement Unlocked",
+      "savedLoadout": "Loadout Saved",
+      "deletedLoadout": "Loadout Deleted",
+      "scrapGained": "Scrap Gained",
+      "hpRestored": "HP Restored"
+    },
+    "talents": {
+      "pilotPoints": "Pilot Points",
+      "available": "Available",
+      "spent": "Spent",
+      "reset": "Reset Talents",
+      "unlock": "Unlock",
+      "maxRank": "MAX",
+      "prerequisites": "Prerequisites",
+      "effects": "Effects"
+    },
+    "endless": {
+      "wave": "Wave",
+      "score": "Score",
+      "highScore": "High Score",
+      "upgrade": "Choose Upgrade",
+      "continue": "Continue",
+      "waveComplete": "Wave Complete",
+      "upgrades": {
+        "hp_boost_small": "+15 MAX HP",
+        "dmg_boost_small": "+2 DAMAGE",
+        "heal_small": "HEAL 30 HP",
+        "scrap_bonus": "+50 SCRAP",
+        "hp_boost_large": "+30 MAX HP",
+        "dmg_boost_large": "+5 DAMAGE",
+        "cooldown_redux": "-15% COOLDOWNS",
+        "free_consumable": "FREE ITEM",
+        "full_heal": "FULL RESTORE",
+        "mega_boost": "MEGA BOOST",
+        "free_augmentation": "FREE AUGMENTATION"
+      }
+    },
+    "status": {
+      "BURNING": "Burning",
+      "STUNNED": "Stunned",
+      "SHIELDED": "Shielded",
+      "SLOWED": "Slowed",
+      "OVERDRIVE": "Overdrive"
+    }
+  }
+}

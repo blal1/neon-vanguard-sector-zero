@@ -1,0 +1,775 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom terminal/retro styles */
+body {
+  background-color: #050505;
+  font-family: 'Courier New', Courier, monospace;
+  overflow: hidden;
+}
+
+/* ============================================
+   PARTICLE ANIMATIONS
+   ============================================ */
+
+@keyframes particle-float-hit {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(calc(-50% + var(--particle-vx)),
+        calc(-50% + var(--particle-vy))) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes particle-float-critical {
+  0% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(calc(-50% + var(--particle-vx) * 1.5),
+        calc(-50% + var(--particle-vy) * 1.5)) scale(0) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes particle-float-heal {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(calc(-50% + var(--particle-vx) * 0.5),
+        calc(-50% - 100px)) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes particle-float-energy {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(calc(-50% + var(--particle-vx)),
+        calc(-50% + var(--particle-vy))) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes particle-float-explosion {
+  0% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(calc(-50% + var(--particle-vx) * 2),
+        calc(-50% + var(--particle-vy) * 2)) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes particle-float-stun {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translate(calc(-50% + var(--particle-vx)),
+        calc(-50% + var(--particle-vy))) scale(1.2);
+  }
+
+  100% {
+    transform: translate(calc(-50% + var(--particle-vx) * 0.5),
+        calc(-50% + var(--particle-vy) * 0.5)) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes particle-float-burn {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(calc(-50% + var(--particle-vx) * 0.8),
+        calc(-50% - 80px)) scale(0);
+    opacity: 0.3;
+  }
+}
+
+/* ============================================
+   SCREEN FLASH EFFECTS
+   ============================================ */
+
+@keyframes flash-critical {
+
+  0%,
+  100% {
+    background-color: transparent;
+  }
+
+  50% {
+    background-color: rgba(251, 191, 36, 0.3);
+  }
+}
+
+@keyframes flash-damage {
+
+  0%,
+  100% {
+    background-color: transparent;
+  }
+
+  50% {
+    background-color: rgba(239, 68, 68, 0.25);
+  }
+}
+
+@keyframes flash-heal {
+
+  0%,
+  100% {
+    background-color: transparent;
+  }
+
+  50% {
+    background-color: rgba(52, 211, 153, 0.25);
+  }
+}
+
+@keyframes flash-energy {
+
+  0%,
+  100% {
+    background-color: transparent;
+  }
+
+  50% {
+    background-color: rgba(129, 140, 248, 0.2);
+  }
+}
+
+.flash-critical {
+  animation: flash-critical 0.3s ease-out;
+}
+
+.flash-damage {
+  animation: flash-damage 0.2s ease-out;
+}
+
+.flash-heal {
+  animation: flash-heal 0.3s ease-out;
+}
+
+.flash-energy {
+  animation: flash-energy 0.3s ease-out;
+}
+
+/* ============================================
+   ENHANCED SHAKE EFFECTS
+   ============================================ */
+
+@keyframes shake-horizontal {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-10px);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes shake-vertical {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateY(-8px);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateY(8px);
+  }
+}
+
+@keyframes shake-rumble {
+
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  10% {
+    transform: translate(-2px, 2px) rotate(-1deg);
+  }
+
+  20% {
+    transform: translate(2px, -2px) rotate(1deg);
+  }
+
+  30% {
+    transform: translate(-3px, 0px) rotate(-1deg);
+  }
+
+  40% {
+    transform: translate(3px, 2px) rotate(1deg);
+  }
+
+  50% {
+    transform: translate(-2px, -2px) rotate(-1deg);
+  }
+
+  60% {
+    transform: translate(2px, 2px) rotate(1deg);
+  }
+
+  70% {
+    transform: translate(-2px, -1px) rotate(-1deg);
+  }
+
+  80% {
+    transform: translate(2px, 1px) rotate(1deg);
+  }
+
+  90% {
+    transform: translate(-1px, 0px) rotate(-1deg);
+  }
+}
+
+@keyframes shake-intense {
+
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  10% {
+    transform: translate(-5px, 5px) rotate(-2deg);
+  }
+
+  20% {
+    transform: translate(5px, -5px) rotate(2deg);
+  }
+
+  30% {
+    transform: translate(-6px, 0px) rotate(-2deg);
+  }
+
+  40% {
+    transform: translate(6px, 4px) rotate(2deg);
+  }
+
+  50% {
+    transform: translate(-4px, -4px) rotate(-2deg);
+  }
+
+  60% {
+    transform: translate(4px, 4px) rotate(2deg);
+  }
+
+  70% {
+    transform: translate(-4px, -2px) rotate(-2deg);
+  }
+
+  80% {
+    transform: translate(4px, 2px) rotate(2deg);
+  }
+
+  90% {
+    transform: translate(-2px, 0px) rotate(-2deg);
+  }
+}
+
+.shake-horizontal {
+  animation: shake-horizontal 0.3s ease-out;
+}
+
+.shake-vertical {
+  animation: shake-vertical 0.3s ease-out;
+}
+
+.shake-rumble {
+  animation: shake-rumble 0.5s ease-out;
+}
+
+.shake-intense {
+  animation: shake-intense 0.6s ease-out;
+}
+
+/* Legacy shake classes for backward compatibility */
+.animate-shake-1 {
+  animation: shake-horizontal 0.3s ease-out;
+}
+
+.animate-shake-2 {
+  animation: shake-horizontal 0.3s ease-out;
+}
+
+.animate-shake-3 {
+  animation: shake-rumble 0.4s ease-out;
+}
+
+.animate-shake-4 {
+  animation: shake-rumble 0.5s ease-out;
+}
+
+.animate-shake-5 {
+  animation: shake-intense 0.6s ease-out;
+}
+
+/* ============================================
+   CHARGE/READY EFFECTS
+   ============================================ */
+
+@keyframes charge-pulse {
+
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes charge-orbit {
+  from {
+    transform: rotate(0deg) translateX(40px) rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg) translateX(40px) rotate(-360deg);
+  }
+}
+
+@keyframes charge-ready-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 10px currentColor;
+  }
+
+  50% {
+    box-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+}
+
+.animate-charge-pulse {
+  animation: charge-pulse 1s ease-in-out infinite;
+}
+
+.animate-charge-orbit {
+  animation: charge-orbit 2s linear infinite;
+}
+
+.charge-ready {
+  animation: charge-ready-glow 1.5s ease-in-out infinite;
+}
+
+/* ============================================
+   PORTRAIT ANIMATIONS
+   ============================================ */
+
+@keyframes portrait-change {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes portrait-critical-pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+    filter: brightness(1.3);
+  }
+}
+
+.animate-portrait-change {
+  animation: portrait-change 0.3s ease-out;
+}
+
+.portrait-critical {
+  animation: portrait-critical-pulse 1s ease-in-out infinite;
+}
+
+/* ============================================
+   HIT/DAMAGE INDICATORS
+   ============================================ */
+
+@keyframes damage-number {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(-30px) scale(1.2);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-60px) scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes critical-number {
+  0% {
+    transform: translateY(0) scale(1.5) rotate(-10deg);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(-40px) scale(2) rotate(5deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-80px) scale(1.5) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+.animate-damage-number {
+  animation: damage-number 0.8s ease-out forwards;
+}
+
+.animate-critical-number {
+  animation: critical-number 1s ease-out forwards;
+}
+
+/* ============================================
+   COMBO EFFECTS
+   ============================================ */
+
+@keyframes combo-pop {
+  0% {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.3) rotate(10deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes combo-pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+    filter: brightness(1.5);
+  }
+}
+
+.animate-combo-pop {
+  animation: combo-pop 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.animate-combo-pulse {
+  animation: combo-pulse 0.6s ease-in-out infinite;
+}
+
+/* ============================================
+   REDUCE MOTION OVERRIDE
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   ACCESSIBILIT\u00c9 - WCAG 2.1 AA
+   ============================================ */
+
+/* Screen Reader Only - Contenu visible uniquement pour lecteurs d'\u00e9cran */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border-width: 0 !important;
+}
+
+/* Focusable SR-Only - Devient visible au focus (pour skip links) */
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border-width: 0 !important;
+}
+
+/* Focus Visible - Navigation clavier */
+*:focus-visible {
+  outline: 3px solid #60a5fa !important;
+  outline-offset: 2px;
+  z-index: 10;
+}
+
+/* Focus sans outline pour utilisateurs souris */
+.keyboard-user *:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Skip Links - Liens de navigation rapide */
+.skip-link {
+  position: absolute;
+  top: -48px;
+  left: 8px;
+  background-color: #1e293b;
+  color: #60a5fa;
+  padding: 12px 16px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  z-index: 9999;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 8px;
+  outline: 3px solid #60a5fa;
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-bg: #000000;
+    --color-text: #ffffff;
+    --color-primary: #00ffff;
+    --color-danger: #ff0000;
+    --color-success: #00ff00;
+    --color-warning: #ffff00;
+  }
+
+  /* Borders plus visibles */
+  button,
+  input,
+  select,
+  textarea {
+    border: 2px solid currentColor !important;
+  }
+
+  /* Contraste amélioré pour focus */
+  *:focus-visible {
+    outline: 4px solid #00ffff !important;
+    outline-offset: 3px;
+  }
+}
+
+/* Prefers Color Scheme - Dark mode */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #050505;
+    color: #e5e7eb;
+  }
+}
+
+/* Keyboard Navigation Indicator */
+body.using-keyboard *:focus {
+  outline: 3px solid #60a5fa;
+  outline-offset: 2px;
+}
+
+body:not(.using-keyboard) *:focus {
+  outline: none;
+}
+
+/* Focus Within - Pour containers de formulaires */
+.form-group:focus-within {
+  background-color: rgba(96, 165, 250, 0.05);
+  border-color: #60a5fa;
+}
+
+/* État Désactivé - Accessible */
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+button[aria-disabled="true"],
+[role="button"][aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Live Regions - ARIA */
+[aria-live] {
+  position: relative;
+}
+
+/* Focus trap indicator */
+.focus-trap-active {
+  position: relative;
+}
+
+.focus-trap-active::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+  pointer-events: none;
+}
+
+/* Larger Click Targets - WCAG 2.5.5 */
+button,
+a,
+input[type="checkbox"],
+input[type="radio"],
+select {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Text Spacing - WCAG 1.4.12 */
+.accessible-text {
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  word-spacing: 0.16em;
+}
+
+p {
+  margin-bottom: 1em;
+}
+
+/* Indicateur de sélection pour boutons radio/checkbox */
+input[type="radio"]:checked::before,
+input[type="checkbox"]:checked::before {
+  content: '';
+  display: block;
+  background-color: #60a5fa;
+}
+
+/* Animation de focus pour meilleure visibilité */
+@keyframes focus-pulse {
+
+  0%,
+  100% {
+    outline-color: #60a5fa;
+  }
+
+  50% {
+    outline-color: #93c5fd;
+  }
+}
+
+*:focus-visible {
+  animation: focus-pulse 2s ease-in-out infinite;
+}
+
+/* Mode d'accessibilité maximale */
+.accessibility-mode {
+
+  /* Désactive toutes les animations */
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Contraste maximal */
+  background-color: #000 !important;
+  color: #fff !important;
+
+  /* Borders épaisses */
+  button,
+  input,
+  select,
+  textarea {
+    border: 3px solid #fff !important;
+  }
+}
