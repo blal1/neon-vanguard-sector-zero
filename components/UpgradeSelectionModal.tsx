@@ -1,6 +1,7 @@
 import React from 'react';
 import { EndlessUpgrade } from '../types';
 import { ENDLESS_UPGRADES } from '../constants';
+import { useTranslation } from 'react-i18next';
 
 interface UpgradeSelectionModalProps {
     wave: number;
@@ -8,6 +9,7 @@ interface UpgradeSelectionModalProps {
 }
 
 export const UpgradeSelectionModal: React.FC<UpgradeSelectionModalProps> = ({ wave, onSelectUpgrade }) => {
+    const { t } = useTranslation();
     // Generate 3 random upgrades with rarity weighting
     const getRandomUpgrades = (): EndlessUpgrade[] => {
         const commons = ENDLESS_UPGRADES.filter(u => u.rarity === 'COMMON');
@@ -57,7 +59,7 @@ export const UpgradeSelectionModal: React.FC<UpgradeSelectionModalProps> = ({ wa
                     <h1 className="text-5xl font-bold text-purple-400 mb-2 tracking-wider animate-pulse">
                         ⚡ WAVE {wave} COMPLETE
                     </h1>
-                    <p className="text-purple-300 text-lg">Choose your upgrade to continue</p>
+                    <p className="text-purple-300 text-lg">{t('endlessMode.chooseUpgrade')}</p>
                 </div>
 
                 {/* Upgrade Options */}
@@ -91,7 +93,7 @@ export const UpgradeSelectionModal: React.FC<UpgradeSelectionModalProps> = ({ wa
 
                 {/* Footer */}
                 <div className="text-center text-sm text-gray-500">
-                    Click an upgrade to select and continue to the next wave
+                    {t('endlessMode.upgradeSelection')}
                 </div>
             </div>
         </div>

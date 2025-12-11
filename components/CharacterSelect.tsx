@@ -7,6 +7,7 @@ import { useGame } from '../context/GameContext';
 import { LoadoutManager } from './LoadoutManager';
 import { DifficultySelect } from './DifficultySelect';
 import { DIFFICULTIES } from '../constants';
+import { useTranslation } from 'react-i18next';
 
 interface CharacterSelectProps {
   onSelect: (pilot: PilotConfig, module: PilotModule, consumables: Consumable[]) => void;
@@ -14,6 +15,7 @@ interface CharacterSelectProps {
 }
 
 export const CharacterSelect: React.FC<CharacterSelectProps> = ({ onSelect, onRunTests }) => {
+  const { t } = useTranslation();
   const { profile, settings, toggleSetting, isPilotUnlocked, applyLoadout, difficulty, dailyModifier } = useGame();
   const [hoveredIndex, setHoveredIndex] = useState(0);
   const [selectedModule, setSelectedModule] = useState<PilotModule>('ASSAULT');
@@ -82,13 +84,13 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({ onSelect, onRu
               onClick={() => toggleSetting('slowLogs')}
               className={`text-[10px] border px-2 py-1 ${settings.slowLogs ? 'bg-white text-black border-white' : 'border-gray-700 text-gray-500'}`}
             >
-              SLOW LOGS
+              {t('characterSelect.slowLogs')}
             </button>
             <button
               onClick={() => toggleSetting('reduceMotion')}
               className={`text-[10px] border px-2 py-1 ${settings.reduceMotion ? 'bg-white text-black border-white' : 'border-gray-700 text-gray-500'}`}
             >
-              REDUCE MOTION
+              {t('characterSelect.reduceMotion')}
             </button>
           </div>
           <div className="flex gap-2">
@@ -102,7 +104,7 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({ onSelect, onRu
               onClick={() => { audio.playBlip(); setShowLoadoutManager(true); }}
               className="text-[10px] md:text-xs border border-cyan-500 text-cyan-400 px-3 py-1 hover:bg-cyan-900/50 uppercase tracking-widest"
             >
-              💾 LOADOUTS
+              {t('characterSelect.loadouts')}
             </button>
           </div>
           {dailyModifier !== 'NONE' && (
@@ -114,7 +116,7 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({ onSelect, onRu
             onClick={onRunTests}
             className="text-[10px] md:text-xs border border-gray-700 text-gray-500 px-3 py-1 hover:border-red-500 hover:text-red-500 uppercase tracking-widest"
           >
-            [RUN DIAGNOSTICS]
+            {t('characterSelect.runDiagnostics')}
           </button>
         </div>
       </header>
@@ -140,7 +142,7 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({ onSelect, onRu
                 >
                   <div className="flex justify-between items-center">
                     <span>{pilot.name}</span>
-                    {!pilotUnlocked && <span className="text-[10px] border border-gray-600 px-1 text-gray-500">LOCKED</span>}
+                    {!pilotUnlocked && <span className="text-[10px] border border-gray-600 px-1 text-gray-500">{t('characterSelect.locked')}</span>}
                   </div>
                 </button>
               )
@@ -174,7 +176,7 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({ onSelect, onRu
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                 {/* Module Select */}
                 <div role="group" aria-label="Combat Module">
-                  <div className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest border-b border-gray-800">Combat Module</div>
+                  <div className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest border-b border-gray-800">{t('characterSelect.combatModule')}</div>
                   <div className="flex gap-2">
                     <button
                       className={`flex-1 border p-2 text-left transition-all focus:outline-none ${selectedModule === 'ASSAULT' ? 'bg-white/20 border-white ring-1 ring-white' : 'border-gray-700 opacity-50 hover:bg-white/10 hover:opacity-100'
@@ -201,7 +203,7 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({ onSelect, onRu
                 <div role="group" aria-label="Loadout">
                   <div className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest border-b border-gray-800 flex justify-between">
                     <span>Loadout</span>
-                    <span className={selectedConsumables.length === 2 ? 'text-white' : ''}>{selectedConsumables.length}/2 SLOTS</span>
+                    <span className={selectedConsumables.length === 2 ? 'text-white' : ''}>{t('characterSelect.slots', { count: selectedConsumables.length })}</span>
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     {CONSUMABLES.map(item => {
@@ -215,7 +217,7 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({ onSelect, onRu
                             } ${!isSelected && selectedConsumables.length >= 2 ? 'opacity-30 cursor-not-allowed' : ''}`}
                         >
                           <span>{item.name}</span>
-                          {isSelected && <span className="text-white">Equipped</span>}
+                          {isSelected && <span className="text-white">{t('characterSelect.equipped')}</span>}
                         </button>
                       );
                     })}
@@ -224,18 +226,18 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({ onSelect, onRu
               </div>
 
               <div className="mt-auto bg-gray-900/80 p-3 border border-current shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-                <strong className="block mb-1 text-xs opacity-70 text-white">TACTICAL SYSTEMS:</strong>
+                <strong className="block mb-1 text-xs opacity-70 text-white">{t('characterSelect.tacticalSystems')}</strong>
                 <p className="font-mono text-xs md:text-sm text-gray-300">{current.mechanicDescription}</p>
               </div>
             </>
           ) : (
             <div className="flex flex-col justify-center items-center h-full border border-gray-800 bg-gray-900/50 p-6 text-center">
-              <div className="text-red-500 font-bold text-2xl mb-2 animate-pulse">ACCESS DENIED</div>
-              <p className="text-gray-400 mb-4">PILOT CLEARANCE INSUFFICIENT.</p>
+              <div className="text-red-500 font-bold text-2xl mb-2 animate-pulse">{t('characterSelect.accessDenied')}</div>
+              <p className="text-gray-400 mb-4">{t('characterSelect.pilotClearance')}</p>
               <div className="border border-red-900 p-2 text-sm text-red-300">
-                REQUIRED: <br />
-                {current.unlockLevel ? `OPERATOR LEVEL ${current.unlockLevel}` : ''}
-                {current.unlockKills ? `${current.unlockKills} TOTAL KILLS` : ''}
+                {t('characterSelect.required')} <br />
+                {current.unlockLevel ? t('characterSelect.operatorLevel', { level: current.unlockLevel }) : ''}
+                {current.unlockKills ? t('characterSelect.totalKills', { kills: current.unlockKills }) : ''}
               </div>
             </div>
           )}
@@ -248,7 +250,7 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({ onSelect, onRu
               : 'border-gray-800 text-gray-600 cursor-not-allowed'
               }`}
           >
-            {isUnlocked ? 'Initialize Neural Link [ENTER]' : 'LOCKED'}
+            {isUnlocked ? t('characterSelect.initializeLink') : t('characterSelect.locked')}
           </button>
         </section>
       </main>

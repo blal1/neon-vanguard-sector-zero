@@ -6,8 +6,8 @@ interface ScreenReaderOnlyProps {
 }
 
 /**
- * Component pour du contenu visible uniquement par les lecteurs d'écran
- * Suit les meilleures pratiques WCAG pour le texte SR-only
+ * Component for content visible only to screen readers
+ * Follows WCAG best practices for SR-only text
  */
 export const ScreenReaderOnly: React.FC<ScreenReaderOnlyProps> = ({
     children,

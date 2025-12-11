@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { PILOTS, COMBAT_CONFIG } from '../constants';
-import { 
-  calculateMaxHp, 
-  calculateDamage, 
-  calculateAbilityResult, 
+import {
+  calculateMaxHp,
+  calculateDamage,
+  calculateAbilityResult,
   determineEnemyIntent,
   resolveEnemyAction,
   applyConsumableEffect,
@@ -12,6 +12,7 @@ import {
   calculateHazardEffect
 } from '../utils/combatUtils';
 import { PilotId, Enemy, RunState, Ability, ActiveStatus, Consumable } from '../types';
+import { useTranslation } from 'react-i18next';
 
 interface TestResult {
   name: string;
@@ -21,13 +22,14 @@ interface TestResult {
 }
 
 export const TestRunner: React.FC<{ onBack: () => void }> = ({ onBack }) => {
+  const { t } = useTranslation();
   const [results, setResults] = useState<TestResult[]>([]);
 
   useEffect(() => {
     const runTests = () => {
       const tests: TestResult[] = [];
       const originalRandom = Math.random; // Cache original random
-      
+
       const mockRunState: RunState = {
         isActive: true,
         currentStage: 1,
@@ -35,7 +37,8 @@ export const TestRunner: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         currentHp: 100,
         maxHpUpgrade: 0,
         damageUpgrade: 0,
-        consumables: []
+        consumables: [],
+        augmentations: []
       };
 
       // ==========================================
@@ -69,7 +72,7 @@ export const TestRunner: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       // ==========================================
       // 2. PILOT MECHANICS
       // ==========================================
-      
+
       // --- VANGUARD ---
       const regenHp = calculatePassiveRegen(PilotId.VANGUARD, 50, 100);
       tests.push({
@@ -91,7 +94,7 @@ export const TestRunner: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         expected: 95,
         actual: hydraResult.newHeat
       });
-      
+
       const hydraJamResult = calculateAbilityResult(
         hydra, spinAbility, 10, 100, 90, false, false, []
       );
@@ -134,7 +137,7 @@ export const TestRunner: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       const wyrmBurrowDmg = calculateAbilityResult(
         wyrm, biteAbility, 10, 100, 0, false, true, [] // isBurrowed = true
       );
-      
+
       tests.push({
         name: "[Wyrm] Burrowed Attack Bonus Damage",
         passed: wyrmBurrowDmg.damage > wyrmNormalDmg,
@@ -189,7 +192,7 @@ export const TestRunner: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       // ==========================================
       // 4. CONSUMABLES
       // ==========================================
-      
+
       // Nano Stim
       const stimResult = applyConsumableEffect('nano_stim', 50, 100, 100, 0, [], []);
       tests.push({
@@ -209,7 +212,7 @@ export const TestRunner: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       });
 
       // EMP
-      const empEnemies = [{...mockEnemy, actionCharge: 50}];
+      const empEnemies = [{ ...mockEnemy, actionCharge: 50 }];
       const empResult = applyConsumableEffect('emp_grenade', 100, 100, 100, 0, empEnemies, []);
       tests.push({
         name: "[Consumable] EMP Stuns Enemy & Resets Charge",
@@ -223,14 +226,14 @@ export const TestRunner: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       // ==========================================
       const burnStatus: ActiveStatus = { id: '1', type: 'BURNING', durationMs: 1000, value: 5 };
       const { damageTaken: burnDmg, newStatuses: nextStatuses } = processStatusEffects([burnStatus], 100);
-      
+
       tests.push({
         name: "[Status] Burning DoT Application",
         passed: burnDmg === 5,
         expected: 5,
         actual: burnDmg
       });
-      
+
       tests.push({
         name: "[Status] Duration Tick Down",
         passed: nextStatuses[0].durationMs === 900,
@@ -262,8 +265,8 @@ export const TestRunner: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   return (
     <div className="h-full flex flex-col p-4 font-mono text-sm overflow-hidden bg-gray-900 text-gray-100">
       <div className="flex justify-between items-center mb-6 border-b border-gray-700 pb-2">
-         <h1 className="text-2xl font-bold text-white">SYSTEM DIAGNOSTICS [FULL SUITE]</h1>
-         <button onClick={onBack} className="border border-white px-4 py-1 hover:bg-white hover:text-black transition-colors">CLOSE</button>
+        <h1 className="text-2xl font-bold text-white">SYSTEM DIAGNOSTICS [FULL SUITE]</h1>
+        <button onClick={onBack} className="border border-white px-4 py-1 hover:bg-white hover:text-black transition-colors">CLOSE</button>
       </div>
 
       <div className="flex-1 overflow-y-auto space-y-2 pr-2">
@@ -271,25 +274,25 @@ export const TestRunner: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           <div key={idx} className={`flex justify-between p-3 border-l-4 ${res.passed ? 'border-green-500 bg-green-900/20' : 'border-red-500 bg-red-900/20'}`}>
             <span className="font-semibold text-gray-300 w-2/3">{res.name}</span>
             <div className="text-right w-1/3">
-               <span className={`font-bold mr-4 ${res.passed ? 'text-green-400' : 'text-red-500'}`}>
-                 {res.passed ? 'PASS' : 'FAIL'}
-               </span>
-               {!res.passed && (
-                 <div className="text-[10px] text-gray-400 mt-1">
-                   Exp: {JSON.stringify(res.expected)} <br/> Act: {JSON.stringify(res.actual)}
-                 </div>
-               )}
+              <span className={`font-bold mr-4 ${res.passed ? 'text-green-400' : 'text-red-500'}`}>
+                {res.passed ? 'PASS' : 'FAIL'}
+              </span>
+              {!res.passed && (
+                <div className="text-[10px] text-gray-400 mt-1">
+                  Exp: {JSON.stringify(res.expected)} <br /> Act: {JSON.stringify(res.actual)}
+                </div>
+              )}
             </div>
           </div>
         ))}
       </div>
-      
+
       <div className="mt-4 pt-4 border-t border-gray-700 flex justify-between items-center text-xs text-gray-500 uppercase tracking-widest">
         <span>Unit Testing Module v1.0.4</span>
         <span>
-           TOTAL: <span className="text-white">{results.length}</span> | 
-           PASSED: <span className="text-green-500">{results.filter(r => r.passed).length}</span> | 
-           FAILED: <span className="text-red-500">{results.filter(r => !r.passed).length}</span>
+          TOTAL: <span className="text-white">{results.length}</span> |
+          PASSED: <span className="text-green-500">{results.filter(r => r.passed).length}</span> |
+          FAILED: <span className="text-red-500">{results.filter(r => !r.passed).length}</span>
         </span>
       </div>
     </div>

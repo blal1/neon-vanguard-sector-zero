@@ -1,56 +1,56 @@
-# Documentation des Fonctionnalités
+# Features Documentation
 
-Guide détaillé de toutes les fonctionnalités de **Neon Vanguard: Sector Zero**.
+Detailed guide to all features of **Neon Vanguard: Sector Zero**.
 
-## 📋 Table des Matières
+## 📋 Table of Contents
 
-- [Système de Combat](#système-de-combat)
-- [Pilotes et Modules](#pilotes-et-modules)
-- [Système d'Achievements](#système-dachievements)
-- [Système de Talents](#système-de-talents)
-- [Mode Endless](#mode-endless)
-- [Système de Replay](#système-de-replay)
+- [Combat System](#combat-system)
+- [Pilots and Modules](#pilots-and-modules)
+- [Achievement System](#achievement-system)
+- [Talent System](#talent-system)
+- [Endless Mode](#endless-mode)
+- [Replay System](#replay-system)
 - [Codex / Lore](#codex--lore)
 - [Crafting](#crafting)
-- [Difficulté et Modificateurs](#difficulté-et-modificateurs)
-- [Accessibilité](#accessibilité)
+- [Difficulty and Modifiers](#difficulty-and-modifiers)
+- [Accessibility](#accessibility)
 
 ---
 
-## Système de Combat
+## Combat System
 
 ### Active Time Battle (ATB)
 
-Le combat utilise un système **ATB en temps réel**:
+Combat uses a **real-time ATB system**:
 
-- Chaque ennemi a une **jauge de charge** (0-100%)
-- La vitesse de charge dépend du stat `speed` de l'ennemi
-- Quand un ennemi atteint 100%, il attaque le joueur
-- Le joueur peut attaquer à tout moment (pas de jauge)
+- Each enemy has a **charge gauge** (0-100%)
+- Charge speed depends on the enemy's `speed` stat
+- When an enemy reaches 100%, they attack the player
+- The player can attack at any time (no gauge)
 
-**Formule de charge**:
+**Charge Formula**:
 ```
 chargeRate = enemySpeed * combatSpeedMultiplier * deltaTime
 ```
 
-### Intentions Ennemies
+### Enemy Intentions
 
-Les ennemis affichent leur **intention** avant d'attaquer:
+Enemies display their **intention** before attacking:
 
-| Intention | Icône | Description |
-|-----------|-------|-------------|
-| `ATTACK` | ⚔️ | Va infliger des dégâts |
-| `HEAL` | 💚 | Va se soigner |
-| `CHARGE` | ⚡ | Charge une attaque puissante |
-| `DEFEND` | 🛡️ | Gagne un bouclier temporaire |
+| Intention | Icon | Description |
+|-----------|------|-------------|
+| `ATTACK` | ⚔️ | Will deal damage |
+| `HEAL` | 💚 | Will heal themselves |
+| `CHARGE` | ⚡ | Charging a powerful attack |
+| `DEFEND` | 🛡️ | Gains temporary shield |
 
-### Système de Combos
+### Combo System
 
-Enchaînez les attaques pour des **multiplicateurs**:
+Chain attacks for **multipliers**:
 
-- **0.5s entre hits** pour maintenir le combo
-- Multiplicateur: `1.0 + (comboCount * 0.1)` (max 2.0x)
-- Affiché visuellement: `x2 COMBO!`, `x5 COMBO!`
+- **0.5s between hits** to maintain combo
+- Multiplier: `1.0 + (comboCount * 0.1)` (max 2.0x)
+- Visually displayed: `x2 COMBO!`, `x5 COMBO!`
 
 ```typescript
 interface ComboState {
@@ -60,52 +60,52 @@ interface ComboState {
 }
 ```
 
-### Points Faibles (Weak Points)
+### Weak Points
 
-Certains ennemis ont des **vulnérabilités** à des types d'attaques:
+Certain enemies have **vulnerabilities** to specific attack types:
 
 ```typescript
 interface WeakPoint {
   abilityType?: string;     // 'laser', 'emp', etc.
-  damageMultiplier: number; // Généralement 2.0x
+  damageMultiplier: number; // Generally 2.0x
   description: string;
 }
 ```
 
-**Exemples**:
-- **SENTINEL**: Faible aux EMP (2x dégâts)
-- **WYRM BOSS**: Faible aux attaques laser
+**Examples**:
+- **SENTINEL**: Weak to EMP (2x damage)
+- **WYRM BOSS**: Weak to laser attacks
 
-### Dégâts Critiques
+### Critical Damage
 
-- **Chance**: 15% base (peut être augmentée par talents/augs)
-- **Multiplicateur**: 1.5x dégâts
-- **Visuel**: Effet visuel + son spécial
+- **Chance**: 15% base (can be increased by talents/augs)
+- **Multiplier**: 1.5x damage
+- **Visual**: Visual effect + special sound
 
-### Statuts (Status Effects)
+### Status Effects
 
 #### SHIELDED
-- Absorbe X dégâts avant de se briser
-- Visuel: Icône 🛡️ bleue
+- Absorbs X damage before breaking
+- Visual: 🛡️ blue icon
 
 #### OVERDRIVE
-- +50% dégâts infligés
-- -25% dégâts reçus
-- Durée: 10 secondes
+- +50% damage dealt
+- -25% damage taken
+- Duration: 10 seconds
 
 #### STUNNED
-- Ennemi ne peut pas attaquer
-- ATB bloquée à 0%
-- Durée: 3-5 secondes
+- Enemy cannot attack
+- ATB locked at 0%
+- Duration: 3-5 seconds
 
 #### BURNING
-- DoT: 10 dégâts par seconde
-- Durée: 5 secondes
+- DoT: 10 damage per second
+- Duration: 5 seconds
 - Stackable
 
-### Calcul de Dégâts
+### Damage Calculation
 
-**Formule complète**:
+**Complete Formula**:
 ```typescript
 finalDamage = baseDamage 
   * augmentationMultiplier 
@@ -117,33 +117,33 @@ finalDamage = baseDamage
 
 ---
 
-## Pilotes et Modules
+## Pilots and Modules
 
-### 5 Pilotes Uniques
+### 5 Unique Pilots
 
 #### 1. VANGUARD - "The Aegis"
 - **HP**: 120 (High)
 - **Speed**: 100 (Normal)
 - **Damage**: 15 (Normal)
-- **Mécanique**: Shield Generation
-  - Gagne 20 shield tous les 5 kills
-  - Shield max: 50
+- **Mechanic**: Shield Generation
+  - Gains 20 shield every 5 kills
+  - Max shield: 50
 - **Abilities**:
   - **ASSAULT MODULE**:
-    - Primary: Shield Bash (1.2x dmg, stun si shield actif)
+    - Primary: Shield Bash (1.2x dmg, stun if shield active)
     - Special: Aegis Strike (1.5x dmg AoE)
   - **DEFENSE MODULE**:
-    - Primary: Fortify (gagne 20 shield)
+    - Primary: Fortify (gain 20 shield)
     - Special: Reactive Armor (reflect 50% dmg)
 
 #### 2. SOLARIS - "The Dynamo"
 - **HP**: 100 (Normal)
 - **Speed**: 120 (Fast)
 - **Damage**: 18 (High)
-- **Mécanique**: Energy Management
+- **Mechanic**: Energy Management
   - Max Energy: 100
   - Regen: 10/sec
-  - Abilities coûtent de l'énergie
+  - Abilities cost energy
 - **Abilities**:
   - **ASSAULT MODULE**:
     - Primary: Energy Bolt (30 energy, 1.8x dmg)
@@ -156,7 +156,7 @@ finalDamage = baseDamage
 - **HP**: 100 (Normal)
 - **Speed**: 100 (Normal)
 - **Damage**: 20 (Very High)
-- **Mécanique**: Heat Management
+- **Mechanic**: Heat Management
   - Heat builds with attacks
   - Too much heat = self damage
   - Can vent heat manually
@@ -172,9 +172,9 @@ finalDamage = baseDamage
 - **HP**: 90 (Low)
 - **Speed**: 110 (Fast)
 - **Damage**: 12 (Low)
-- **Mécanique**: Bio-Regeneration
-  - Regen 2 HP/sec en combat
-  - Regen 5 HP/sec hors combat
+- **Mechanic**: Bio-Regeneration
+  - Regen 2 HP/sec in combat
+  - Regen 5 HP/sec out of combat
   - Vampiric attacks
 - **Abilities**:
   - **ASSAULT MODULE**:
@@ -188,9 +188,9 @@ finalDamage = baseDamage
 - **HP**: 80 (Very Low)
 - **Speed**: 140 (Very Fast)
 - **Damage**: 25 (Extreme)
-- **Mécanique**: Stealth & Burst
+- **Mechanic**: Stealth & Burst
   - +50% crit chance
-  - Frappe first hit avant ATB start
+  - First hit before ATB starts
 - **Abilities**:
   - **ASSAULT MODULE**:
     - Primary: Shadow Strike (2.0x dmg, guaranteed crit)
@@ -199,17 +199,17 @@ finalDamage = baseDamage
     - Primary: Smoke Bomb (reset all enemy ATB)
     - Special: Vanish (become untargetable 5s)
 
-### Déblocage des Pilotes
+### Pilot Unlocking
 
-- **VANGUARD**: Débloqué par défaut
-- **SOLARIS**: Level 2 OU 10 kills
-- **HYDRA**: Level 4 OU 25 kills
-- **WYRM**: Level 6 OU 50 kills
-- **GHOST**: Level 8 OU Complete 1 run
+- **VANGUARD**: Unlocked by default
+- **SOLARIS**: Level 2 OR 10 kills
+- **HYDRA**: Level 4 OR 25 kills
+- **WYRM**: Level 6 OR 50 kills
+- **GHOST**: Level 8 OR Complete 1 run
 
 ---
 
-## Système d'Achievements
+## Achievement System
 
 ### 18 Achievements
 
@@ -241,11 +241,11 @@ finalDamage = baseDamage
 17. **PERFECTIONIST**: Complete a perfect run (no damage, no consumables)
 18. **ENDLESS WARRIOR**: Reach wave 25 in Endless Mode
 
-### Conditions d'Unlock
+### Unlock Conditions
 
-Les achievements se débloquent automatiquement via `checkAchievements()` appelé après chaque action significative.
+Achievements unlock automatically via `checkAchievements()` called after each significant action.
 
-**Exemple**:
+**Example**:
 ```typescript
 const FIRST_BLOOD: Achievement = {
   id: 'first-blood',
@@ -256,11 +256,11 @@ const FIRST_BLOOD: Achievement = {
 
 ---
 
-## Système de Talents
+## Talent System
 
-### Arbres de Talents par Pilote
+### Talent Trees Per Pilot
 
-Chaque pilote a son propre **arbre de talents** avec 15-20 talents.
+Each pilot has their own **talent tree** with 15-20 talents.
 
 #### Structure
 
@@ -270,20 +270,20 @@ interface Talent {
   name: string;
   description: string;
   tier: 1 | 2 | 3 | 4 | 5;
-  cost: number;                // Points requis
-  prerequisiteId?: string;     // Talent parent
+  cost: number;                // Required points
+  prerequisiteId?: string;     // Parent talent
   effect: TalentEffect;
 }
 ```
 
-#### Types d'Effets
+#### Effect Types
 
 - **STAT_BOOST**: +X HP, +Y dmg, etc.
-- **ABILITY_ENHANCE**: Améliore une capacité
-- **UNLOCK_FEATURE**: Débloque une mécanique
-- **PASSIVE_BONUS**: Bonus permanent
+- **ABILITY_ENHANCE**: Improves an ability
+- **UNLOCK_FEATURE**: Unlocks a mechanic
+- **PASSIVE_BONUS**: Permanent bonus
 
-#### Exemple: VANGUARD Talent Tree
+#### Example: VANGUARD Talent Tree
 
 **Tier 1** (1 point):
 - **Reinforced Plating**: +20 Max HP
@@ -291,7 +291,7 @@ interface Talent {
 
 **Tier 2** (2 points, requires Tier 1):
 - **Shield Mastery**: +25% shield generation rate
-- **Aegis Aura**: Allies in 5m gain 10 shield
+- **Aegis Aura**: Allies within 5m gain 10 shield
 
 **Tier 3** (3 points, requires Tier 2):
 - **Unbreakable**: Shield breaks grant OVERDRIVE (5s)
@@ -300,33 +300,33 @@ interface Talent {
 **Tier 4** (5 points, requires Tier 3):
 - **Guardian Angel**: Auto-revive once per run at 1 HP
 
-### Points de Talents
+### Talent Points
 
-- Gagnés en montant de niveau
-- 1 point par level
-- Peuvent être reset (coût: scrap)
+- Earned by leveling up
+- 1 point per level
+- Can be reset (cost: scrap)
 
 ---
 
-## Mode Endless
+## Endless Mode
 
-### Fonctionnement
+### How It Works
 
-- **Vagues infinies** d'ennemis
-- Difficulté augmente à chaque vague
-- Upgrades entre vagues (tous les 5 waves)
-- Score basé sur: vagues, kills, temps de survie
+- **Infinite waves** of enemies
+- Difficulty increases each wave
+- Upgrades between waves (every 5 waves)
+- Score based on: waves, kills, survival time
 
-### Scaling d'Ennemis
+### Enemy Scaling
 
 ```
 enemyHP = baseHP * (1 + wave * 0.15)
 enemyDamage = baseDamage * (1 + wave * 0.10)
 ```
 
-### Upgrades Endless
+### Endless Upgrades
 
-Tous les 5 waves, choix entre 3 upgrades aléatoires:
+Every 5 waves, choose between 3 random upgrades:
 
 #### Common (60% chance)
 - +20 Max HP
@@ -335,7 +335,7 @@ Tous les 5 waves, choix entre 3 upgrades aléatoires:
 
 #### Rare (30% chance)
 - +15% Cooldown Reduction
-- Augmentation aléatoire
+- Random augmentation
 - +50 Scrap
 
 #### Legendary (10% chance)
@@ -345,27 +345,27 @@ Tous les 5 waves, choix entre 3 upgrades aléatoires:
 
 ### Leaderboard
 
-Le score est calculé:
+Score is calculated:
 ```typescript
 score = (wave * 100) + (kills * 10) + (survivalTime / 60 * 50)
 ```
 
-**Filtres**:
-- Par difficulté
-- Par pilote
+**Filters**:
+- By difficulty
+- By pilot
 - Global / All-time
 
 ---
 
-## Système de Replay
+## Replay System
 
-### Fonctionnalités
+### Features
 
-- Enregistre automatiquement les **5 derniers combats**
-- Sauvegarde: Boss kills, Victoires, Défaites (optional)
-- Rejoue en temps réel avec contrôles (play/pause/speed)
+- Automatically records the **last 5 combats**
+- Saves: Boss kills, Victories, Defeats (optional)
+- Replays in real-time with controls (play/pause/speed)
 
-### Données Enregistrées
+### Recorded Data
 
 ```typescript
 interface CombatReplay {
@@ -377,11 +377,11 @@ interface CombatReplay {
   difficulty: DifficultyLevel;
   events: ReplayEvent[];      // Timestamped actions
   outcome: 'VICTORY' | 'DEFEAT';
-  duration: number;           // Secondes
+  duration: number;           // Seconds
 }
 ```
 
-### Événements
+### Events
 
 ```typescript
 type ReplayEvent =
@@ -399,11 +399,11 @@ type ReplayEvent =
 
 ### Categories
 
-#### Pilotes (5 entrées)
-Bio complète de chaque pilote unlockée en le sélectionnant.
+#### Pilots (5 entries)
+Complete bio for each pilot, unlocked by selecting them.
 
-#### Ennemis (20+ entrées)
-Données sur chaque type d'ennemi, unlockées en les tuant.
+#### Enemies (20+ entries)
+Data on each enemy type, unlocked by killing them.
 
 ```typescript
 interface CodexEnemyEntry {
@@ -416,31 +416,31 @@ interface CodexEnemyEntry {
 }
 ```
 
-#### Lore (15+ entrées)
-Fragments d'histoire unlockés en progressant.
+#### Lore (15+ entries)
+Story fragments unlocked by progressing.
 
-#### Audio Logs (10 entrées)
-Logs audio (TTS) découverts aléatoirement (15% chance après victoire).
+#### Audio Logs (10 entries)
+Audio logs (TTS) discovered randomly (15% chance after victory).
 
-### Système d'Unlock
+### Unlock System
 
 ```typescript
-// Débloquer pilote bio
+// Unlock pilot bio
 unlockCodexPilot(pilotId);
 
-// Débloquer lore
+// Unlock lore
 unlockCodexLore('lore-the-fall');
 
-// Chance d'audio log
+// Audio log chance
 unlockCodexAudioLog(0.15); // 15%
 
-// Tracking enemy kills
+// Track enemy kills
 recordCodexEnemyKill('SENTINEL');
 ```
 
 ### Progression
 
-Badge "NEW!" sur les entrées non lues.
+"NEW!" badge on unread entries.
 
 ```typescript
 interface CodexProgress {
@@ -457,25 +457,25 @@ interface CodexProgress {
 
 ## Crafting
 
-### Recettes
+### Recipes
 
-Combinez consommables pour créer items plus puissants.
+Combine consumables to create more powerful items.
 
-#### Exemples
+#### Examples
 
 **MEGA-STIM** (Rare):
-- Coût: 2x Med-Kit + 50 scrap
-- Effet: Restore 100 HP (vs 50 pour Med-Kit normal)
+- Cost: 2x Med-Kit + 50 scrap
+- Effect: Restore 100 HP (vs 50 for normal Med-Kit)
 
 **CRYO-BOMB** (Legendary):
-- Coût: 2x EMP Grenade + 2x Frag Grenade + 100 scrap
-- Effet: AoE stun + slow (5s)
+- Cost: 2x EMP Grenade + 2x Frag Grenade + 100 scrap
+- Effect: AoE stun + slow (5s)
 
-### Unlock des Recettes
+### Recipe Unlocking
 
-- Certaines recettes unlockées par stage
-- D'autres par achievements
-- Visibles dans le hangar
+- Certain recipes unlocked by stage
+- Others by achievements
+- Visible in the hangar
 
 ```typescript
 interface CraftingRecipe {
@@ -488,82 +488,82 @@ interface CraftingRecipe {
 
 ---
 
-## Difficulté et Modificateurs
+## Difficulty and Modifiers
 
-### 4 Niveaux de Difficulté
+### 4 Difficulty Levels
 
-| Niveau | Enemy HP | Enemy Dmg | Scrap | Permadeath | Lives |
-|--------|----------|-----------|-------|------------|-------|
+| Level | Enemy HP | Enemy Dmg | Scrap | Permadeath | Lives |
+|-------|----------|-----------|-------|------------|-------|
 | RECRUIT | 1.0x | 1.0x | 1.5x | ❌ | ∞ |
 | VETERAN | 1.3x | 1.2x | 1.2x | ❌ | 3 |
 | ELITE | 1.6x | 1.5x | 1.0x | ❌ | 1 |
 | NIGHTMARE | 2.0x | 2.0x | 0.8x | ✅ | 1 |
 
-### Modificateurs Quotidiens
+### Daily Modifiers
 
-Un modificateur aléatoire par jour (rotation):
+One random modifier per day (rotation):
 
 #### BOSS RUSH
-- Tous les ennemis deviennent mini-boss
+- All enemies become mini-bosses
 - HP: -50%, Dmg: +25%
 - Boss fights more frequent
 
 #### DOUBLE HAZARDS
-- 2x chance de hazards environnementaux
-- Effets de hazards +50% plus forts
+- 2x chance of environmental hazards
+- Hazard effects +50% stronger
 
 #### PACIFIST
-- Consommables offensifs cachés
+- Offensive consumables hidden
 - +100% scrap rewards
-- Focus sur capacités défensives
+- Focus on defensive abilities
 
 ---
 
-## Accessibilité
+## Accessibility
 
-### Support Lecteur d'Écran (NVDA)
+### Screen Reader Support (NVDA)
 
-- **ARIA labels** sur tous éléments interactifs
-- **Live regions** pour annonces dynamiques
-- **Skip links** pour navigation rapide
-- **Descriptions** pour images et icônes
+- **ARIA labels** on all interactive elements
+- **Live regions** for dynamic announcements
+- **Skip links** for quick navigation
+- **Descriptions** for images and icons
 
-### Navigation Clavier
+### Keyboard Navigation
 
-| Touche | Action |
-|--------|--------|
-| Tab / Shift+Tab | Navigation entre éléments |
-| Enter | Sélectionner / Confirmer |
-| Espace | Activer / Toggle |
-| Échap | Fermer / Retour |
-| Flèches | Navigation dans listes |
-| 1-4 | Utiliser consommable (en combat) |
+| Key | Action |
+|-----|--------|
+| Tab / Shift+Tab | Navigate between elements |
+| Enter | Select / Confirm |
+| Space | Activate / Toggle |
+| Escape | Close / Back |
+| Arrows | Navigate lists |
+| 1-4 | Use consumable (in combat) |
 | P | Pause |
-| H | Aide contextuelle |
+| H | Contextual help |
 
-### Modes Daltonisme
+### Colorblind Modes
 
-3 modes pour différents types:
+3 modes for different types:
 
-- **Protanopia** (rouge-vert): Palette ajustée rouge → orange
-- **Deuteranopia** (rouge-vert): Palette ajustée vert → bleu
-- **Tritanopia** (bleu-jaune): Palette ajustée bleu → violet
+- **Protanopia** (red-green): Adjusted palette red → orange
+- **Deuteranopia** (red-green): Adjusted palette green → blue
+- **Tritanopia** (blue-yellow): Adjusted palette blue → purple
 
-### Audio Spatial 3D
+### 3D Spatial Audio
 
-Positionnement audio basé sur position ennemis:
-- Ennemis à gauche → son à gauche
-- Ennemis à droite → son à droite
-- Boss → son central amplifié
+Audio positioning based on enemy position:
+- Enemies on left → sound on left
+- Enemies on right → sound on right
+- Boss → amplified center sound
 
-### Options Performance
+### Performance Options
 
-**Mode Performance**:
-- Désactive animations complexes
-- Réduit particules
-- Désactive blur/glow effects
-- +30% FPS sur machines low-end
+**Performance Mode**:
+- Disables complex animations
+- Reduces particles
+- Disables blur/glow effects
+- +30% FPS on low-end machines
 
 ---
 
-**Dernière mise à jour**: 2025-12-09
+**Last Updated**: 2025-12-11

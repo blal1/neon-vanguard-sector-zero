@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 export const VisualSettings: React.FC = () => {
     const { settings, updateSettings } = useGame();
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
 
     const handleToggle = (setting: keyof GameSettings) => {
         updateSettings({ [setting]: !settings[setting] });
@@ -22,7 +22,7 @@ export const VisualSettings: React.FC = () => {
     return (
         <div className="border border-cyan-500 p-6 bg-black/50 mt-6">
             <h3 className="text-2xl font-bold mb-4 text-cyan-400 tracking-wider">
-                VISUAL & GAMEPLAY SETTINGS
+                {t('settings.visualGameplay')}
             </h3>
 
             <div className="space-y-4">
@@ -34,7 +34,7 @@ export const VisualSettings: React.FC = () => {
                         className="w-5 h-5 accent-cyan-500 cursor-pointer"
                     />
                     <span className="text-sm font-bold tracking-wide">
-                        SHOW DAMAGE NUMBERS
+                        {t('settings.showDamageNumbers')}
                     </span>
                 </label>
 
@@ -46,10 +46,10 @@ export const VisualSettings: React.FC = () => {
                         className="w-5 h-5 accent-cyan-500 cursor-pointer"
                     />
                     <span className="text-sm font-bold tracking-wide">
-                        ENABLE SCREEN SHAKE
+                        {t('settings.enableScreenShake')}
                     </span>
                 </label>
-                
+
                 <label className="flex items-center gap-3 cursor-pointer hover:bg-cyan-900/20 p-2 transition-colors">
                     <input
                         type="checkbox"
@@ -58,7 +58,7 @@ export const VisualSettings: React.FC = () => {
                         className="w-5 h-5 accent-cyan-500 cursor-pointer"
                     />
                     <span className="text-sm font-bold tracking-wide">
-                        PERFORMANCE MODE (REDUCE PARTICLES)
+                        {t('settings.performanceMode')}
                     </span>
                 </label>
 
@@ -72,7 +72,8 @@ export const VisualSettings: React.FC = () => {
                             onChange={(e) => handleLanguageChange(e.target.value)}
                             className="bg-gray-800 border border-cyan-500 text-white p-2"
                         >
-                            <option value="en">English</option>
+                            <option value="en">{t('settings.english')}</option>
+                            <option value="fr">{t('settings.french')}</option>
                         </select>
                     </div>
                 </div>
@@ -139,10 +140,10 @@ export const VisualSettings: React.FC = () => {
                             onChange={(e) => updateSettings({ colorblindMode: e.target.value as any })}
                             className="bg-gray-800 border border-cyan-500 text-white p-2"
                         >
-                            <option value="none">None</option>
-                            <option value="protanopia">Protanopia</option>
-                            <option value="deuteranopia">Deuteranopia</option>
-                            <option value="tritanopia">Tritanopia</option>
+                            <option value="none">{t('settings.colorblindNone')}</option>
+                            <option value="protanopia">{t('settings.colorblindProtanopia')}</option>
+                            <option value="deuteranopia">{t('settings.colorblindDeuteranopia')}</option>
+                            <option value="tritanopia">{t('settings.colorblindTritanopia')}</option>
                         </select>
                     </div>
                 </div>

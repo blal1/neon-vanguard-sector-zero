@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { CRAFTING_RECIPES } from '../constants';
 import { useGame } from '../context/GameContext';
 import { audio } from '../services/audioService';
+import { useTranslation } from 'react-i18next';
 
 export const CraftingPanel: React.FC = () => {
+    const { t } = useTranslation();
     const { runState, canCraft, craftItem } = useGame();
     const [notification, setNotification] = useState<string | null>(null);
 
@@ -35,8 +37,8 @@ export const CraftingPanel: React.FC = () => {
 
             {notification && (
                 <div className={`mb-4 p-3 border-2 ${notification.startsWith('✓')
-                        ? 'border-green-500 bg-green-900/20 text-green-400'
-                        : 'border-red-500 bg-red-900/20 text-red-400'
+                    ? 'border-green-500 bg-green-900/20 text-green-400'
+                    : 'border-red-500 bg-red-900/20 text-red-400'
                     }`}>
                     {notification}
                 </div>
@@ -53,8 +55,8 @@ export const CraftingPanel: React.FC = () => {
                             <div
                                 key={recipe.id}
                                 className={`border-2 p-4 ${canCraftThis && !hasResult
-                                        ? 'border-cyan-500 bg-cyan-900/10'
-                                        : 'border-gray-700 bg-gray-800/50'
+                                    ? 'border-cyan-500 bg-cyan-900/10'
+                                    : 'border-gray-700 bg-gray-800/50'
                                     }`}
                             >
                                 <div className="flex justify-between items-start mb-3">
@@ -72,7 +74,7 @@ export const CraftingPanel: React.FC = () => {
                                 </div>
 
                                 <div className="mb-3">
-                                    <div className="text-xs text-gray-500 uppercase mb-2">Requirements:</div>
+                                    <div className="text-xs text-gray-500 uppercase mb-2">{t('hangar.requirements')}</div>
                                     <div className="flex flex-wrap gap-2">
                                         {recipe.requirements.map((req, idx) => {
                                             if (req.scrap) {
@@ -81,8 +83,8 @@ export const CraftingPanel: React.FC = () => {
                                                     <div
                                                         key={idx}
                                                         className={`px-3 py-1 border ${hasEnough
-                                                                ? 'border-green-500 bg-green-900/20 text-green-400'
-                                                                : 'border-red-500 bg-red-900/20 text-red-400'
+                                                            ? 'border-green-500 bg-green-900/20 text-green-400'
+                                                            : 'border-red-500 bg-red-900/20 text-red-400'
                                                             }`}
                                                     >
                                                         {req.scrap} Scrap
@@ -98,8 +100,8 @@ export const CraftingPanel: React.FC = () => {
                                                     <div
                                                         key={idx}
                                                         className={`px-3 py-1 border ${hasEnough
-                                                                ? 'border-green-500 bg-green-900/20 text-green-400'
-                                                                : 'border-red-500 bg-red-900/20 text-red-400'
+                                                            ? 'border-green-500 bg-green-900/20 text-green-400'
+                                                            : 'border-red-500 bg-red-900/20 text-red-400'
                                                             }`}
                                                     >
                                                         {req.count}x {consumable?.name || req.consumableId}
@@ -116,8 +118,8 @@ export const CraftingPanel: React.FC = () => {
                                     onClick={() => handleCraft(recipe.id)}
                                     disabled={!canCraftThis || hasResult}
                                     className={`w-full py-2 px-4 font-bold uppercase transition-colors ${canCraftThis && !hasResult
-                                            ? 'bg-cyan-600 hover:bg-cyan-500 text-white cursor-pointer'
-                                            : 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                                        ? 'bg-cyan-600 hover:bg-cyan-500 text-white cursor-pointer'
+                                        : 'bg-gray-700 text-gray-500 cursor-not-allowed'
                                         }`}
                                 >
                                     {hasResult ? 'Already Maxed' : canCraftThis ? 'Craft Item' : 'Insufficient Materials'}
@@ -147,7 +149,7 @@ export const CraftingPanel: React.FC = () => {
 
             {CRAFTING_RECIPES.length === 0 && (
                 <div className="text-center text-gray-500 py-8">
-                    No recipes available.
+                    {t('hangar.noRecipes')}
                 </div>
             )}
         </div>

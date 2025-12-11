@@ -3,6 +3,7 @@ import { useGame } from '../context/GameContext';
 import { audio } from '../services/audioService';
 import { voiceLines } from '../services/voiceLineService';
 import { PilotId } from '../types';
+import { useTranslation } from 'react-i18next';
 
 interface VolumeSliderProps {
     label: string;
@@ -32,6 +33,7 @@ const VolumeSlider: React.FC<VolumeSliderProps> = ({ label, value, onChange }) =
 };
 
 export const AudioSettings: React.FC = () => {
+    const { t } = useTranslation();
     const { settings, updateSettings } = useGame();
     const [audioStatus, setAudioStatus] = useState({ loaded: 0, total: 0, failed: 0 });
     const [ttsSupported, setTtsSupported] = useState(true);

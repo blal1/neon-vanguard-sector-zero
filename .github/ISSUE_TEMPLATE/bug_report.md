@@ -1,62 +1,62 @@
 ---
 name: Bug Report
-about: Signaler un bug ou problème technique
+about: Report a bug or technical issue
 title: '[BUG] '
 labels: bug
 assignees: ''
 ---
 
-## 🐛 Description du Bug
+## 🐛 Bug Description
 
-Une description claire et concise du bug.
+A clear and concise description of the bug.
 
-## 📋 Steps pour Reproduire
+## 📋 Steps to Reproduce
 
-Steps pour reproduire le comportement:
-1. Aller à '...'
-2. Cliquer sur '...'
-3. Faire défiler jusqu'à '...'
-4. Voir l'erreur
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '...'
+3. Scroll down to '...'
+4. See error
 
-## ✅ Comportement Attendu
+## ✅ Expected Behavior
 
-Description claire de ce qui devrait normalement se passer.
+Clear description of what should normally happen.
 
-## ❌ Comportement Actuel
+## ❌ Current Behavior
 
-Description de ce qui se passe actuellement.
+Description of what is currently happening.
 
 ## 📸 Screenshots
 
-Si applicable, ajoutez des screenshots pour illustrer le problème.
+If applicable, add screenshots to illustrate the problem.
 
-## 🖥 Environnement
+## 🖥 Environment
 
-**Desktop (veuillez compléter les informations suivantes):**
+**Desktop (please complete the following information):**
  - OS: [e.g. Windows 11, macOS 14, Ubuntu 22.04]
- - Navigateur: [e.g. Chrome 120, Firefox 121, Edge 119]
- - Version du jeu: [e.g. 1.0.0]
- - Electron: [Oui/Non]
+ - Browser: [e.g. Chrome 120, Firefox 121, Edge 119]
+ - Game version: [e.g. 1.0.0]
+ - Electron: [Yes/No]
 
-**Informations Additionnelles:**
- - Erreurs console (F12): 
+**Additional Information:**
+ - Console errors (F12): 
  ```
- Coller les erreurs ici
+ Paste errors here
  ```
- - Mode de jeu: [Campagne / Endless]
- - Pilote utilisé: [e.g. Vanguard]
- - Difficulté: [e.g. VETERAN]
+ - Game mode: [Campaign / Endless]
+ - Pilot used: [e.g. Vanguard]
+ - Difficulty: [e.g. VETERAN]
 
-## 📝 Contexte Additionnel
+## 📝 Additional Context
 
-Tout autre contexte pertinent sur le problème. Par exemple:
-- Le bug apparaît-il uniquement dans certaines conditions?
-- Avez-vous installé des mods?
-- Le problème est-il reproductible à 100%?
+Any other relevant context about the problem. For example:
+- Does the bug only appear under certain conditions?
+- Have you installed any mods?
+- Is the problem 100% reproducible?
 
 ## ✔️ Checklist
 
-- [ ] J'ai vérifié qu'il n'existe pas déjà une issue similaire
-- [ ] J'ai fourni les informations système complètes
-- [ ] J'ai inclus les erreurs console si disponibles
-- [ ] J'ai testé sur la dernière version
+- [ ] I have verified that no similar issue already exists
+- [ ] I have provided complete system information
+- [ ] I have included console errors if available
+- [ ] I have tested on the latest version

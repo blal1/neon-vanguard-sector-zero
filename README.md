@@ -6,227 +6,227 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178c6.svg)](https://www.typescriptlang.org/)
 [![Electron](https://img.shields.io/badge/Electron-39.2-47848f.svg)](https://www.electronjs.org/)
 
-> Un jeu de combat mech tactique roguelite avec système de progression profond, support complet pour l'accessibilité et capacités de modding extensives.
+> A tactical roguelite mech combat game with deep progression system, full accessibility support, and extensive modding capabilities.
 
 ![Game Banner](docs/assets/screenshots/banner.png)
-<!-- TODO: Ajouter un banner/screenshot du jeu -->
+<!-- TODO: Add game banner/screenshot -->
 
-## Table des Matières
+## Table of Contents
 
-- [À Propos](#-à-propos)
-- [Fonctionnalités](#-fonctionnalités)
+- [About](#-about)
+- [Features](#-features)
 - [Screenshots](#-screenshots)
 - [Installation](#-installation)
-- [Utilisation](#-utilisation)
-- [Scripts Disponibles](#-scripts-disponibles)
-- [Stack Technologique](#-stack-technologique)
+- [Usage](#-usage)
+- [Available Scripts](#-available-scripts)
+- [Tech Stack](#-tech-stack)
 - [Architecture](#-architecture)
 - [Modding](#-modding)
-- [Accessibilité](#-accessibilité)
-- [Contribution](#-contribution)
-- [Licence](#-licence)
-- [Crédits](#-crédits)
+- [Accessibility](#-accessibility)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Credits](#-credits)
 
-## À Propos
+## About
 
-**Neon Vanguard: Sector Zero** est un jeu de combat mech rapide et intense construit avec React et TypeScript. Pilotez des mechs avancés à travers des secteurs dangereux, combattez des ennemis uniques, acquérez des augmentations et améliorez votre équipement pour survivre à des vagues de plus en plus difficiles.
+**Neon Vanguard: Sector Zero** is a fast-paced and intense mech combat game built with React and TypeScript. Pilot advanced mechs through dangerous sectors, fight unique enemies, acquire augmentations, and upgrade your equipment to survive increasingly difficult waves.
 
-Le jeu combine des mécaniques **roguelite** avec un système de combat dynamique en **temps réel**, des risques environnementaux procéduraux et un arbre de talents profond pour la personnalisation des pilotes.
+The game combines **roguelite** mechanics with a dynamic **real-time** combat system, procedural environmental hazards, and a deep talent tree for pilot customization.
 
-### Objectif du Jeu
+### Game Objective
 
-Survivre à travers 5 secteurs de difficulté croissante, vaincre les boss de fin de secteur et déverrouiller de nouveaux pilotes, augmentations et secrets dans le Codex. Testez vos limites dans le **Mode Endless** pour grimper dans le classement mondial.
+Survive through 5 sectors of increasing difficulty, defeat sector-ending bosses, and unlock new pilots, augmentations, and secrets in the Codex. Test your limits in **Endless Mode** to climb the global leaderboard.
 
-## Fonctionnalités
+## Features
 
-### Système de Combat Avancé
-- **ATB (Active Time Battle)**: Combat en temps réel avec jauge de charge pour chaque ennemi
-- **Système de Combos**: Enchaînez les attaques pour des multiplicateurs de dégâts
-- **Points Faibles**: Exploitez les vulnérabilités ennemies avec les bonnes capacités
-- **Intentions Ennemies**: Anticipez et contrez les attaques, soins et défenses adverses
-- **Affixes d'Élite**: Ennemis avec modificateurs spéciaux (Volatile, Blindé, Vampirique, etc.)
+### Advanced Combat System
+- **ATB (Active Time Battle)**: Real-time combat with charge gauge for each enemy
+- **Combo System**: Chain attacks for damage multipliers
+- **Weak Points**: Exploit enemy vulnerabilities with the right abilities
+- **Enemy Intentions**: Anticipate and counter enemy attacks, heals, and defenses
+- **Elite Affixes**: Enemies with special modifiers (Volatile, Armored, Vampiric, etc.)
 
-### Pilotes Uniques
-- **5 Pilotes Jouables**: Chacun avec des statistiques, capacités et mécaniques uniques
-  - **Vanguard**: Tank équilibré avec boucliers
-  - **Solaris**: Spécialiste énergie avec surcharge
-  - **Hydra**: Gestion de chaleur et dégâts DoT
-  - **Wyrm**: Bio-régénération et contrôle de foule
-  - **Ghost**: Furtivité et burst damage critique
-- **2 Modules par Pilote**: ASSAULT (offensif) ou DEFENSE (défensif)
-- **Arbres de Talents**: Système de progression permanent pour chaque pilote
+### Unique Pilots
+- **5 Playable Pilots**: Each with unique stats, abilities, and mechanics
+  - **Vanguard**: Balanced tank with shields
+  - **Solaris**: Energy specialist with overcharge
+  - **Hydra**: Heat management and DoT damage
+  - **Wyrm**: Bio-regeneration and crowd control
+  - **Ghost**: Stealth and critical burst damage
+- **2 Modules per Pilot**: ASSAULT (offensive) or DEFENSE (defensive)
+- **Talent Trees**: Permanent progression system for each pilot
 
-### Modes de Jeu
-- **Campagne Standard**: 5 secteurs avec boss finaux
-- **Mode Endless**: Survie par vagues infinies avec classement
-- **Niveaux de Difficulté**: RECRUIT, VETERAN, ELITE, NIGHTMARE
-- **Modificateurs Quotidiens**: Boss Rush, Double Hazards, Pacifist
+### Game Modes
+- **Standard Campaign**: 5 sectors with final bosses
+- **Endless Mode**: Infinite wave survival with leaderboard
+- **Difficulty Levels**: RECRUIT, VETERAN, ELITE, NIGHTMARE
+- **Daily Modifiers**: Boss Rush, Double Hazards, Pacifist
 
-### Progression et Personnalisation
-- **Système d'Augmentations**: Plus de 30 augmentations avec synergies
-- **Crafting**: Combinez des consommables pour créer des items uniques
-- **Système de Succès**: 18+ achievements avec récompenses
-- **Loadouts**: Sauvegardez et chargez vos configurations favorites
-- **Statistiques Détaillées**: Tracking complet de performance
+### Progression and Customization
+- **Augmentation System**: Over 30 augmentations with synergies
+- **Crafting**: Combine consumables to create unique items
+- **Achievement System**: 18+ achievements with rewards
+- **Loadouts**: Save and load your favorite configurations
+- **Detailed Statistics**: Complete performance tracking
 
-### Contenu Narratif
-- **Codex**: Base de données des pilotes, ennemis et lore
-- **Événements Narratifs**: Choix qui affectent votre run
-- **Logs Audio**: Découvrez l'histoire du secteur
-- **Dialogues de Boss**: Interactions uniques pour chaque boss
+### Narrative Content
+- **Codex**: Database of pilots, enemies, and lore
+- **Narrative Events**: Choices that affect your run
+- **Audio Logs**: Discover the sector's history
+- **Boss Dialogues**: Unique interactions for each boss
 
-### Fonctionnalités Avancées
-- **Système de Replay**: Enregistrez et rejouez vos meilleurs combats
-- **Audio Dynamique**: Musique et effets sonores par stage
-- **Support TTS**: Voice lines via Web Speech API
-- **Support Multilingue**: Système i18next intégré
-- **Modding**: Ajoutez facilement vos propres ennemis, pilotes et événements
+### Advanced Features
+- **Replay System**: Record and replay your best battles
+- **Dynamic Audio**: Music and sound effects per stage
+- **TTS Support**: Voice lines via Web Speech API
+- **Multilingual Support**: Integrated i18next system
+- **Modding**: Easily add your own enemies, pilots, and events
 
-### Accessibilité
-- **Support Complet Lecteur d'Écran**: Compatible NVDA
-- **Navigation Clavier**: Contrôles complets au clavier
-- **Modes Daltonisme**: 3 modes pour différents types
-- **Audio Positionnel 3D**: Orientation spatiale des sons
-- **Raccourcis Personnalisables**: Keybindings configurables
-- **Options de Performance**: Mode performance pour réduire les effets visuels
+### Accessibility
+- **Full Screen Reader Support**: NVDA compatible
+- **Keyboard Navigation**: Complete keyboard controls
+- **Colorblind Modes**: 3 modes for different types
+- **3D Positional Audio**: Spatial sound orientation
+- **Customizable Shortcuts**: Configurable keybindings
+- **Performance Options**: Performance mode to reduce visual effects
 
 ## Screenshots
 
-<!-- TODO: Ajouter des screenshots -->
+<!-- TODO: Add screenshots -->
 ```
-[Menu Principal] [Sélection Pilote] [Combat] [Hangar] [Arbre de Talents]
+[Main Menu] [Pilot Selection] [Combat] [Hangar] [Talent Tree]
 ```
 
 ## Installation
 
-### Prérequis
+### Prerequisites
 
-- **Node.js** version 18 ou supérieure ([Télécharger](https://nodejs.org/))
-- **npm** (inclus avec Node.js) ou **yarn**
+- **Node.js** version 18 or higher ([Download](https://nodejs.org/))
+- **npm** (included with Node.js) or **yarn**
 
-### Installation Standard
+### Standard Installation
 
-1. **Cloner le repository**:
+1. **Clone the repository**:
    ```bash
    git clone https://github.com/blal1/neon-vanguard-sector-zero.git
    cd neon-vanguard-sector-zero
    ```
 
-2. **Installer les dépendances**:
+2. **Install dependencies**:
    ```bash
    npm install
    ```
 
-3. **Générer les assets audio** (optionnel - placeholders):
+3. **Generate audio assets** (optional - placeholders):
    ```bash
    npm run generate-audio
    ```
 
-4. **Lancer le serveur de développement**:
+4. **Start the development server**:
    ```bash
    npm run dev
    ```
 
-5. **Ouvrir dans votre navigateur**: `http://localhost:5173`
+5. **Open in your browser**: `http://localhost:5173`
 
-### Installation Electron (Application Desktop)
+### Electron Installation (Desktop Application)
 
-Pour lancer l'application en mode desktop:
+To run the application in desktop mode:
 
 ```bash
-# Mode développement avec hot-reload
+# Development mode with hot-reload
 npm run electron:dev
 
-# Build de production Windows
+# Windows production build
 npm run electron:build:win
 ```
 
-L'exécutable sera créé dans le dossier `release/`.
+The executable will be created in the `release/` folder.
 
-## Utilisation
+## Usage
 
-### Démarrage Rapide
+### Quick Start
 
-1. **Sélectionnez un Pilote**: Choisissez parmi 5 pilotes uniques
-2. **Choisissez un Module**: ASSAULT ou DEFENSE
-3. **Équipez des Consommables**: Med-Kits, Grenades EMP, etc.
-4. **Lisez le Briefing**: Comprenez votre mission
-5. **Lancez le Combat**: Engagez les systèmes !
+1. **Select a Pilot**: Choose from 5 unique pilots
+2. **Choose a Module**: ASSAULT or DEFENSE
+3. **Equip Consumables**: Med-Kits, EMP Grenades, etc.
+4. **Read the Briefing**: Understand your mission
+5. **Launch Combat**: Engage systems!
 
-### Contrôles
+### Controls
 
 #### Combat
-- **Clic Gauche sur Ennemi**: Attaque de base
-- **Barre Espace**: Capacité primaire
-- **Shift**: Capacité spéciale
-- **1-4**: Utiliser consommable
+- **Left Click on Enemy**: Basic attack
+- **Spacebar**: Primary ability
+- **Shift**: Special ability
+- **1-4**: Use consumable
 - **P**: Pause
 
 #### Navigation
-- **Tab**: Naviguer entre éléments
-- **Enter**: Sélectionner/Confirmer
-- **Échap**: Retour/Annuler
-- **F1**: Aide/Tutoriel
+- **Tab**: Navigate between elements
+- **Enter**: Select/Confirm
+- **Escape**: Back/Cancel
+- **F1**: Help/Tutorial
 
-Pour plus de détails, voir [COMMENT_JOUER.md](COMMENT_JOUER.md).
+For more details, see [HOW_TO_PLAY.md](HOW_TO_PLAY.md).
 
-## Scripts Disponibles
+## Available Scripts
 
 | Script | Description |
 |--------|-------------|
-| `npm run dev` | Lance le serveur de développement Vite (port 5173) |
-| `npm run build` | Compile l'application pour la production dans `dist/` |
-| `npm run preview` | Prévisualise le build de production |
-| `npm run test` | Lance les tests avec Vitest |
-| `npm run test:ui` | Interface graphique pour les tests |
-| `npm run generate-audio` | Génère les fichiers audio placeholders |
-| `npm run electron:dev` | Lance Electron en mode développement avec hot-reload |
-| `npm run electron:build` | Build Electron pour production |
-| `npm run electron:build:win` | Build Electron spécifiquement pour Windows |
+| `npm run dev` | Start Vite development server (port 5173) |
+| `npm run build` | Build the application for production in `dist/` |
+| `npm run preview` | Preview the production build |
+| `npm run test` | Run tests with Vitest |
+| `npm run test:ui` | GUI interface for tests |
+| `npm run generate-audio` | Generate placeholder audio files |
+| `npm run electron:dev` | Start Electron in development mode with hot-reload |
+| `npm run electron:build` | Build Electron for production |
+| `npm run electron:build:win` | Build Electron specifically for Windows |
 
-## Stack Technologique
+## Tech Stack
 
 ### Frontend
-- **[React 19](https://react.dev/)**: Bibliothèque UI avec composants fonctionnels et hooks
-- **[TypeScript 5.8](https://www.typescriptlang.org/)**: Typage statique pour JavaScript
-- **[Vite 6](https://vitejs.dev/)**: Build tool ultra-rapide et dev server
-- **[Tailwind CSS 3.4](https://tailwindcss.com/)**: Framework CSS utility-first
-- **[Framer Motion](https://www.framer.com/motion/)**: Animations et transitions fluides
+- **[React 19](https://react.dev/)**: UI library with functional components and hooks
+- **[TypeScript 5.8](https://www.typescriptlang.org/)**: Static typing for JavaScript
+- **[Vite 6](https://vitejs.dev/)**: Ultra-fast build tool and dev server
+- **[Tailwind CSS 3.4](https://tailwindcss.com/)**: Utility-first CSS framework
+- **[Framer Motion](https://www.framer.com/motion/)**: Smooth animations and transitions
 
 ### State Management
-- **[Zustand 5](https://zustand-demo.pmnd.rs/)**: State management simple et performant
-- **React Context**: State global pour le GameContext
-- **LocalStorage**: Persistence des données (profil, settings, runs)
+- **[Zustand 5](https://zustand-demo.pmnd.rs/)**: Simple and performant state management
+- **React Context**: Global state for GameContext
+- **LocalStorage**: Data persistence (profile, settings, runs)
 
 ### Desktop Application
-- **[Electron 39](https://www.electronjs.org/)**: Framework pour applications desktop cross-platform
-- **[electron-builder](https://www.electron.build/)**: Packaging et distribution
+- **[Electron 39](https://www.electronjs.org/)**: Cross-platform desktop application framework
+- **[electron-builder](https://www.electron.build/)**: Packaging and distribution
 
 ### Internationalization & Accessibility
-- **[i18next](https://www.i18next.com/)**: Système de traduction
-- **[react-i18next](https://react.i18next.com/)**: Intégration React pour i18n
-- **Web Speech API**: Text-to-Speech natif du navigateur
+- **[i18next](https://www.i18next.com/)**: Translation system
+- **[react-i18next](https://react.i18next.com/)**: React integration for i18n
+- **Web Speech API**: Browser-native Text-to-Speech
 
 ### Charts & Visualization
-- **[Recharts](https://recharts.org/)**: Graphiques pour les statistiques
+- **[Recharts](https://recharts.org/)**: Charts for statistics
 
 ### Development Tools
-- **[Vitest](https://vitest.dev/)**: Framework de test unitaire
-- **[Testing Library](https://testing-library.com/)**: Utilities pour tester React
-- **ESLint + Prettier**: Linting et formatting (via configuration Vite)
+- **[Vitest](https://vitest.dev/)**: Unit testing framework
+- **[Testing Library](https://testing-library.com/)**: Utilities for testing React
+- **ESLint + Prettier**: Linting and formatting (via Vite configuration)
 
 ## Architecture
 
-### Structure des Dossiers
+### Folder Structure
 
 ```
 neon-vanguard-sector-zero/
-├── components/          # Composants React réutilisables (44 fichiers)
+├── components/          # Reusable React components (44 files)
 │   ├── CombatScreen.tsx
 │   ├── HangarScreen.tsx
 │   ├── CharacterSelect.tsx
 │   └── ...
-├── constants/           # Configuration et données statiques
+├── constants/           # Configuration and static data
 │   ├── achievements.ts
 │   ├── augmentations.ts
 │   ├── colors.ts
@@ -234,151 +234,151 @@ neon-vanguard-sector-zero/
 │   └── ...
 ├── context/             # React Context providers
 │   └── GameContext.tsx
-├── data/                # Gestionnaire de données pilotes
+├── data/                # Pilot data manager
 │   └── dataManager.ts
 ├── docs/                # Documentation
 │   ├── ARCHITECTURE.md
 │   ├── API_REFERENCE.md
 │   └── FEATURES.md
-├── electron/            # Configuration Electron
+├── electron/            # Electron configuration
 │   └── main.cjs
 ├── hooks/               # Custom React hooks
 │   └── useKeyboardNavigation.ts
-├── mods/                # Système de modding
+├── mods/                # Modding system
 │   ├── enemies/
 │   ├── pilots/
 │   └── events/
-├── public/              # Assets statiques
-│   └── audio/           # Fichiers audio
-├── services/            # Services et utilitaires
+├── public/              # Static assets
+│   └── audio/           # Audio files
+├── services/            # Services and utilities
 │   ├── audioService.ts
 │   ├── ttsService.ts
 │   └── voiceLineService.ts
-├── src/                 # Code source principal
-│   ├── i18n/            # Traductions
-│   └── test/            # Configuration tests
-├── types/               # Définitions TypeScript
+├── src/                 # Main source code
+│   ├── i18n/            # Translations
+│   └── test/            # Test configuration
+├── types/               # TypeScript definitions
 │   ├── codex.ts
 │   ├── replay.ts
 │   └── talents.ts
-├── utils/               # Fonctions utilitaires
+├── utils/               # Utility functions
 │   ├── combatUtils.ts
 │   ├── synergyUtils.ts
 │   └── ...
-├── App.tsx              # Composant principal
-├── index.tsx            # Point d'entrée React
-├── types.ts             # Types globaux
-├── constants.ts         # Constantes globales
+├── App.tsx              # Main component
+├── index.tsx            # React entry point
+├── types.ts             # Global types
+├── constants.ts         # Global constants
 └── package.json
 ```
 
-Pour plus de détails, consultez [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+For more details, see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-### Flux de Données
+### Data Flow
 
-1. **GameContext** (Zustand + React Context) gère l'état global
-2. **LocalStorage** persiste les données entre sessions
-3. **Services** (audio, TTS) communiquent avec les APIs du navigateur
-4. **Utilities** effectuent les calculs de combat et synergies
-5. **Components** consomment et affichent l'état
+1. **GameContext** (Zustand + React Context) manages global state
+2. **LocalStorage** persists data between sessions
+3. **Services** (audio, TTS) communicate with browser APIs
+4. **Utilities** perform combat calculations and synergies
+5. **Components** consume and display state
 
 ## Modding
 
-Neon Vanguard supporte le modding via des fichiers JSON/TypeScript simples !
+Neon Vanguard supports modding via simple JSON/TypeScript files!
 
-### Ajouter un Ennemi
+### Add an Enemy
 
-Créez `mods/enemies/mon-ennemi.json`:
+Create `mods/enemies/my-enemy.json`:
 ```json
 {
   "name": "DEVASTATOR",
   "maxHp": 150,
   "speed": 1.2,
   "damage": 25,
-  "flavorText": "Lance une salve de missiles.",
+  "flavorText": "Launches a missile salvo.",
   "scrapValue": 40
 }
 ```
 
-### Ajouter un Pilote
+### Add a Pilot
 
-Créez `mods/pilots/mon-pilote.json` avec les capacités personnalisées.
+Create `mods/pilots/my-pilot.json` with custom abilities.
 
-### Ajouter un Événement
+### Add an Event
 
-Créez `mods/events/mon-event.ts` avec choix et conséquences.
+Create `mods/events/my-event.ts` with choices and consequences.
 
-Pour le guide complet, voir [MODDING_GUIDE.md](MODDING_GUIDE.md).
+For the complete guide, see [MODDING_GUIDE.md](MODDING_GUIDE.md).
 
-## Accessibilité
+## Accessibility
 
-Ce jeu est conçu pour être **entièrement accessible** aux joueurs utilisant des lecteurs d'écran:
+This game is designed to be **fully accessible** to players using screen readers:
 
-- ✅ Support NVDA complet
-- ✅ Navigation clavier totale
-- ✅ Annonces ARIA avec priorités
-- ✅ Audio spatial 3D pour orientation
-- ✅ Modes daltonisme (protanopia, deuteranopia, tritanopia)
-- ✅ Keybindings personnalisables
-- ✅ Mode performance (réduit les animations)
+- ✅ Full NVDA support
+- ✅ Complete keyboard navigation
+- ✅ ARIA announcements with priorities
+- ✅ 3D spatial audio for orientation
+- ✅ Colorblind modes (protanopia, deuteranopia, tritanopia)
+- ✅ Customizable keybindings
+- ✅ Performance mode (reduced animations)
 
-Les voice lines utilisent la **Web Speech API** du navigateur (fonctionne mieux sur Chrome/Edge).
+Voice lines use the browser's **Web Speech API** (works best on Chrome/Edge).
 
-## Contribution
+## Contributing
 
-Les contributions sont les bienvenues ! Voici comment participer:
+Contributions are welcome! Here's how to participate:
 
-1. **Fork** le projet
-2. **Créez une branche** pour votre feature (`git checkout -b feature/AmazingFeature`)
-3. **Committez** vos changements (`git commit -m 'Add: Amazing feature'`)
-4. **Push** vers la branche (`git push origin feature/AmazingFeature`)
-5. **Ouvrez une Pull Request**
+1. **Fork** the project
+2. **Create a branch** for your feature (`git checkout -b feature/AmazingFeature`)
+3. **Commit** your changes (`git commit -m 'Add: Amazing feature'`)
+4. **Push** to the branch (`git push origin feature/AmazingFeature`)
+5. **Open a Pull Request**
 
-Consultez [CONTRIBUTING.md](CONTRIBUTING.md) pour les guidelines détaillées.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
-### Signaler des Bugs
+### Report Bugs
 
-Utilisez les [GitHub Issues](https://github.com/blal1/neon-vanguard-sector-zero/issues) avec le template de bug report.
+Use [GitHub Issues](https://github.com/blal1/neon-vanguard-sector-zero/issues) with the bug report template.
 
-### Suggérer des Fonctionnalités
+### Suggest Features
 
-Utilisez les GitHub Issues avec le template de feature request.
+Use GitHub Issues with the feature request template.
 
-## Licence
+## License
 
-Ce projet est sous licence **MIT**. Voir [LICENSE](LICENSE) pour plus de détails.
+This project is licensed under the **MIT** license. See [LICENSE](LICENSE) for more details.
 
-## Crédits
+## Credits
 
-### Développement
-- **Développeur Principal**: Bilal
+### Development
+- **Lead Developer**: Bilal
 
 ### Technologies
-- Construit avec [React](https://react.dev/), [TypeScript](https://www.typescriptlang.org/) et [Vite](https://vitejs.dev/)
-- Propulsé par [Electron](https://www.electronjs.org/)
+- Built with [React](https://react.dev/), [TypeScript](https://www.typescriptlang.org/), and [Vite](https://vitejs.dev/)
+- Powered by [Electron](https://www.electronjs.org/)
 
 ### Audio
-- Placeholder audio généré via scripts Node.js
+- Placeholder audio generated via Node.js scripts
 - TTS via Web Speech API
 
-### Remerciements Spéciaux
-- Communauté React et TypeScript
-- Tous les contributeurs et testeurs
+### Special Thanks
+- React and TypeScript community
+- All contributors and testers
 
 ---
 
 ## Contact & Support
 
 - **GitHub Issues**: [Bug Reports & Features](https://github.com/yourusername/neon-vanguard-sector-zero/issues)
-- **Discord**: [Communauté Neon Vanguard](#) <!-- TODO: Ajouter lien Discord si applicable -->
-- **Email**: bilalfehan2006@gmail.com <!-- TODO: Ajouter email -->
+- **Discord**: [Neon Vanguard Community](#) <!-- TODO: Add Discord link if applicable -->
+- **Email**: bilalfehan2006@gmail.com <!-- TODO: Add email -->
 
 ---
 
 <div align="center">
 
-**⚡ Fait avec ❤️ pour la communauté gaming et accessibilité ⚡**
+**⚡ Made with ❤️ for the gaming and accessibility community ⚡**
 
-[⬆ Retour en haut](#-neon-vanguard-sector-zero)
+[⬆ Back to top](#-neon-vanguard-sector-zero)
 
 </div>

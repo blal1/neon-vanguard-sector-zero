@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { audio } from '../services/audioService';
+import { useTranslation } from 'react-i18next';
 
 export const AudioVisualizer: React.FC = () => {
+    const { t } = useTranslation();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [isActive, setIsActive] = useState(false);
 
@@ -69,7 +71,7 @@ export const AudioVisualizer: React.FC = () => {
             />
             {!isActive && (
                 <div className="absolute inset-0 flex items-center justify-center text-[8px] text-gray-700 uppercase tracking-wider">
-                    AUDIO VISUALIZER INACTIVE
+                    {t('audio.visualizerInactive')}
                 </div>
             )}
         </div>

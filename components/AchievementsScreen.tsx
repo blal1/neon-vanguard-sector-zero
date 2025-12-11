@@ -3,6 +3,7 @@ import { Achievement } from '../types';
 import { ACHIEVEMENTS, getAchievementsByCategory, getRarityColor, getCategoryIcon } from '../constants/achievements';
 import { useGame } from '../context/GameContext';
 import { audio } from '../services/audioService';
+import { useTranslation } from 'react-i18next';
 
 interface AchievementsScreenProps {
     onBack: () => void;
@@ -12,6 +13,7 @@ type CategoryFilter = 'ALL' | Achievement['category'];
 type StatusFilter = 'ALL' | 'UNLOCKED' | 'LOCKED';
 
 export const AchievementsScreen: React.FC<AchievementsScreenProps> = ({ onBack }) => {
+    const { t } = useTranslation();
     const { achievements, stats, profile } = useGame();
     const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>('ALL');
     const [statusFilter, setStatusFilter] = useState<StatusFilter>('ALL');
@@ -78,7 +80,7 @@ export const AchievementsScreen: React.FC<AchievementsScreenProps> = ({ onBack }
                 <div className="flex items-center gap-4">
                     <div className="flex-1">
                         <div className="flex justify-between text-sm mb-1">
-                            <span className="text-gray-400">Progress</span>
+                            <span className="text-gray-400">{t('achievements.progress')}</span>
                             <span className="text-purple-400 font-bold">{totalUnlocked}/{totalAchievements} ({completionPercent}%)</span>
                         </div>
                         <div className="h-4 bg-gray-900 border border-purple-700">
@@ -95,7 +97,7 @@ export const AchievementsScreen: React.FC<AchievementsScreenProps> = ({ onBack }
             <div className="flex gap-4 mb-6">
                 {/* Category Filter */}
                 <div className="flex-1">
-                    <div className="text-xs text-gray-500 mb-2 uppercase">Category</div>
+                    <div className="text-xs text-gray-500 mb-2 uppercase">{t('achievements.category')}</div>
                     <div className="flex gap-2 flex-wrap">
                         {(['ALL', 'COMBAT', 'SURVIVAL', 'SPEED', 'COLLECTION', 'MASTERY'] as CategoryFilter[]).map(cat => (
                             <button
@@ -114,7 +116,7 @@ export const AchievementsScreen: React.FC<AchievementsScreenProps> = ({ onBack }
 
                 {/* Status Filter */}
                 <div>
-                    <div className="text-xs text-gray-500 mb-2 uppercase">Status</div>
+                    <div className="text-xs text-gray-500 mb-2 uppercase">{t('achievements.status')}</div>
                     <div className="flex gap-2">
                         {(['ALL', 'UNLOCKED', 'LOCKED'] as StatusFilter[]).map(status => (
                             <button

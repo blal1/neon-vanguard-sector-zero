@@ -89,27 +89,10 @@ const AppContent: React.FC = () => {
 
   // Announce screen changes to screen readers
   useEffect(() => {
-    const screenNames: Record<string, string> = {
-      'MENU': 'Menu Principal',
-      'HANGAR': 'Hangar',
-      'COMBAT': 'Combat',
-      'EVENT': 'Événement',
-      'VICTORY': 'Victoire',
-      'DEFEAT': 'Défaite',
-      'BRIEFING': 'Briefing de Mission',
-      'TESTing': 'Tests',
-      'ACHIEVEMENTS': 'Succès',
-      'STATISTICS': 'Statistiques',
-      'CODEX': 'Codex',
-      'REPLAYS': 'Replays',
-      'TALENTS': 'Arbre de Talents',
-      'REPLAY_VIEWER': 'Visionnage de Replay'
-    };
-
-    const screenName = screenNames[gameState as string] || 'Écran inconnu';
+    const screenName = t(`screens.${(gameState as string).toLowerCase().replace('_', '')}`) || t('screens.unknownScreen');
     setScreenAnnouncement(screenName);
     gameTTS.screenChange(screenName);
-  }, [gameState]);
+  }, [gameState, t]);
 
   useEffect(() => {
     const palette = COLOR_PALETTES[settings.colorblindMode || 'none'];
@@ -260,10 +243,10 @@ const AppContent: React.FC = () => {
         <KeyboardShortcuts />
         {showTutorial && <TutorialModal />}
 
-        <main id="main-content" role="main" aria-label="Contenu principal du jeu">
+        <main id="main-content" role="main" aria-label={t('accessibility.mainContent')}>
           <ScreenReaderOnly>
             <h1>NEON VANGUARD: Sector Zero</h1>
-            <p>Jeu de combat mech tactique avec support complet pour lecteurs d'écran</p>
+            <p>{t('accessibility.screenReaderSupportText')}</p>
           </ScreenReaderOnly>
 
           <AnimatePresence>
@@ -289,7 +272,7 @@ const AppContent: React.FC = () => {
                   <button
                     onClick={handleContinue}
                     className="border border-green-500 text-green-500 px-6 py-2 hover:bg-green-900/50 animate-pulse font-bold tracking-widest"
-                    aria-label="Reprendre l'opération en cours"
+                    aria-label={t('accessibility.resumeOperation')}
                   >
                     [ RESUME OPERATION ]
                   </button>
@@ -300,28 +283,28 @@ const AppContent: React.FC = () => {
                 <button
                   onClick={() => { audio.playBlip(); setShowLoadoutManager(true); }}
                   className="border border-yellow-500 text-yellow-400 px-4 py-2 hover:bg-yellow-900/50 transition-colors tracking-wide font-bold"
-                  aria-label="Gérer les configurations d'équipement (Loadouts)"
+                  aria-label={t('accessibility.manageLoadouts')}
                 >
                   [LOADOUTS]
                 </button>
                 <button
                   onClick={() => { audio.playBlip(); setGameState(GameState.ENDLESS); }}
                   className="border border-purple-500 text-purple-400 px-4 py-2 hover:bg-purple-900/50 transition-colors tracking-wide font-bold"
-                  aria-label="Mode Endless - Combat continu par vagues"
+                  aria-label={t('accessibility.endlessMode')}
                 >
                   🌊 {t('mainMenu.endlessMode')}
                 </button>
                 <button
                   onClick={() => { audio.playBlip(); setGameState('STATISTICS'); }}
                   className="border border-cyan-500 text-cyan-400 px-4 py-2 hover:bg-cyan-900/50 transition-colors tracking-wide"
-                  aria-label="Statistiques - Voir vos statistiques de jeu"
+                  aria-label={t('accessibility.viewStatistics')}
                 >
                   📊 {t('mainMenu.statistics')}
                 </button>
                 <button
                   onClick={() => { audio.playBlip(); setGameState('ACHIEVEMENTS'); }}
                   className="border border-purple-500 text-purple-400 px-4 py-2 hover:bg-purple-900/50 transition-colors tracking-wide"
-                  aria-label={`Succès - ${achievements.length} sur 18 débloqués`}
+                  aria-label={`${t('mainMenu.achievements')} - ${achievements.length}/18 ${t('accessibility.viewAchievements')}`}
                 >
                   🏆 {t('mainMenu.achievements')} [{achievements.length}/{18}]
                 </button>

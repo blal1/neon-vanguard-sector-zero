@@ -1,86 +1,86 @@
 # Changelog
 
-Tous les changements notables de ce projet seront documentés dans ce fichier.
+All notable changes to this project will be documented in this file.
 
-Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/),
-et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [1.0.0] - 2025-12-09
 
-### Ajouté
-- Système de combat ATB en temps réel
-- 5 pilotes jouables avec capacités uniques (Vanguard, Solaris, Hydra, Wyrm, Ghost)
-- 2 modules par pilote (ASSAULT, DEFENSE)
-- Système d'augmentations avec synergies
-- Système de combos et points faibles
-- Système d'achievements (18 achievements)
-- Système de talents avec arbres par pilote
-- Mode Endless avec leaderboard
-- Système de replay pour revoir les combats
-- Codex avec lore, pilotes et ennemis
-- Système de crafting pour combiner consommables
-- 4 niveaux de difficulté (RECRUIT, VETERAN, ELITE, NIGHTMARE)
-- Modificateurs quotidiens (Boss Rush, Double Hazards, Pacifist)
-- Système de loadouts pour sauvegarder configurations
-- Support complet pour l'accessibilité (NVDA)
-- Navigation clavier complète
-- Modes daltonisme (3 types)
-- Audio positionnel 3D
-- Support Text-to-Speech via Web Speech API
-- Système de modding (ennemis, pilotes, événements)
-- Support i18n avec i18next
-- Application Electron pour desktop
-- Statistiques détaillées de jeu
-- Événements narratifs avec choix
-- 30+ augmentations uniques
-- Boss avec phases et capacités spéciales
-- Hazards environnementaux (Acid Rain, Ion Storm, Seismic Activity)
+### Added
+- Real-time ATB combat system
+- 5 playable pilots with unique abilities (Vanguard, Solaris, Hydra, Wyrm, Ghost)
+- 2 modules per pilot (ASSAULT, DEFENSE)
+- Augmentation system with synergies
+- Combo and weak point system
+- Achievement system (18 achievements)
+- Talent system with trees per pilot
+- Endless mode with leaderboard
+- Replay system to review battles
+- Codex with lore, pilots, and enemies
+- Crafting system to combine consumables
+- 4 difficulty levels (RECRUIT, VETERAN, ELITE, NIGHTMARE)
+- Daily modifiers (Boss Rush, Double Hazards, Pacifist)
+- Loadout system to save configurations
+- Full accessibility support (NVDA)
+- Complete keyboard navigation
+- Colorblind modes (3 types)
+- 3D positional audio
+- Text-to-Speech support via Web Speech API
+- Modding system (enemies, pilots, events)
+- i18n support with i18next
+- Electron desktop application
+- Detailed game statistics
+- Narrative events with choices
+- 30+ unique augmentations
+- Bosses with phases and special abilities
+- Environmental hazards (Acid Rain, Ion Storm, Seismic Activity)
 
-### Technique
-- React 19.2 avec composants fonctionnels
-- TypeScript 5.8 avec typage strict
-- Vite 6 pour build ultra-rapide
-- Tailwind CSS 3.4 pour styling
-- Framer Motion pour animations
-- Zustand 5 pour state management
-- Electron 39 pour application desktop
-- Vitest pour tests unitaires
-- Testing Library pour tests de composants
-- electron-builder pour packaging
+### Technical
+- React 19.2 with functional components
+- TypeScript 5.8 with strict typing
+- Vite 6 for ultra-fast builds
+- Tailwind CSS 3.4 for styling
+- Framer Motion for animations
+- Zustand 5 for state management
+- Electron 39 for desktop application
+- Vitest for unit tests
+- Testing Library for component tests
+- electron-builder for packaging
 
 ### Documentation
-- README complet avec badges et documentation
-- MODDING_GUIDE pour créer du contenu personnalisé
-- COMMENT_JOUER pour guide utilisateur
-- CONTRIBUTING pour guide contributeurs
-- CODE_OF_CONDUCT pour communauté
-- Documentation technique (ARCHITECTURE, API_REFERENCE, FEATURES)
+- Complete README with badges and documentation
+- MODDING_GUIDE to create custom content
+- HOW_TO_PLAY for user guide
+- CONTRIBUTING for contributor guide
+- CODE_OF_CONDUCT for community
+- Technical documentation (ARCHITECTURE, API_REFERENCE, FEATURES)
 
 ## [Unreleased]
 
-### À Venir
-- Nouveaux pilotes
-- Nouveaux boss
-- Nouvelles augmentations
-- Mode coopératif en ligne
-- Achievements Steam
-- Synchronisation cloud des sauvegardes
-- Éditeur de mods intégré
-- Support manette
-- Support macOS et Linux natif
+### Coming Soon
+- New pilots
+- New bosses
+- New augmentations
+- Online co-op mode
+- Steam achievements
+- Cloud save synchronization
+- Built-in mod editor
+- Controller support
+- Native macOS and Linux support
 
 ---
 
-## Format des Changements
+## Change Format
 
-Les changements sont organisés par type:
+Changes are organized by type:
 
-- **Ajouté** - pour les nouvelles fonctionnalités
-- **Modifié** - pour les changements dans les fonctionnalités existantes
-- **Déprécié** - pour les fonctionnalités qui seront supprimées prochainement
-- **Supprimé** - pour les fonctionnalités supprimées
-- **Corrigé** - pour les corrections de bugs
-- **Sécurité** - en cas de vulnérabilités corrigées
+- **Added** - for new features
+- **Changed** - for changes to existing features
+- **Deprecated** - for features that will be removed soon
+- **Removed** - for removed features
+- **Fixed** - for bug fixes
+- **Security** - for fixed vulnerabilities
 
 [1.0.0]: https://github.com/yourusername/neon-vanguard-sector-zero/releases/tag/v1.0.0
 [Unreleased]: https://github.com/yourusername/neon-vanguard-sector-zero/compare/v1.0.0...HEAD

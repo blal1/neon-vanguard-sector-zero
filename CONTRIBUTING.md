@@ -1,158 +1,158 @@
-# Guide de Contribution
+# Contributing Guide
 
-Merci de votre intérêt pour contribuer à **Neon Vanguard: Sector Zero** ! 🎮
+Thank you for your interest in contributing to **Neon Vanguard: Sector Zero**! 🎮
 
-Ce document fournit des guidelines pour contribuer au projet. En participant, vous acceptez de respecter notre [Code de Conduite](CODE_OF_CONDUCT.md).
+This document provides guidelines for contributing to the project. By participating, you agree to respect our [Code of Conduct](CODE_OF_CONDUCT.md).
 
-## 📋 Table des Matières
+## 📋 Table of Contents
 
-- [Comment Contribuer](#comment-contribuer)
-- [Signaler des Bugs](#signaler-des-bugs)
-- [Suggérer des Fonctionnalités](#suggérer-des-fonctionnalités)
+- [How to Contribute](#how-to-contribute)
+- [Reporting Bugs](#reporting-bugs)
+- [Suggesting Features](#suggesting-features)
 - [Pull Requests](#pull-requests)
-- [Standards de Code](#standards-de-code)
-- [Structure des Commits](#structure-des-commits)
-- [Configuration de Développement](#configuration-de-développement)
+- [Code Standards](#code-standards)
+- [Commit Structure](#commit-structure)
+- [Development Setup](#development-setup)
 - [Tests](#tests)
 
-## Comment Contribuer
+## How to Contribute
 
-Il y a plusieurs façons de contribuer au projet:
+There are several ways to contribute to the project:
 
-- 🐛 Signaler des bugs
-- 💡 Suggérer de nouvelles fonctionnalités
-- 📝 Améliorer la documentation
-- 🎨 Créer des mods (ennemis, pilotes, événements)
-- 🔧 Corriger des bugs ou implémenter des features
-- 🌍 Ajouter des traductions
+- 🐛 Report bugs
+- 💡 Suggest new features
+- 📝 Improve documentation
+- 🎨 Create mods (enemies, pilots, events)
+- 🔧 Fix bugs or implement features
+- 🌍 Add translations
 
-## Signaler des Bugs
+## Reporting Bugs
 
-Avant de signaler un bug, veuillez:
+Before reporting a bug, please:
 
-1. **Vérifier les issues existantes** pour éviter les doublons
-2. **Utiliser le template de bug report** disponible dans GitHub Issues
-3. **Fournir un maximum de détails**:
-   - Description claire du bug
-   - Steps pour reproduire
-   - Comportement attendu vs actuel
-   - Screenshots si applicable
-   - Informations système (OS, navigateur, version)
-   - Console errors (F12 dans le navigateur)
+1. **Check existing issues** to avoid duplicates
+2. **Use the bug report template** available in GitHub Issues
+3. **Provide as many details as possible**:
+   - Clear description of the bug
+   - Steps to reproduce
+   - Expected vs actual behavior
+   - Screenshots if applicable
+   - System information (OS, browser, version)
+   - Console errors (F12 in browser)
 
-### Template Bug Report
+### Bug Report Template
 
 ```markdown
-**Description du Bug**
-Description claire et concise du bug.
+**Bug Description**
+Clear and concise description of the bug.
 
-**Steps pour Reproduire**
-1. Aller à '...'
-2. Cliquer sur '...'
-3. Voir l'erreur
+**Steps to Reproduce**
+1. Go to '...'
+2. Click on '...'
+3. See error
 
-**Comportement Attendu**
-Ce qui devrait se passer normalement.
+**Expected Behavior**
+What should normally happen.
 
 **Screenshots**
-Si applicable, ajoutez des screenshots.
+If applicable, add screenshots.
 
-**Environnement:**
+**Environment:**
  - OS: [e.g. Windows 11]
- - Navigateur: [e.g. Chrome 120]
- - Version du jeu: [e.g. 1.0.0]
+ - Browser: [e.g. Chrome 120]
+ - Game version: [e.g. 1.0.0]
 
-**Informations Additionnelles**
-Tout autre contexte pertinent.
+**Additional Information**
+Any other relevant context.
 ```
 
-## Suggérer des Fonctionnalités
+## Suggesting Features
 
-Pour suggérer une nouvelle fonctionnalité:
+To suggest a new feature:
 
-1. **Vérifiez** qu'elle n'a pas déjà été suggérée
-2. **Utilisez le template de feature request**
-3. **Expliquez clairement**:
-   - Le problème que ça résout
-   - La solution proposée
-   - Les alternatives envisagées
-   - L'impact sur le jeu
+1. **Check** that it hasn't already been suggested
+2. **Use the feature request template**
+3. **Clearly explain**:
+   - The problem it solves
+   - The proposed solution
+   - Alternatives considered
+   - Impact on the game
 
-### Template Feature Request
+### Feature Request Template
 
 ```markdown
-**Le Problème**
-Description claire du problème ou du besoin.
+**The Problem**
+Clear description of the problem or need.
 
-**Solution Proposée**
-Comment vous imaginez la fonctionnalité.
+**Proposed Solution**
+How you envision the feature.
 
 **Alternatives**
-Autres solutions envisagées.
+Other solutions considered.
 
-**Contexte Additionnel**
-Screenshots, mockups, exemples d'autres jeux, etc.
+**Additional Context**
+Screenshots, mockups, examples from other games, etc.
 ```
 
 ## Pull Requests
 
 ### Process
 
-1. **Fork** le repository
-2. **Créez une branche** depuis `main`:
+1. **Fork** the repository
+2. **Create a branch** from `main`:
    ```bash
-   git checkout -b feature/ma-fonctionnalite
-   # OU
-   git checkout -b fix/mon-bug-fix
+   git checkout -b feature/my-feature
+   # OR
+   git checkout -b fix/my-bug-fix
    ```
 
-3. **Développez** votre feature/fix:
-   - Suivez les [standards de code](#standards-de-code)
-   - Écrivez des tests si applicable
-   - Mettez à jour la documentation
+3. **Develop** your feature/fix:
+   - Follow the [code standards](#code-standards)
+   - Write tests if applicable
+   - Update documentation
 
-4. **Testez localement**:
+4. **Test locally**:
    ```bash
    npm run test
    npm run build
    npm run dev
    ```
 
-5. **Committez** vos changements:
+5. **Commit** your changes:
    ```bash
-   git commit -m "Add: Nouvelle fonctionnalité X"
+   git commit -m "Add: New feature X"
    ```
 
-6. **Push** vers votre fork:
+6. **Push** to your fork:
    ```bash
-   git push origin feature/ma-fonctionnalite
+   git push origin feature/my-feature
    ```
 
-7. **Ouvrez une Pull Request** vers `main`
+7. **Open a Pull Request** to `main`
 
-### Checklist PR
+### PR Checklist
 
-- [ ] Le code compile sans erreurs
-- [ ] Les tests passent (`npm run test`)
-- [ ] La documentation est à jour
-- [ ] Les commits suivent la convention
-- [ ] Le code respecte les standards du projet
-- [ ] Aucune dépendance inutile ajoutée
-- [ ] Les fichiers générés (`dist/`, `node_modules/`) ne sont pas inclus
+- [ ] Code compiles without errors
+- [ ] Tests pass (`npm run test`)
+- [ ] Documentation is up to date
+- [ ] Commits follow the convention
+- [ ] Code respects project standards
+- [ ] No unnecessary dependencies added
+- [ ] Generated files (`dist/`, `node_modules/`) are not included
 
-## Standards de Code
+## Code Standards
 
 ### TypeScript
 
-- **Types explicites**: Évitez `any`, utilisez des types stricts
-- **Interfaces vs Types**: Préférez `interface` pour les objets, `type` pour les unions/intersections
+- **Explicit types**: Avoid `any`, use strict types
+- **Interfaces vs Types**: Prefer `interface` for objects, `type` for unions/intersections
 - **Naming**:
-  - PascalCase pour les composants/types/interfaces
-  - camelCase pour les variables/fonctions
-  - UPPER_SNAKE_CASE pour les constantes
+  - PascalCase for components/types/interfaces
+  - camelCase for variables/functions
+  - UPPER_SNAKE_CASE for constants
 
 ```typescript
-// ✅ Bon
+// ✅ Good
 interface PlayerStats {
   hp: number;
   damage: number;
@@ -164,7 +164,7 @@ const calculateDamage = (base: number, multiplier: number): number => {
 
 const MAX_HP = 100;
 
-// ❌ Mauvais
+// ❌ Bad
 interface player_stats {
   hp: any;
   damage: any;
@@ -177,14 +177,14 @@ function CalculateDamage(base, multiplier) {
 
 ### React
 
-- **Composants fonctionnels** avec hooks
-- **Props typées** avec TypeScript
-- **Destructuration** des props
-- **Hooks** en haut du composant
-- **Early returns** pour conditions
+- **Functional components** with hooks
+- **Typed props** with TypeScript
+- **Destructure** props
+- **Hooks** at the top of the component
+- **Early returns** for conditions
 
 ```tsx
-// ✅ Bon
+// ✅ Good
 interface ButtonProps {
   label: string;
   onClick: () => void;
@@ -201,7 +201,7 @@ const Button: React.FC<ButtonProps> = ({ label, onClick, disabled = false }) => 
   );
 };
 
-// ❌ Mauvais
+// ❌ Bad
 const Button = (props: any) => {
   return (
     <button onClick={props.onClick}>
@@ -213,18 +213,18 @@ const Button = (props: any) => {
 
 ### CSS / Tailwind
 
-- Utilisez **Tailwind classes** en priorité
-- Classes personnalisées dans `index.css` si nécessaire
-- **Responsive** avec les breakpoints Tailwind (`sm:`, `md:`, `lg:`)
+- Use **Tailwind classes** as priority
+- Custom classes in `index.css` if necessary
+- **Responsive** with Tailwind breakpoints (`sm:`, `md:`, `lg:`)
 
-### Fichiers et Organisation
+### Files and Organization
 
-- **Un composant par fichier**
-- **Exports nommés** pour les utils, **default** pour les composants
-- **Imports groupés**: React/externes, puis composants, puis utils/types
+- **One component per file**
+- **Named exports** for utils, **default** for components
+- **Grouped imports**: React/external, then components, then utils/types
 
 ```typescript
-// ✅ Bon
+// ✅ Good
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
@@ -235,29 +235,29 @@ import { calculateDamage } from '../utils/combatUtils';
 import type { Enemy, Player } from '../types';
 ```
 
-## Structure des Commits
+## Commit Structure
 
-Utilisez la convention **Conventional Commits**:
+Use the **Conventional Commits** convention:
 
 ```
 <type>(<scope>): <description>
 
-[corps optionnel]
+[optional body]
 
-[footer optionnel]
+[optional footer]
 ```
 
 ### Types
 
-- `Add`: Nouvelle fonctionnalité
-- `Fix`: Correction de bug
-- `Docs`: Documentation uniquement
-- `Style`: Formatage, point-virgules manquants, etc.
-- `Refactor`: Refactorisation sans changement de fonctionnalité
-- `Test`: Ajout/modification de tests
-- `Chore`: Tâches de maintenance (dépendances, config, etc.)
+- `Add`: New feature
+- `Fix`: Bug fix
+- `Docs`: Documentation only
+- `Style`: Formatting, missing semicolons, etc.
+- `Refactor`: Refactoring without functionality change
+- `Test`: Adding/modifying tests
+- `Chore`: Maintenance tasks (dependencies, config, etc.)
 
-### Exemples
+### Examples
 
 ```bash
 Add(combat): Weak point system for enemies
@@ -268,49 +268,49 @@ Test(combat): Add tests for combo multiplier
 Chore(deps): Update React to 19.2.0
 ```
 
-## Configuration de Développement
+## Development Setup
 
-### Setup Initial
+### Initial Setup
 
-1. **Fork et clone** le repository
-2. **Installez les dépendances**:
+1. **Fork and clone** the repository
+2. **Install dependencies**:
    ```bash
    npm install
    ```
 
-3. **Générez les assets** (optionnel):
+3. **Generate assets** (optional):
    ```bash
    npm run generate-audio
    ```
 
-4. **Lancez le dev server**:
+4. **Start the dev server**:
    ```bash
    npm run dev
    ```
 
-### Structure Recommandée
+### Recommended Structure
 
 ```
 neon-vanguard-sector-zero/
-├── components/       # Vos nouveaux composants ici
-├── utils/            # Utilities helpers
-├── types/            # Nouvelles définitions de types
-└── constants/        # Configuration et constantes
+├── components/       # Your new components here
+├── utils/            # Utility helpers
+├── types/            # New type definitions
+└── constants/        # Configuration and constants
 ```
 
-### Outils Recommandés
+### Recommended Tools
 
-- **VS Code** avec extensions:
+- **VS Code** with extensions:
   - ESLint
   - Prettier
   - TypeScript and JavaScript Language Features
   - Tailwind CSS IntelliSense
-- **React DevTools** (extension navigateur)
-- **Git** (CLI ou GUI comme GitHub Desktop)
+- **React DevTools** (browser extension)
+- **Git** (CLI or GUI like GitHub Desktop)
 
 ## Tests
 
-### Lancer les Tests
+### Running Tests
 
 ```bash
 # All tests
@@ -323,9 +323,9 @@ npm run test:watch
 npm run test:coverage
 ```
 
-### Écrire des Tests
+### Writing Tests
 
-Utilisez **Vitest** + **Testing Library**:
+Use **Vitest** + **Testing Library**:
 
 ```typescript
 import { render, screen } from '@testing-library/react';
@@ -347,20 +347,20 @@ describe('Button', () => {
 });
 ```
 
-### Coverage Minimum
+### Minimum Coverage
 
-- **Unit tests**: Pour les utils critiques (combatUtils, synergyUtils)
-- **Component tests**: Pour les composants avec logique complexe
-- Pas besoin de tester chaque composant UI simple
+- **Unit tests**: For critical utils (combatUtils, synergyUtils)
+- **Component tests**: For components with complex logic
+- No need to test every simple UI component
 
-## Questions ?
+## Questions?
 
-Si vous avez des questions:
+If you have questions:
 
-- 📖 Consultez la [documentation](docs/)
-- 💬 Ouvrez une [Discussion GitHub](https://github.com/yourusername/neon-vanguard-sector-zero/discussions)
-- 📧 Contactez les mainteneurs
+- 📖 Check the [documentation](docs/)
+- 💬 Open a [GitHub Discussion](https://github.com/yourusername/neon-vanguard-sector-zero/discussions)
+- 📧 Contact the maintainers
 
 ---
 
-**Merci pour votre contribution ! 🚀**
+**Thank you for your contribution! 🚀**

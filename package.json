@@ -48,6 +48,7 @@
   "build": {
     "appId": "com.neonvanguard.sectorzero",
     "productName": "Neon Vanguard: Sector Zero",
+    "asar": false,
     "directories": {
       "buildResources": "public",
       "output": "release"
@@ -57,6 +58,9 @@
       "electron/**/*",
       "package.json"
     ],
+    "extraMetadata": {
+      "main": "electron/main.cjs"
+    },
     "win": {
       "target": [
         {
@@ -64,9 +68,14 @@
           "arch": [
             "x64"
           ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
         }
-      ],
-      "icon": "public/vite.svg"
+      ]
     }
   }
 }

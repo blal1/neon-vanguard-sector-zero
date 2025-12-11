@@ -1,5 +1,6 @@
 import React from 'react';
 import { ComboState } from '../types';
+import { useTranslation } from 'react-i18next';
 
 interface ComboDisplayProps {
     comboState: ComboState;
@@ -7,6 +8,7 @@ interface ComboDisplayProps {
 }
 
 export const ComboDisplay: React.FC<ComboDisplayProps> = ({ comboState, visible }) => {
+    const { t } = useTranslation();
     if (!visible || comboState.count < 2) return null;
 
     const bonusPercent = Math.floor((comboState.multiplier - 1) * 100);

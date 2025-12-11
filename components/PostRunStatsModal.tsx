@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface PostRunStatsModalProps {
     runStats: {
@@ -20,13 +21,14 @@ export const PostRunStatsModal: React.FC<PostRunStatsModalProps> = ({
     onViewFullStats,
     onContinue
 }) => {
+    const { t } = useTranslation();
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
             <div className="relative max-w-2xl w-full mx-4 border-2 border-cyan-500 bg-black p-8 shadow-[0_0_50px_rgba(6,182,212,0.3)]">
                 {/* Header */}
                 <div className="text-center mb-6">
                     <h2 className="text-3xl font-bold text-cyan-400 tracking-widest mb-2">
-                        {isVictory ? '✓ MISSION COMPLETE' : '✗ MISSION FAILED'}
+                        {isVictory ? `✓ ${t('missionBriefing.missionComplete')}` : `✗ ${t('postRunStats.missionFailed')}`}
                     </h2>
                     <div className="h-1 bg-cyan-500 w-32 mx-auto"></div>
                 </div>
@@ -34,27 +36,27 @@ export const PostRunStatsModal: React.FC<PostRunStatsModalProps> = ({
                 {/* Stats Grid */}
                 <div className="grid grid-cols-2 gap-4 mb-6">
                     <div className="border border-gray-700 bg-gray-900/50 p-4">
-                        <div className="text-xs text-gray-400 uppercase mb-1">Damage Dealt</div>
+                        <div className="text-xs text-gray-400 uppercase mb-1">{t('postRunStats.damageDealt')}</div>
                         <div className="text-2xl font-bold text-red-400">{runStats.damageDealt.toLocaleString()}</div>
                     </div>
                     <div className="border border-gray-700 bg-gray-900/50 p-4">
-                        <div className="text-xs text-gray-400 uppercase mb-1">Enemies Killed</div>
+                        <div className="text-xs text-gray-400 uppercase mb-1">{t('postRunStats.enemiesKilled')}</div>
                         <div className="text-2xl font-bold text-orange-400">{runStats.enemiesKilled}</div>
                     </div>
                     <div className="border border-gray-700 bg-gray-900/50 p-4">
-                        <div className="text-xs text-gray-400 uppercase mb-1">Time Elapsed</div>
+                        <div className="text-xs text-gray-400 uppercase mb-1">{t('postRunStats.timeElapsed')}</div>
                         <div className="text-2xl font-bold text-blue-400">{runStats.timeElapsed}</div>
                     </div>
                     <div className=" border border-gray-700 bg-gray-900/50 p-4">
-                        <div className="text-xs text-gray-400 uppercase mb-1">Scrap Collected</div>
+                        <div className="text-xs text-gray-400 uppercase mb-1">{t('postRunStats.scrapCollected')}</div>
                         <div className="text-2xl font-bold text-yellow-400">{runStats.scrapCollected}</div>
                     </div>
                     <div className="border border-gray-700 bg-gray-900/50 p-4">
-                        <div className="text-xs text-gray-400 uppercase mb-1">Hazards Faced</div>
+                        <div className="text-xs text-gray-400 uppercase mb-1">{t('postRunStats.hazardsFaced')}</div>
                         <div className="text-2xl font-bold text-green-400">{runStats.hazardsEncountered}</div>
                     </div>
                     <div className="border border-gray-700 bg-gray-900/50 p-4">
-                        <div className="text-xs text-gray-400 uppercase mb-1">Items Used</div>
+                        <div className="text-xs text-gray-400 uppercase mb-1">{t('postRunStats.itemsUsed')}</div>
                         <div className="text-2xl font-bold text-purple-400">{runStats.itemsUsed}</div>
                     </div>
                 </div>
@@ -65,16 +67,16 @@ export const PostRunStatsModal: React.FC<PostRunStatsModalProps> = ({
                         onClick={onViewFullStats}
                         className="border border-cyan-500 text-cyan-400 px-6 py-3 hover:bg-cyan-900/50 transition-all font-bold tracking-wide"
                     >
-                        📊 VIEW FULL STATS
+                        {t('postRunStats.viewFullStats')}
                     </button>
                     <button
                         onClick={onContinue}
                         className={`border px-6 py-3 transition-all font-bold tracking-wide ${isVictory
-                                ? 'border-green-500 text-green-400 hover:bg-green-900/50'
-                                : 'border-red-500 text-red-400 hover:bg-red-900/50'
+                            ? 'border-green-500 text-green-400 hover:bg-green-900/50'
+                            : 'border-red-500 text-red-400 hover:bg-red-900/50'
                             }`}
                     >
-                        {isVictory ? '→ CONTINUE' : '→ RETURN'}
+                        {isVictory ? `→ ${t('common.continue')}` : `→ ${t('postRunStats.return')}`}
                     </button>
                 </div>
 

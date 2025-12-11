@@ -1,227 +1,127 @@
-const { app, BrowserWindow, dialog, clipboard } = require('electron');
+const { app, BrowserWindow, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
-// ===== CRASH DEBUGGING FLAGS =====
-// Force single instance to avoid named pipe collisions
-const gotTheLock = app.requestSingleInstanceLock();
-if (!gotTheLock) {
-    console.error('Another instance is already running. Exiting...');
-    app.quit();
-    process.exit(0);
-}
-
-// Disable sandbox (can cause silent crashes)
-app.commandLine.appendSwitch('no-sandbox');
-
-// Enable verbose logging
-app.commandLine.appendSwitch('enable-logging');
-app.commandLine.appendSwitch('v', '1');
-
-// Disable renderer backgrounding
-app.commandLine.appendSwitch('disable-renderer-backgrounding');
-
-// Uncomment if crashes persist (GPU driver issues):
-// app.commandLine.appendSwitch('disable-gpu');
-// app.disableHardwareAcceleration();
-
-// ===== ENHANCED LOGGING =====
-const userDataPath = app.getPath('userData');
-const logPath = path.join(userDataPath, 'electron-log.txt');
-
-console.log('=== ELECTRON STARTUP ===');
-console.log('User Data Path:', userDataPath);
-console.log('Log Path:', logPath);
-console.log('Electron Version:', process.versions.electron);
-console.log('Chrome Version:', process.versions.chrome);
-console.log('Node Version:', process.versions.node);
-console.log('Platform:', process.platform, process.arch);
-console.log('========================\n');
-
-function writeLog(message) {
+// ===== SIMPLE LOGGING =====
+const logMessages = [];
+function log(msg) {
     const timestamp = new Date().toISOString();
-    const logMessage = `[${timestamp}] ${message}\n`;
-    console.log(message);
+    const fullMsg = `[${timestamp}] ${msg}`;
+    console.log(fullMsg);
+    logMessages.push(fullMsg);
+}
+
+log('=== ELECTRON STARTING ===');
+log(`__dirname: ${__dirname}`);
+log(`process.cwd: ${process.cwd()}`);
+log(`app.isPackaged: ${app.isPackaged}`);
+
+// Write log to file in app directory (not userData which may not exist yet)
+function saveLog() {
     try {
-        fs.appendFileSync(logPath, logMessage);
-    } catch (err) {
-        console.error('Failed to write to log:', err);
+        const logContent = logMessages.join('\n');
+        const logPath = path.join(__dirname, 'startup-log.txt');
+        fs.writeFileSync(logPath, logContent);
+        log(`Log saved to: ${logPath}`);
+    } catch (e) {
+        console.error('Could not save log:', e);
     }
 }
 
-writeLog('Electron main process started');
-writeLog(`Single instance lock acquired: ${gotTheLock}`);
-
-// ===== CRITICAL ERROR HANDLERS =====
+// ===== ERROR HANDLERS =====
 process.on('uncaughtException', (error) => {
-    const errorMsg = `UNCAUGHT EXCEPTION: ${error.stack || error}`;
-    writeLog(errorMsg);
-    clipboard.writeText(errorMsg);
-    dialog.showErrorBoxSync('Critical Error', `Uncaught Exception:\n${error.message}\n\n✅ Copiée au presse-papier\nLog: ${logPath}`);
+    log(`UNCAUGHT EXCEPTION: ${error.stack || error}`);
+    saveLog();
+    dialog.showErrorBoxSync('Error', `${error.message}\n\nCheck: ${path.join(__dirname, 'startup-log.txt')}`);
+    process.exit(1);
 });
 
-process.on('unhandledRejection', (reason, promise) => {
-    const errorMsg = `UNHANDLED REJECTION: ${reason}`;
-    writeLog(errorMsg);
-    clipboard.writeText(errorMsg);
-    dialog.showErrorBoxSync('Promise Rejection', `${reason}\n\n✅ Copiée au presse-papier\nLog: ${logPath}`);
+process.on('unhandledRejection', (reason) => {
+    log(`UNHANDLED REJECTION: ${reason}`);
+    saveLog();
 });
 
-// ===== SECOND INSTANCE HANDLER =====
-app.on('second-instance', () => {
-    writeLog('Second instance attempted to launch');
-    if (mainWindow) {
-        if (mainWindow.isMinimized()) mainWindow.restore();
-        mainWindow.focus();
-    }
-});
+// ===== MAIN WINDOW =====
+let mainWindow = null;
 
-let mainWindow;
+async function createWindow() {
+    log('Creating window...');
 
-function createWindow() {
-    writeLog('Creating main window...');
+    mainWindow = new BrowserWindow({
+        width: 1280,
+        height: 720,
+        backgroundColor: '#000000',
+        show: false,
+        webPreferences: {
+            nodeIntegration: false,
+            contextIsolation: true,
+        },
+        title: 'Neon Vanguard: Sector Zero'
+    });
 
-    try {
-        mainWindow = new BrowserWindow({
-            width: 1280,
-            height: 720,
-            backgroundColor: '#000000',
-            webPreferences: {
-                nodeIntegration: false,
-                contextIsolation: true,
-                sandbox: false,
-                enableRemoteModule: false,
-            },
-            accessibilitySupport: true,
-            title: 'Neon Vanguard: Sector Zero',
-            show: false // Don't show until ready
-        });
+    mainWindow.once('ready-to-show', () => {
+        log('Window ready, showing...');
+        mainWindow.show();
+    });
 
-        // Renderer crash handler
-        mainWindow.webContents.on('crashed', (event, killed) => {
-            const errorMsg = `RENDERER CRASHED! Killed: ${killed}`;
-            writeLog(errorMsg);
-            clipboard.writeText(errorMsg);
-            dialog.showErrorBoxSync('Renderer Process Crashed', `Le processus de rendu a crashé.\n\nKilled: ${killed}\n\n✅ Copiée au presse-papier\nLog: ${logPath}`);
-        });
+    mainWindow.webContents.on('did-fail-load', (event, code, desc, url) => {
+        log(`LOAD FAILED: ${code} - ${desc} - ${url}`);
+        saveLog();
+    });
 
-        // Unresponsive handler
-        mainWindow.on('unresponsive', () => {
-            writeLog('Window became unresponsive');
-        });
+    mainWindow.webContents.on('did-finish-load', () => {
+        log('Page loaded successfully');
+    });
 
-        mainWindow.on('responsive', () => {
-            writeLog('Window became responsive again');
-        });
+    // Determine what to load
+    const isDev = !app.isPackaged;
+    log(`Mode: ${isDev ? 'DEV' : 'PROD'}`);
 
-        // Show window when ready
-        mainWindow.once('ready-to-show', () => {
-            writeLog('Window ready to show');
-            mainWindow.show();
-        });
+    if (isDev) {
+        log('Loading localhost:5173...');
+        await mainWindow.loadURL('http://localhost:5173');
+        mainWindow.webContents.openDevTools();
+    } else {
+        // Production path
+        const indexPath = path.join(__dirname, '..', 'dist', 'index.html');
+        log(`Loading: ${indexPath}`);
+        log(`Exists: ${fs.existsSync(indexPath)}`);
 
-        const isDev = !app.isPackaged;
-        writeLog(`Environment: ${isDev ? 'Development' : 'Production'}`);
-
-        let startUrl;
-        if (isDev) {
-            startUrl = 'http://localhost:5173';
-            writeLog(`Loading DEV URL: ${startUrl}`);
+        if (fs.existsSync(indexPath)) {
+            await mainWindow.loadFile(indexPath);
         } else {
-            // In production, dist is packaged alongside main.cjs
-            // After electron-builder, structure is:
-            // resources/
-            //   app.asar (or app/)
-            //     electron/main.cjs
-            //     dist/index.html
-            const indexPath = path.join(__dirname, '..', 'dist', 'index.html');
-
-            writeLog(`Production mode - __dirname: ${__dirname}`);
-            writeLog(`Attempting to load: ${indexPath}`);
-            writeLog(`File exists: ${fs.existsSync(indexPath)}`);
-
-            // Use loadFile instead of loadURL for better error handling
-            mainWindow.loadFile(indexPath).catch(err => {
-                writeLog(`LOAD FILE ERROR: ${err}`);
-                // Fallback: try from __dirname directly
-                const fallbackPath = path.join(__dirname, 'dist', 'index.html');
-                writeLog(`Trying fallback: ${fallbackPath}`);
-                return mainWindow.loadFile(fallbackPath);
-            });
-
-            // Skip the loadURL below
-            writeLog('Main window created successfully');
-            return;
+            log('ERROR: index.html not found!');
+            saveLog();
+            dialog.showErrorBoxSync('Error', `File not found: ${indexPath}`);
         }
-
-        writeLog(`Loading URL: ${startUrl}`);
-
-        mainWindow.loadURL(startUrl);
-
-        // En dev, ouvrir DevTools
-        if (isDev) {
-            writeLog('Opening DevTools');
-            mainWindow.webContents.openDevTools();
-        }
-
-        // Gestion d'erreur avec clipboard
-        mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
-            const errorMsg = `ERREUR DE CHARGEMENT\n\nCode: ${errorCode}\nDescription: ${errorDescription}\nURL: ${validatedURL}\n\nChemin __dirname: ${__dirname}\nChemin index tenté: ${path.join(__dirname, 'dist', 'index.html')}`;
-
-            writeLog(errorMsg);
-            clipboard.writeText(errorMsg);
-
-            dialog.showErrorBox(
-                'Erreur de chargement',
-                `${errorDescription}\n\n✅ Erreur copiée au presse-papier (Ctrl+V)`
-            );
-        });
-
-        writeLog('Main window created successfully');
-
-    } catch (error) {
-        const errorMsg = `ERROR IN createWindow: ${error.stack || error}`;
-        writeLog(errorMsg);
-        clipboard.writeText(errorMsg);
-        dialog.showErrorBoxSync('Window Creation Failed', `${error.message}\n\n✅ Copiée au presse-papier\nLog: ${logPath}`);
-        throw error;
     }
+
+    log('Window created');
+    saveLog();
 }
 
-// ===== APP LIFECYCLE =====
+// ===== APP READY =====
 app.whenReady().then(() => {
-    writeLog('App ready, creating window...');
+    log('App ready');
     createWindow();
-    writeLog('App initialization complete');
+}).catch(err => {
+    log(`APP READY ERROR: ${err}`);
+    saveLog();
 });
 
 app.on('window-all-closed', () => {
-    writeLog('All windows closed');
+    log('All windows closed, quitting');
+    saveLog();
     if (process.platform !== 'darwin') {
-        writeLog('Quitting app');
         app.quit();
     }
 });
 
 app.on('activate', () => {
-    writeLog('App activated');
     if (BrowserWindow.getAllWindows().length === 0) {
-        writeLog('No windows, creating new one');
         createWindow();
     }
 });
 
-// Additional lifecycle logging
-app.on('before-quit', () => {
-    writeLog('App about to quit (before-quit event)');
-});
-
-app.on('will-quit', () => {
-    writeLog('App will quit (will-quit event)');
-});
-
-app.on('quit', (event, exitCode) => {
-    writeLog(`App quit with exit code: ${exitCode}`);
-});
-
-writeLog('Main.cjs loaded completely');
+log('main.cjs loaded');
+saveLog();

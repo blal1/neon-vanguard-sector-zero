@@ -113,6 +113,141 @@ body {
   }
 }
 
+/* LASER - Fast directional particles */
+@keyframes particle-float-laser {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(calc(-50% + var(--particle-vx) * 2),
+        calc(-50% + var(--particle-vy))) scale(0.3);
+    opacity: 0;
+  }
+}
+
+/* HEAVY SHOT - Big expanding particles */
+@keyframes particle-float-heavy_shot {
+  0% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(calc(-50% + var(--particle-vx) * 1.2),
+        calc(-50% + var(--particle-vy) * 1.2)) scale(0);
+    opacity: 0;
+  }
+}
+
+/* STANDARD SHOT - Normal bullet particles */
+@keyframes particle-float-standard_shot {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(calc(-50% + var(--particle-vx)),
+        calc(-50% + var(--particle-vy))) scale(0);
+    opacity: 0;
+  }
+}
+
+/* BIO SHOT - Organic spreading particles */
+@keyframes particle-float-bio_shot {
+  0% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(calc(-50% + var(--particle-vx) * 0.8),
+        calc(-50% + var(--particle-vy) * 0.8)) scale(0.5) rotate(180deg);
+    opacity: 0.2;
+  }
+}
+
+/* OVERHEAT - Rising heat particles */
+@keyframes particle-float-overheat {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(calc(-50% + var(--particle-vx) * 0.5),
+        calc(-50% - 60px)) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* ENEMY EXPLOSION - Big outward burst */
+@keyframes particle-float-enemy_explosion {
+  0% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translate(calc(-50% + var(--particle-vx) * 2.5),
+        calc(-50% + var(--particle-vy) * 2.5)) scale(0);
+    opacity: 0;
+  }
+}
+
+/* PLAYER HIT - Inward impact particles */
+@keyframes particle-float-player_hit {
+  0% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(calc(-50% - var(--particle-vx) * 0.5),
+        calc(-50% - var(--particle-vy) * 0.5)) scale(0);
+    opacity: 0;
+  }
+}
+
+/* SHIELD - Expanding ring particles */
+@keyframes particle-float-shield {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(calc(-50% + var(--particle-vx) * 0.5),
+        calc(-50% + var(--particle-vy) * 0.5)) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* DODGE - Fast sideways particles */
+@keyframes particle-float-dodge {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(calc(-50% + var(--particle-vx) * 1.5),
+        calc(-50%)) scale(0.3);
+    opacity: 0;
+  }
+}
+
 /* ============================================
    SCREEN FLASH EFFECTS
    ============================================ */
@@ -179,6 +314,49 @@ body {
 
 .flash-energy {
   animation: flash-energy 0.3s ease-out;
+}
+
+/* WARNING FLASH - For jam, overheat, boss abilities */
+@keyframes flash-warning {
+
+  0%,
+  100% {
+    background-color: transparent;
+  }
+
+  25%,
+  75% {
+    background-color: rgba(251, 146, 60, 0.3);
+  }
+
+  50% {
+    background-color: rgba(251, 146, 60, 0.4);
+  }
+}
+
+.flash-warning {
+  animation: flash-warning 0.4s ease-out;
+}
+
+/* ABILITY FLASH - For player ability activation */
+@keyframes flash-ability {
+
+  0%,
+  100% {
+    background-color: transparent;
+  }
+
+  30% {
+    background-color: rgba(96, 165, 250, 0.25);
+  }
+
+  60% {
+    background-color: rgba(167, 139, 250, 0.2);
+  }
+}
+
+.flash-ability {
+  animation: flash-ability 0.35s ease-out;
 }
 
 /* ============================================
@@ -333,6 +511,28 @@ body {
 
 .shake-intense {
   animation: shake-intense 0.6s ease-out;
+}
+
+/* Light shake - subtle effect for minor damage */
+@keyframes shake-light {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25%,
+  75% {
+    transform: translateX(-3px);
+  }
+
+  50% {
+    transform: translateX(3px);
+  }
+}
+
+.shake-light {
+  animation: shake-light 0.2s ease-out;
 }
 
 /* Legacy shake classes for backward compatibility */

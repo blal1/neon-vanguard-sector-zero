@@ -1,34 +1,36 @@
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
+import { useTranslation } from 'react-i18next';
 
 export const TutorialModal: React.FC = () => {
     const { settings, updateSettings } = useGame();
+    const { t } = useTranslation();
     const [step, setStep] = useState(0);
 
     const tutorialSteps = [
         {
-            title: "Welcome to Neon Vanguard: Sector Zero!",
-            text: "This tutorial will guide you through the basics of combat."
+            title: t('tutorial.welcome.title'),
+            text: t('tutorial.welcome.text')
         },
         {
-            title: "Abilities",
-            text: "Your main abilities are on the left. Use them with SPACE and SHIFT keys. They have cooldowns, so use them wisely."
+            title: t('tutorial.abilities.title'),
+            text: t('tutorial.abilities.text')
         },
         {
-            title: "Consumables",
-            text: "Your consumables are on the right. Use them by clicking on them. They are limited, so save them for when you really need them."
+            title: t('tutorial.consumables.title'),
+            text: t('tutorial.consumables.text')
         },
         {
-            title: "Charge",
-            text: "The bar in the middle is your charge bar. When it's full, you can use your abilities."
+            title: t('tutorial.charge.title'),
+            text: t('tutorial.charge.text')
         },
         {
-            title: "Enemies",
-            text: "Enemies will appear on the left. They have a health bar and a charge bar. When their charge bar is full, they will attack."
+            title: t('tutorial.enemies.title'),
+            text: t('tutorial.enemies.text')
         },
         {
-            title: "Good Luck!",
-            text: "You are now ready to face the challenges of Sector Zero. Good luck, pilot!"
+            title: t('tutorial.goodLuck.title'),
+            text: t('tutorial.goodLuck.text')
         }
     ];
 
@@ -56,14 +58,14 @@ export const TutorialModal: React.FC = () => {
                         onClick={handleNext}
                         className="px-8 py-3 bg-cyan-500 text-black font-bold uppercase tracking-widest hover:bg-cyan-400 transition-all"
                     >
-                        {step < tutorialSteps.length - 1 ? "Next" : "Finish"}
+                        {step < tutorialSteps.length - 1 ? t('common.next') : t('common.finish')}
                     </button>
                     {step < tutorialSteps.length - 1 && (
                         <button
                             onClick={() => updateSettings({ tutorialCompleted: true })}
                             className="px-8 py-3 border border-gray-500 text-gray-400 font-bold uppercase tracking-widest hover:bg-gray-800 transition-all"
                         >
-                            Skip Tutorial
+                            {t('tutorial.skipTutorial')}
                         </button>
                     )}
                 </div>

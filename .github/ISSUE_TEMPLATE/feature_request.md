@@ -1,82 +1,82 @@
 ---
 name: Feature Request
-about: Suggérer une nouvelle fonctionnalité
+about: Suggest a new feature
 title: '[FEATURE] '
 labels: enhancement
 assignees: ''
 ---
 
-## 💡 Résumé de la Fonctionnalité
+## 💡 Feature Summary
 
-Description courte et claire de la fonctionnalité proposée.
+Brief and clear description of the proposed feature.
 
-## 🎯 Le Problème
+## 🎯 The Problem
 
-**Le problème que cette feature résout:**
-Description claire du problème ou du besoin. Ex: "Je suis toujours frustré quand [...]"
+**The problem this feature solves:**
+Clear description of the problem or need. E.g., "I'm always frustrated when [...]"
 
-**Qui bénéficierait de cette feature:**
-- [ ] Tous les joueurs
-- [ ] Joueurs débutants
-- [ ] Joueurs experts
-- [ ] Moddeurs
-- [ ] Joueurs avec accessibilité
+**Who would benefit from this feature:**
+- [ ] All players
+- [ ] Beginner players
+- [ ] Expert players
+- [ ] Modders
+- [ ] Players with accessibility needs
 
-## ✨ Solution Proposée
+## ✨ Proposed Solution
 
-Description détaillée de comment vous imaginez la fonctionnalité:
+Detailed description of how you envision the feature:
 
-**Comportement:**
-- Que fait la feature?
-- Comment l'utilisateur interagit avec?
-- Quels sont les cas d'usage?
+**Behavior:**
+- What does the feature do?
+- How does the user interact with it?
+- What are the use cases?
 
 **UI/UX:**
-- Où apparaît-elle dans le jeu?
-- Comment est-elle déclenchée?
-- Mockups ou wireframes si disponibles
+- Where does it appear in the game?
+- How is it triggered?
+- Mockups or wireframes if available
 
-**Exemple concret:**
+**Concrete example:**
 ```
-Exemple d'utilisation de la feature
+Example of feature usage
 ```
 
-## 🔄 Alternatives Envisagées
+## 🔄 Alternatives Considered
 
-Description des solutions alternatives que vous avez considérées.
+Description of alternative solutions you have considered.
 
-## 🎨 Mockups / Références
+## 🎨 Mockups / References
 
-Si vous avez des mockups, screenshots, ou références d'autres jeux, ajoutez-les ici.
+If you have mockups, screenshots, or references from other games, add them here.
 
-## 📊 Impact Estimé
+## 📊 Estimated Impact
 
-**Complexité d'implémentation:**
-- [ ] Simple (quelques heures)
-- [ ] Moyenne (quelques jours)
-- [ ] Complexe (semaines)
+**Implementation complexity:**
+- [ ] Simple (a few hours)
+- [ ] Medium (a few days)
+- [ ] Complex (weeks)
 
-**Impact sur le gameplay:**
-- [ ] Mineur (nice to have)
-- [ ] Modéré (amélioration notable)
-- [ ] Majeur (game-changer)
+**Gameplay impact:**
+- [ ] Minor (nice to have)
+- [ ] Moderate (notable improvement)
+- [ ] Major (game-changer)
 
-**Systèmes affectés:**
+**Affected systems:**
 - [ ] Combat
 - [ ] Progression
 - [ ] UI/UX
 - [ ] Audio
-- [ ] Accessibilité
+- [ ] Accessibility
 - [ ] Performance
-- [ ] Autre: _____
+- [ ] Other: _____
 
-## 📝 Contexte Additionnel
+## 📝 Additional Context
 
-Toute autre information pertinente sur la feature request.
+Any other relevant information about the feature request.
 
 ## ✔️ Checklist
 
-- [ ] J'ai vérifié qu'il n'existe pas déjà une feature request similaire
-- [ ] J'ai expliqué clairement le problème résolu
-- [ ] J'ai fourni un exemple concret d'utilisation
-- [ ] J'ai considéré les alternatives
+- [ ] I have verified that no similar feature request already exists
+- [ ] I have clearly explained the problem being solved
+- [ ] I have provided a concrete usage example
+- [ ] I have considered alternatives

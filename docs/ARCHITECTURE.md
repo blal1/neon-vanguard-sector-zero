@@ -1,16 +1,16 @@
-# Architecture du Projet
+# Project Architecture
 
-Ce document décrit l'architecture technique de **Neon Vanguard: Sector Zero**.
+This document describes the technical architecture of **Neon Vanguard: Sector Zero**.
 
-## 📐 Vue d'Ensemble
+## 📐 Overview
 
-Neon Vanguard est une application **React monopage (SPA)** construite avec TypeScript et Vite, packagée comme application desktop via Electron. L'architecture suit un modèle **Component-Based** avec state management centralisé.
+Neon Vanguard is a **single-page React application (SPA)** built with TypeScript and Vite, packaged as a desktop application via Electron. The architecture follows a **Component-Based** model with centralized state management.
 
 ```mermaid
 graph TD
     A[index.tsx] --> B[App.tsx]
     B --> C[GameProvider]
-    C --> D[Composants UI]
+    C --> D[UI Components]
     D --> E[Services]
     D --> F[Utils]
     E --> G[Browser APIs]
@@ -18,137 +18,137 @@ graph TD
     H --> I[LocalStorage]
 ```
 
-## 🗂 Structure des Dossiers
+## 🗂 Folder Structure
 
-### Racine du Projet
+### Project Root
 
 ```
 neon-vanguard_-sector-zero/
-├── components/          # Composants React UI (44 fichiers)
-├── constants/           # Configuration et données statiques
+├── components/          # React UI components (44 files)
+├── constants/           # Configuration and static data
 ├── context/             # React Context providers
-├── data/                # Gestionnaire de données dynamiques
+├── data/                # Dynamic data manager
 ├── docs/                # Documentation
-├── electron/            # Configuration Electron
+├── electron/            # Electron configuration
 ├── hooks/               # Custom React hooks
-├── mods/                # Système de modding
-├── public/              # Assets statiques
+├── mods/                # Modding system
+├── public/              # Static assets
 ├── services/            # Services (audio, TTS, voice)
-├── src/                 # Code source additionnel
-├── types/               # Définitions TypeScript additionnelles
-├── utils/               # Fonctions utilitaires
-├── App.tsx              # Composant racine
-├── constants.ts         # Constantes globales
-├── index.css            # Styles globaux (Tailwind + custom)
-├── index.tsx            # Point d'entrée React
-├── types.ts             # Types globaux principaux
-├── package.json         # Configuration npm
-├── tsconfig.json        # Configuration TypeScript
-└── vite.config.ts       # Configuration Vite
+├── src/                 # Additional source code
+├── types/               # Additional TypeScript definitions
+├── utils/               # Utility functions
+├── App.tsx              # Root component
+├── constants.ts         # Global constants
+├── index.css            # Global styles (Tailwind + custom)
+├── index.tsx            # React entry point
+├── types.ts             # Main global types
+├── package.json         # npm configuration
+├── tsconfig.json        # TypeScript configuration
+└── vite.config.ts       # Vite configuration
 ```
 
-### Détails des Dossiers
+### Folder Details
 
-#### `/components` (44 fichiers)
+#### `/components` (44 files)
 
-Composants React organisés par fonctionnalité:
+React components organized by functionality:
 
-| Composant | Description |
+| Component | Description |
 |-----------|-------------|
-| `CombatScreen.tsx` | Écran de combat principal (ATB, ennemis, logs) |
-| `HangarScreen.tsx` | Shop et upgrades entre secteurs |
-| `CharacterSelect.tsx` | Sélection pilote + module + loadouts |
-| `EndlessWaveScreen.tsx` | Mode endless avec upgrades |
-| `AchievementsScreen.tsx` | Galerie d'achievements |
-| `TalentTreeScreen.tsx` | Arbre de talents par pilote |
-| `CodexScreen.tsx` | Base de données lore/ennemis |
-| `ReplayViewer.tsx` | Rejoueur de combats enregistrés |
-| `StatsScreen.tsx` | Statistiques détaillées |
-| `SettingsScreen.tsx` | Configuration audio/visuel/gameplay |
-| ... | + 34 autres composants |
+| `CombatScreen.tsx` | Main combat screen (ATB, enemies, logs) |
+| `HangarScreen.tsx` | Shop and upgrades between sectors |
+| `CharacterSelect.tsx` | Pilot + module + loadout selection |
+| `EndlessWaveScreen.tsx` | Endless mode with upgrades |
+| `AchievementsScreen.tsx` | Achievement gallery |
+| `TalentTreeScreen.tsx` | Talent tree per pilot |
+| `CodexScreen.tsx` | Lore/enemy database |
+| `ReplayViewer.tsx` | Recorded combat player |
+| `StatsScreen.tsx` | Detailed statistics |
+| `SettingsScreen.tsx` | Audio/visual/gameplay configuration |
+| ... | + 34 other components |
 
-**Patterns utilisés**:
-- Composants fonctionnels avec hooks
-- Props typées avec TypeScript interfaces
-- Composition plutôt qu'héritage
-- Separation of Concerns (présentation vs logique)
+**Patterns Used**:
+- Functional components with hooks
+- Props typed with TypeScript interfaces
+- Composition over inheritance
+- Separation of concerns (presentation vs logic)
 
 #### `/constants`
 
-Configuration et données statiques du jeu:
+Game configuration and static data:
 
-- `achievements.ts`: Définitions des 18 achievements
-- `augmentations.ts`: 30+ augmentations avec effets
-- `talents.ts`: Arbres de talents pour chaque pilote
-- `colors.ts`: Palettes de couleurs (daltonisme)
-- `codex.ts`: Entrées de lore et données Codex
+- `achievements.ts`: Definitions for 18 achievements
+- `augmentations.ts`: 30+ augmentations with effects
+- `talents.ts`: Talent trees for each pilot
+- `colors.ts`: Color palettes (colorblind support)
+- `codex.ts`: Lore entries and Codex data
 
 #### `/context`
 
-React Context pour state management global:
+React Context for global state management:
 
-- **`GameContext.tsx`**: Context principal avec Zustand
-  - Gère: profile, settings, runState, stats, achievements
-  - Fournit: Actions pour modifier l'état
-  - Persiste: LocalStorage automatique
+- **`GameContext.tsx`**: Main context with Zustand
+  - Manages: profile, settings, runState, stats, achievements
+  - Provides: Actions to modify state
+  - Persists: Automatic LocalStorage saving
 
 #### `/data`
 
-Gestionnaire de données dynamiques:
+Dynamic data manager:
 
-- **`dataManager.ts`**: Charge pilotes depuis `/mods/pilots/`
-- Permet ajout de pilotes custom via JSON
-- Initialisation async au démarrage
+- **`dataManager.ts`**: Loads pilots from `/mods/pilots/`
+- Allows adding custom pilots via JSON
+- Async initialization at startup
 
 #### `/services`
 
-Services pour interactions externes:
+Services for external interactions:
 
-- **`audioService.ts`**: Gestion audio (musique, SFX)
-  - Preload des assets
-  - Contrôle volume master/music/sfx
-  - Play/stop/pause pour chaque son
+- **`audioService.ts`**: Audio management (music, SFX)
+  - Asset preloading
+  - Master/music/sfx volume control
+  - Play/stop/pause for each sound
   
 - **`ttsService.ts`**: Text-to-Speech via Web Speech API
-  - Lecture de texte game events
-  - Support voix par langue
-  - Fallback si TTS indisponible
+  - Game event text reading
+  - Voice support per language
+  - Fallback if TTS unavailable
   
-- **`voiceLineService.ts`**: Voice lines des pilotes
-  - Voice lines contextuelles (combat, victory, defeat)
-  - Système de priorités
-  - Queue de lectures
+- **`voiceLineService.ts`**: Pilot voice lines
+  - Contextual voice lines (combat, victory, defeat)
+  - Priority system
+  - Playback queue
 
 #### `/utils`
 
-Fonctions utilitaires pures:
+Pure utility functions:
 
-- **`combatUtils.ts`**: Logique de combat
-  - Calcul dégâts (base, critique, weak point)
-  - Application consumables
-  - Gestion statuts (stun, burning, etc.)
+- **`combatUtils.ts`**: Combat logic
+  - Damage calculation (base, critical, weak point)
+  - Consumable application
+  - Status management (stun, burning, etc.)
   - ATB charge rate
   
-- **`synergyUtils.ts`**: Système de synergies
-  - Détection synergies actives
-  - Application effets combinés
+- **`synergyUtils.ts`**: Synergy system
+  - Active synergy detection
+  - Combined effect application
   
-- **`achievementUtils.ts`**: Unlock achievements
-- **`talentUtils.ts`**: Application talents
-- **`codexUtils.ts`**: Unlock codex entries
+- **`achievementUtils.ts`**: Achievement unlocking
+- **`talentUtils.ts`**: Talent application
+- **`codexUtils.ts`**: Codex entry unlocking
 
 #### `/types`
 
-Définitions TypeScript modulaires:
+Modular TypeScript definitions:
 
-- `codex.ts`: Types pour système Codex
-- `replay.ts`: Types pour système replay
-- `talents.ts`: Types pour arbres de talents
-- Complète `types.ts` (types globaux)
+- `codex.ts`: Codex system types
+- `replay.ts`: Replay system types
+- `talents.ts`: Talent tree types
+- Complements `types.ts` (global types)
 
 #### `/mods`
 
-Système de modding extensible:
+Extensible modding system:
 
 ```
 mods/
@@ -160,11 +160,11 @@ mods/
     └── derelict-ship.ts
 ```
 
-Les fichiers sont automatiquement chargés au démarrage.
+Files are automatically loaded at startup.
 
-## 🔄 Flux de Données
+## 🔄 Data Flow
 
-### 1. Initialisation
+### 1. Initialization
 
 ```mermaid
 sequenceDiagram
@@ -174,14 +174,14 @@ sequenceDiagram
     participant GameContext
     participant LocalStorage
     
-    User->>App: Charge application
+    User->>App: Load application
     App->>DataManager: initializeDataManager()
-    DataManager->>DataManager: Charge pilotes (vanilla + mods)
-    App->>GameContext: Initialise context
-    GameContext->>LocalStorage: Charge données persistées
+    DataManager->>DataManager: Load pilots (vanilla + mods)
+    App->>GameContext: Initialize context
+    GameContext->>LocalStorage: Load persisted data
     LocalStorage-->>GameContext: profile, settings, stats
-    GameContext-->>App: Context prêt
-    App-->>User: Affiche menu principal
+    GameContext-->>App: Context ready
+    App-->>User: Display main menu
 ```
 
 ### 2. Combat Loop
@@ -194,7 +194,7 @@ sequenceDiagram
     participant GameContext
     participant AudioService
     
-    Player->>CombatScreen: Clique sur ennemi
+    Player->>CombatScreen: Click on enemy
     CombatScreen->>CombatUtils: calculateDamage()
     CombatUtils-->>CombatScreen: Damage value
     CombatScreen->>GameContext: recordDamageDealt()
@@ -214,7 +214,7 @@ sequenceDiagram
 
 ### 3. Persistence
 
-Le `GameContext` utilise **`useEffect`** pour auto-save dans LocalStorage:
+`GameContext` uses **`useEffect`** to auto-save to LocalStorage:
 
 ```typescript
 useEffect(() => {
@@ -225,22 +225,22 @@ useEffect(() => {
 }, [profile, settings, stats, ...]);
 ```
 
-**Keys LocalStorage**:
+**LocalStorage Keys**:
 - `neonvanguard_profile`: XP, level, kills
-- `neonvanguard_settings`: Settings audio/visuel
-- `neonvanguard_runstate`: Run actif (permet continue)
-- `neonvanguard_stats`: Statistiques détaillées
-- `neonvanguard_achievements`: Achievements unlocked
-- `neonvanguard_loadouts`: Configurations sauvegardées
-- `neonvanguard_codex`: Codex entries unlocked
-- `neonvanguard_replays`: Replays enregistrés
-- `neonvanguard_talents`: Talents débloqués
+- `neonvanguard_settings`: Audio/visual settings
+- `neonvanguard_runstate`: Active run (allows continue)
+- `neonvanguard_stats`: Detailed statistics
+- `neonvanguard_achievements`: Unlocked achievements
+- `neonvanguard_loadouts`: Saved configurations
+- `neonvanguard_codex`: Unlocked codex entries
+- `neonvanguard_replays`: Recorded replays
+- `neonvanguard_talents`: Unlocked talents
 
-## 🎯 Patterns Architecturaux
+## 🎯 Architectural Patterns
 
 ### Component Composition
 
-Les écrans complexes sont composés de sous-composants:
+Complex screens are composed of sub-components:
 
 ```
 CombatScreen
@@ -254,10 +254,10 @@ CombatScreen
 
 ### Render Props & Hooks
 
-Logique réutilisable via custom hooks:
+Reusable logic via custom hooks:
 
 ```typescript
-// Hook pour navigation clavier
+// Hook for keyboard navigation
 const useKeyboardNavigation = (enabled: boolean) => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -271,9 +271,9 @@ const useKeyboardNavigation = (enabled: boolean) => {
 };
 ```
 
-### State Management avec Zustand
+### State Management with Zustand
 
-Le `GameContext` utilise Zustand pour state performant:
+`GameContext` uses Zustand for performant state:
 
 ```typescript
 const useGameStore = create<GameState>((set, get) => ({
@@ -284,19 +284,19 @@ const useGameStore = create<GameState>((set, get) => ({
     profile: { ...state.profile, xp: state.profile.xp + amount }
   })),
   
-  // ... autres actions
+  // ... other actions
 }));
 ```
 
-**Avantages**:
-- ✅ Moins de re-renders que Context seul
-- ✅ Syntaxe simple
-- ✅ DevTools intégrés
-- ✅ Facile à tester
+**Benefits**:
+- ✅ Fewer re-renders than Context alone
+- ✅ Simple syntax
+- ✅ Integrated DevTools
+- ✅ Easy to test
 
 ### Service Pattern
 
-Les services encapsulent les interactions externes:
+Services encapsulate external interactions:
 
 ```typescript
 class AudioService {
@@ -311,7 +311,7 @@ class AudioService {
 export const audio = new AudioService();
 ```
 
-## 🔌 Intégration Electron
+## 🔌 Electron Integration
 
 ### Main Process (`electron/main.cjs`)
 
@@ -365,7 +365,7 @@ app.whenReady().then(createWindow);
 
 ### Unit Tests (Vitest)
 
-Tests pour utils et logique pure:
+Tests for utils and pure logic:
 
 ```typescript
 // combatUtils.test.ts
@@ -384,7 +384,7 @@ describe('calculateDamage', () => {
 
 ### Component Tests (Testing Library)
 
-Tests d'intégration pour composants:
+Integration tests for components:
 
 ```typescript
 // CharacterSelect.test.tsx
@@ -414,16 +414,16 @@ npm run electron:build:win   # Build Electron Windows
 ```
 
 **Outputs**:
-- `dist/`: Build web (déployable sur hosting)
-- `release/`: Executables Electron (.exe, .dmg, etc.)
+- `dist/`: Web build (deployable to hosting)
+- `release/`: Electron executables (.exe, .dmg, etc.)
 
-## 📖 Documentation Associée
+## 📖 Related Documentation
 
-- [API Reference](API_REFERENCE.md) - API complète du GameContext
-- [Features](FEATURES.md) - Documentation des systèmes de jeu
-- [Modding Guide](../MODDING_GUIDE.md) - Guide de création de contenu
-- [Contributing](../CONTRIBUTING.md) - Guide de contribution
+- [API Reference](API_REFERENCE.md) - Complete GameContext API
+- [Features](FEATURES.md) - Game systems documentation
+- [Modding Guide](../MODDING_GUIDE.md) - Content creation guide
+- [Contributing](../CONTRIBUTING.md) - Contribution guide
 
 ---
 
-**Dernière mise à jour**: 2025-12-09
+**Last Updated**: 2025-12-11

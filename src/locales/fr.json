@@ -1,0 +1,829 @@
+{
+    "translation": {
+        "mainMenu": {
+            "loadouts": "Configurations",
+            "endlessMode": "Mode Infini",
+            "statistics": "Statistiques",
+            "achievements": "Succès",
+            "database": "Base de données",
+            "replays": "Replays",
+            "talents": "Talents",
+            "newRun": "Nouvelle Mission",
+            "continueRun": "Continuer",
+            "resumeOperation": "REPRENDRE L'OPÉRATION",
+            "settings": "Paramètres"
+        },
+        "screens": {
+            "menu": "Menu Principal",
+            "hangar": "Hangar",
+            "combat": "Combat",
+            "event": "Événement",
+            "victory": "Victoire",
+            "defeat": "Défaite",
+            "briefing": "Briefing de Mission",
+            "testing": "Tests",
+            "achievements": "Succès",
+            "statistics": "Statistiques",
+            "codex": "Codex",
+            "replays": "Replays",
+            "talents": "Arbre de Talents",
+            "replayViewer": "Visionnage de Replay",
+            "unknownScreen": "Écran Inconnu"
+        },
+        "accessibility": {
+            "mainContent": "Contenu principal du jeu",
+            "resumeOperation": "Reprendre l'opération en cours",
+            "manageLoadouts": "Gérer les configurations d'équipement (Loadouts)",
+            "endlessMode": "Mode Endless - Combat continu par vagues",
+            "viewStatistics": "Statistiques - Voir vos statistiques de jeu",
+            "viewAchievements": "débloqués",
+            "selectPilotTree": "SÉLECTIONNER L'ARBRE DU PILOTE",
+            "controls": "Contrôles",
+            "screenReaderSupportText": "Jeu de combat mech tactique avec support complet pour lecteurs d'écran"
+        },
+        "common": {
+            "start": "Démarrer",
+            "back": "Retour",
+            "confirm": "Confirmer",
+            "cancel": "Annuler",
+            "close": "Fermer",
+            "continue": "Continuer",
+            "loading": "Chargement",
+            "loadingData": "CHARGEMENT DES DONNÉES...",
+            "save": "Sauvegarder",
+            "delete": "Supprimer",
+            "reset": "Réinitialiser",
+            "unlock": "Débloquer",
+            "locked": "Verrouillé",
+            "unlocked": "Débloqué",
+            "purchase": "Acheter",
+            "equipped": "Équipé",
+            "maxed": "Max",
+            "next": "Suivant",
+            "finish": "Terminer",
+            "skip": "Passer",
+            "unknown": "Inconnu",
+            "none": "Aucun",
+            "pilot": "Pilote",
+            "module": "Module",
+            "items": "Objets",
+            "level": "Niveau",
+            "augmentations": "Augmentations",
+            "playtime": "Temps de jeu",
+            "general": "Général"
+        },
+        "tutorial": {
+            "welcome": {
+                "title": "Bienvenue dans Neon Vanguard: Sector Zero!",
+                "text": "Ce tutoriel vous guidera à travers les bases du combat."
+            },
+            "abilities": {
+                "title": "Capacités",
+                "text": "Vos capacités principales sont à gauche. Utilisez-les avec les touches ESPACE et MAJ. Elles ont des temps de recharge, utilisez-les judicieusement."
+            },
+            "consumables": {
+                "title": "Consommables",
+                "text": "Vos consommables sont à droite. Utilisez-les en cliquant dessus. Ils sont limités, gardez-les pour quand vous en avez vraiment besoin."
+            },
+            "charge": {
+                "title": "Charge",
+                "text": "La barre au milieu est votre barre de charge. Quand elle est pleine, vous pouvez utiliser vos capacités."
+            },
+            "enemies": {
+                "title": "Ennemis",
+                "text": "Les ennemis apparaissent à gauche. Ils ont une barre de vie et une barre de charge. Quand leur barre de charge est pleine, ils attaquent."
+            },
+            "goodLuck": {
+                "title": "Bonne chance!",
+                "text": "Vous êtes maintenant prêt à affronter les défis de Sector Zero. Bonne chance, pilote!"
+            },
+            "skipTutorial": "Passer le tutoriel"
+        },
+        "loadoutManager": {
+            "title": "GESTIONNAIRE DE CONFIGURATIONS",
+            "savedCount": "Sauvegardé(s)",
+            "createNew": "CRÉER NOUVELLE CONFIG",
+            "importFromCode": "IMPORTER DEPUIS CODE",
+            "edit": "MODIFIER",
+            "export": "EXPORTER",
+            "load": "CHARGER",
+            "noLoadouts": "Aucune configuration sauvegardée",
+            "createFirstLoadout": "Créez votre première configuration pour commencer!",
+            "deleteConfirm": "Supprimer cette configuration?",
+            "loadoutCodeCopied": "Code de configuration copié dans le presse-papier!",
+            "failedToExport": "Échec de l'exportation de la configuration.",
+            "importLoadout": "IMPORTER CONFIGURATION DEPUIS CODE",
+            "pasteCodeHere": "Collez le code de configuration ici...",
+            "invalidCode": "Code de configuration invalide ou corrompu.",
+            "successfullyImported": "Configuration importée avec succès:",
+            "createLoadout": "CRÉER NOUVELLE CONFIG",
+            "editLoadout": "MODIFIER CONFIG",
+            "backToList": "← RETOUR À LA LISTE",
+            "loadoutName": "Nom de la configuration",
+            "enterLoadoutName": "Entrez le nom de la configuration...",
+            "customColor": "Couleur personnalisée",
+            "selected": "Sélectionné:",
+            "createLoadoutBtn": "CRÉER CONFIG",
+            "saveChanges": "SAUVEGARDER MODIFICATIONS",
+            "enterName": "Veuillez entrer un nom de configuration",
+            "created": "Créé:",
+            "lastUsed": "Dernière utilisation:"
+        },
+        "keyboardShortcuts": {
+            "title": "RACCOURCIS CLAVIER",
+            "combat": "Contrôles de combat",
+            "toggleHelp": "Afficher/masquer cette aide",
+            "primaryAbility": "Utiliser la capacité principale",
+            "specialAbility": "Utiliser la capacité spéciale",
+            "useConsumables": "Utiliser les consommables"
+        },
+        "missionBriefing": {
+            "title": "BRIEFING DE MISSION",
+            "deployingWithGear": "Déploiement avec équipement:",
+            "noEquipment": "AUCUN ÉQUIPEMENT SÉLECTIONNÉ",
+            "engageSystems": "ACTIVER LES SYSTÈMES [DÉMARRER]"
+        },
+        "victoryScreen": {
+            "title": "SECTEUR SÉCURISÉ",
+            "subtitle": "LIAISON ÉTABLIE. TRANSFERT DES DONNÉES...",
+            "missionReport": "RAPPORT DE MISSION",
+            "pilotLevel": "NIVEAU DU PILOTE",
+            "totalKills": "ÉLIMINATIONS TOTALES",
+            "scrapCollected": "FERRAILLE COLLECTÉE",
+            "returnToBase": "RETOUR À LA BASE"
+        },
+        "defeatScreen": {
+            "title": "ÉCHEC CRITIQUE",
+            "subtitle": "SIGNAL PERDU. PILOTE DÉCÉDÉ.",
+            "casualtyReport": "RAPPORT DE PERTE",
+            "sectorReached": "SECTEUR ATTEINT",
+            "enemiesDestroyed": "ENNEMIS DÉTRUITS",
+            "augmentationsLost": "AUGMENTATIONS PERDUES",
+            "rebootSystem": "REDÉMARRER LE SYSTÈME"
+        },
+        "talentsScreen": {
+            "selectPilotTree": "SÉLECTIONNER L'ARBRE DU PILOTE"
+        },
+        "endlessMode": {
+            "gameOver": "PARTIE TERMINÉE",
+            "defeatMessage": "Votre défense est tombée face aux vagues infinies",
+            "wavesSurvived": "VAGUES SURVÉCUES",
+            "finalScore": "SCORE FINAL",
+            "enemiesKilled": "ENNEMIS TUÉS",
+            "survivalTime": "TEMPS DE SURVIE",
+            "newRecord": "🏆 NOUVEAU RECORD!",
+            "leaderboardRank": "RANG CLASSEMENT",
+            "scoreSaved": "Score sauvegardé dans le classement",
+            "retry": "↻ RÉESSAYER",
+            "leaderboard": "🏆 CLASSEMENT",
+            "menu": "← MENU",
+            "upgradeSelection": "Cliquez sur une amélioration pour sélectionner et continuer à la prochaine vague",
+            "continueIn": "CONTINUER DANS",
+            "nextWave": "PROCHAINE VAGUE →"
+        },
+        "narrative": {
+            "continueMission": "CONTINUER LA MISSION"
+        },
+        "codex": {
+            "newEntry": "NOUVELLE ENTRÉE CODEX DÉBLOQUÉE!",
+            "viewNow": "[VOIR MAINTENANT]",
+            "later": "[PLUS TARD]"
+        },
+        "errorBoundary": {
+            "title": "Erreur Système Critique",
+            "subtitle": "L'application a rencontré une erreur inattendue.",
+            "errorDetails": "Détails de l'erreur:",
+            "returnToMenu": "Retour au Menu Principal",
+            "helpText": "Si ce problème persiste, essayez de vider le cache de votre navigateur."
+        },
+        "settings": {
+            "audio": "Audio",
+            "visual": "Visuel",
+            "gameplay": "Gameplay",
+            "masterVolume": "Volume principal",
+            "musicVolume": "Volume musique",
+            "sfxVolume": "Effets sonores",
+            "voiceLines": "Lignes vocales",
+            "screenShake": "Secousse d'écran",
+            "damageNumbers": "Nombres de dégâts",
+            "combatLog": "Journal de combat",
+            "combatSpeed": "VITESSE DU COMBAT",
+            "slow": "LENT",
+            "normal": "NORMAL",
+            "fast": "RAPIDE",
+            "combatLogFontSize": "TAILLE POLICE JOURNAL",
+            "small": "PETIT",
+            "medium": "MOYEN",
+            "large": "GRAND",
+            "difficulty": "Difficulté",
+            "keybindings": "Raccourcis clavier",
+            "particles": "Effets de particules",
+            "reducedMotion": "Mouvement réduit",
+            "language": "Langue",
+            "colorblindMode": "Mode daltonien"
+        },
+        "combat": {
+            "victory": "VICTOIRE",
+            "defeat": "DÉFAITE",
+            "health": "Vie",
+            "energy": "Énergie",
+            "heat": "Chaleur",
+            "charge": "Charge",
+            "armor": "Armure",
+            "damage": "Dégâts",
+            "critical": "Critique",
+            "combo": "Combo",
+            "stunned": "Étourdi",
+            "burning": "Brûlure",
+            "shielded": "Protégé",
+            "survive": "Survivre",
+            "coreIntegrity": "Intégrité du noyau",
+            "missionComplete": "Mission terminée",
+            "targetDestroyed": "Cible détruite",
+            "waveClear": "Vague terminée",
+            "bossIntro": "Rencontre de boss!",
+            "phaseShift": "DÉPLACEMENT DE PHASE Actif",
+            "counterAttack": "CONTRE-ATTAQUE!",
+            "comboActive": "COMBO ACTIF"
+        },
+        "pilots": {
+            "vanguard": {
+                "name": "Cpt. Iron Jackson",
+                "mech": "IRON VANGUARD",
+                "flavor": "Vétéran marqué par les combats avec un œil cybernétique. Conçu pour l'endurance.",
+                "stats": "PV++ | VITESSE- | RÉGÉN+",
+                "mechanic": "RÉPARATION NANITE. Régénération d'armure passive. Temps de recharge standards."
+            },
+            "solaris": {
+                "name": "Caelan Spark Voss",
+                "mech": "UNITÉ SOLARIS",
+                "flavor": "Prodige technologique. Connecté directement au mainframe.",
+                "stats": "PV- | VITESSE++ | ÉNERGIE++",
+                "mechanic": "SYSTÈME D'ÉNERGIE. Les attaques drainent l'énergie. MAJ pour recharger."
+            },
+            "hydra": {
+                "name": "Magnus Hammertoes",
+                "mech": "HYDRA M-40",
+                "flavor": "Mercenaire passionné par les canons rotatifs et le bruit.",
+                "stats": "DÉGÂTS++ | VITESSE-- | CHALEUR!!",
+                "mechanic": "SYSTÈME DE CHALEUR. Tirer augmente la chaleur. 100% chaleur = BLOQUÉ. MAJ pour ventiler."
+            },
+            "wyrm": {
+                "name": "Sujet 89",
+                "mech": "GRAVEL WYRM",
+                "flavor": "Une horreur bio-mécanique récupérée des mines profondes.",
+                "stats": "PV+ | SPÉCIAL++",
+                "mechanic": "EMBUSCADE. MAJ pour s'enfouir (Invulnérable). ESPACE pour dévorer par en dessous."
+            }
+        },
+        "abilities": {
+            "vanguard_shot": {
+                "name": "AUTOCANON",
+                "description": "Munition cinétique standard."
+            },
+            "vanguard_stun": {
+                "name": "MUNITION DE CHOC",
+                "description": "Faibles dégâts. Réinitialise la barre d'action ennemie."
+            },
+            "solaris_beam": {
+                "name": "RAYON PHOTON",
+                "description": "Faisceau laser précis. Coût faible."
+            },
+            "solaris_aoe": {
+                "name": "DÉCHARGE CORONA",
+                "description": "Touche TOUS les ennemis. Coût élevé."
+            },
+            "hydra_spin": {
+                "name": "ROTATION VULCAN",
+                "description": "Tir lourd. Génère de la chaleur."
+            },
+            "hydra_missile": {
+                "name": "SALVE HELLFIRE",
+                "description": "Dégâts massifs. Chaleur massive."
+            },
+            "wyrm_spit": {
+                "name": "BILE ACIDE",
+                "description": "Bio-matière corrosive."
+            },
+            "wyrm_tunnel": {
+                "name": "MORSURE TECTONIQUE",
+                "description": "Dégâts élevés si enfoui."
+            }
+        },
+        "consumables": {
+            "nano_stim": {
+                "name": "NANO-STIM",
+                "description": "Répare 50 PV."
+            },
+            "coolant": {
+                "name": "L-COOLANT",
+                "description": "-50 CHALEUR / +20 ÉNERGIE"
+            },
+            "emp_grenade": {
+                "name": "CHARGE EMP",
+                "description": "ÉTOURDIT tous les ennemis (5s)."
+            },
+            "overdrive_inj": {
+                "name": "OVERDRIVE",
+                "description": "+50% DÉGÂTS (10s). Coûte des PV."
+            },
+            "mega_stim": {
+                "name": "MEGA-STIM",
+                "description": "Répare 100 PV."
+            },
+            "cryo_bomb": {
+                "name": "CRYO-BOMB",
+                "description": "ÉTOURDIT tous les ennemis (8s) + RALENTIT."
+            },
+            "repair_kit": {
+                "name": "KIT DE RÉPARATION",
+                "description": "Restaure 40 PV."
+            },
+            "temp_shield": {
+                "name": "BOUCLIER TEMP",
+                "description": "Accorde un bouclier temporaire."
+            }
+        },
+        "augmentations": {
+            "thermal_conv": {
+                "name": "CONVERTISSEUR THERMIQUE",
+                "description": "+1 DÉGÂTS par 10% CHALEUR."
+            },
+            "vamp_nanites": {
+                "name": "NANITES VAMPIRIQUES",
+                "description": "+5 PV par ÉLIMINATION."
+            },
+            "static_shell": {
+                "name": "COQUE STATIQUE",
+                "description": "Les attaquants subissent 5 DÉGÂTS."
+            },
+            "adrenaline_inj": {
+                "name": "INJECTEUR D'ADRÉNALINE",
+                "description": "2x VITESSE si PV < 30%."
+            },
+            "overclock_chip": {
+                "name": "PUCE D'OVERCLOCK",
+                "description": "-20% tous les temps de recharge."
+            },
+            "plasma_coating": {
+                "name": "REVÊTEMENT PLASMA",
+                "description": "Brûle les ennemis touchés."
+            }
+        },
+        "synergies": {
+            "INFERNO": {
+                "name": "INFERNO",
+                "description": "+50% dégâts de feu, les ennemis brûlent plus longtemps"
+            },
+            "BLOOD_SHELL": {
+                "name": "COQUE SANGLANTE",
+                "description": "Soigne quand les ennemis vous attaquent"
+            }
+        },
+        "crafting": {
+            "mega_stim": "MEGA-STIM",
+            "cryo_bomb": "CRYO-BOMB",
+            "scrap_converter": "CONVERTISSEUR DE FERRAILLE",
+            "repair_kit": "KIT DE RÉPARATION",
+            "requirements": "Requis:",
+            "craft": "Fabriquer",
+            "crafted": "✓ Fabriqué",
+            "insufficientMaterials": "✗ Matériaux insuffisants!"
+        },
+        "bosses": {
+            "alpha_sentinel": {
+                "name": "SENTINELLE ALPHA",
+                "title": "SENTINELLE ALPHA: GARDIEN DU PÉRIMÈTRE",
+                "flavor": "charge le canon à fusion",
+                "intro1": "SENTINELLE ALPHA EN LIGNE. SCANNING DE LA CIBLE...",
+                "intro2": "NIVEAU DE MENACE: MODÉRÉ. ACTIVATION PROTOCOLE SIGMA.",
+                "intro3": "ÉLIMINATION DE L'INTRUS.",
+                "phase1": "SENTINELLE ALPHA EN LIGNE. SCANNING DE LA CIBLE...",
+                "phase2": "DÉGÂTS DÉTECTÉS. ACTIVATION DES PROTOCOLES DE BOUCLIER.",
+                "defeat": "ÉCHEC CRITIQUE... LIAISON... COMPRO__MISE..."
+            },
+            "hydra_core": {
+                "name": "NOYAU HYDRA",
+                "title": "NOYAU HYDRA: CAUCHEMAR BIO-MÉCANIQUE",
+                "flavor": "pulse avec une énergie corrompue",
+                "intro1": "NOYAU HYDRA ACTIF. MATIÈRE BIOLOGIQUE DÉTECTÉE.",
+                "intro2": "SIGNATURE D'ANOMALIE CONFIRMÉE. NEUTRALISATION AUTORISÉE.",
+                "intro3": "SÉQUENCE D'ASSIMILATION: COMMENCER.",
+                "phase2": "INTÉGRITÉ STRUCTURELLE EN ÉCHEC. DÉPLOIEMENT DES DRONES DE RÉPARATION.",
+                "phase3": "NOYAU EN DÉSTABILISATION. INITIER PROTOCOLES D'URGENCE.",
+                "defeat": "N-NOYAU... FUSION... CONTA__MINATION PROPAGÉE___"
+            },
+            "crimson_phantom": {
+                "name": "FANTÔME CRAMOISI",
+                "title": "FANTÔME CRAMOISI: ASSASSIN FURTIF",
+                "flavor": "scintille entre les réalités",
+                "intro1": "...",
+                "intro2": "CIBLE VERROUILLÉE. PROTOCOLE FANTÔME ACTIVÉ.",
+                "intro3": "VOTRE MORT SERA... SILENCIEUSE.",
+                "phase2": "VOUS NE POUVEZ PAS TOUCHER CE QUE VOUS NE VOYEZ PAS.",
+                "defeat": "IMPOS__SIBLE... CAMOUFLAGE... DÉFAIL___LANCE"
+            },
+            "omega_prime": {
+                "name": "OMEGA PRIME",
+                "title": "OMEGA PRIME: UNITÉ DE COMMANDEMENT",
+                "flavor": "calcule le vecteur de frappe optimal",
+                "intro1": "OMEGA PRIME EN LIGNE. AUTORISATION DE COMMANDEMENT VÉRIFIÉE.",
+                "intro2": "ANALYSE DES PARAMÈTRES DE COMBAT...",
+                "intro3": "PROBABILITÉ DE SURVIE: 12,7%. ENGAGEMENT.",
+                "phase2": "ÉVALUATION DE MENACE: ÉLEVÉE. PASSAGE EN MODE SIÈGE.",
+                "phase3": "DÉGÂTS CRITIQUES. TOUS LIMITEURS LIBÉRÉS.",
+                "defeat": "INACCEPTABLE... RECALCUL... ERR__EUR... ARRÊT___"
+            },
+            "the_architect": {
+                "name": "L'ARCHITECTE",
+                "title": "L'ARCHITECTE: SUPERVISEUR DE SECTOR ZERO",
+                "flavor": "manipule la réalité elle-même",
+                "intro1": "ENFIN... UN VISITEUR.",
+                "intro2": "JE SUIS L'ARCHITECTE. CECI EST MON DOMAINE.",
+                "intro3": "VOUS AVEZ PERTURBÉ MON TRAVAIL. C'ÉTAIT... IMPRUDENT.",
+                "intro4": "PRÉPAREZ-VOUS À ÊTRE SUPPRIMÉ.",
+                "phase2": "FASCINANT. VOUS ÊTES ARRIVÉ JUSQU'ICI. TESTONS VOTRE DÉTERMINATION.",
+                "phase3": "ASSEZ DE JEUX. CONTEMPLEZ LE VÉRITABLE POUVOIR.",
+                "phase4": "IMPOSSIBLE! JE SUIS L'ARCHITECTE! JE CONTRÔLE TOUT!",
+                "defeat": "NON... CE N'EST PAS... COMME ÇA QUE ÇA SE TERMINE...",
+                "victory": "PRÉVISIBLE. VOTRE LUTTE ÉTAIT... AMUSANTE."
+            },
+            "minions": {
+                "repair_drone": "DRONE DE RÉPARATION",
+                "elite_enforcer": "EXÉCUTEUR D'ÉLITE"
+            }
+        },
+        "affixes": {
+            "VOLATILE": "VOLATILE",
+            "SHIELDED": "PROTÉGÉ",
+            "VAMPIRIC": "VAMPIRIQUE",
+            "SWIFT": "RAPIDE",
+            "ARMORED": "BLINDÉ"
+        },
+        "achievements": {
+            "first_blood": {
+                "name": "Premier Sang",
+                "description": "Gagnez votre premier combat."
+            },
+            "centurion": {
+                "name": "Centurion",
+                "description": "Éliminez 100 ennemis."
+            },
+            "sharpshooter": {
+                "name": "Tireur d'Élite",
+                "description": "Réussissez 50 coups critiques."
+            },
+            "boss_slayer": {
+                "name": "Tueur de Boss",
+                "description": "Battez 5 boss."
+            },
+            "david_vs_goliath": {
+                "name": "David vs Goliath",
+                "description": "Battez un boss avec moins de 20% PV."
+            },
+            "iron_curtain": {
+                "name": "Rideau de Fer",
+                "description": "Complétez une mission sans subir de dégâts."
+            },
+            "pacifist": {
+                "name": "Pacifiste",
+                "description": "Gagnez un niveau sans utiliser de consommables."
+            },
+            "deep_dive": {
+                "name": "Plongée Profonde",
+                "description": "Atteignez le Niveau 15."
+            },
+            "speed_demon": {
+                "name": "Démon de Vitesse",
+                "description": "Gagnez un combat en moins de 30 secondes."
+            },
+            "lightning_fast": {
+                "name": "Éclair Rapide",
+                "description": "Complétez une mission complète (Niveaux 1-5) en moins de 10 minutes."
+            },
+            "collector": {
+                "name": "Le Collectionneur",
+                "description": "Acquérez toutes les 6 augmentations en une seule mission."
+            },
+            "pilot_roster": {
+                "name": "Liste Complète",
+                "description": "Débloquez les 4 pilotes."
+            },
+            "veteran": {
+                "name": "Vétéran",
+                "description": "Atteignez le Niveau 10."
+            },
+            "unstoppable": {
+                "name": "Inarrêtable",
+                "description": "Gagnez 5 combats d'affilée."
+            },
+            "architect_nemesis": {
+                "name": "Némésis de l'Architecte",
+                "description": "Battez l'Architecte (Niveau 25)."
+            },
+            "perfectionist": {
+                "name": "Perfectionniste",
+                "description": "Battez un boss sans subir aucun dégât."
+            },
+            "marathon_runner": {
+                "name": "Marathonien",
+                "description": "Jouez pendant plus de 2 heures (total)."
+            },
+            "survival_king": {
+                "name": "Roi de la Survie",
+                "description": "Gagnez 10 missions de Survie."
+            },
+            "categories": {
+                "COMBAT": "Combat",
+                "SURVIVAL": "Survie",
+                "SPEED": "Vitesse",
+                "COLLECTION": "Collection",
+                "MASTERY": "Maîtrise"
+            },
+            "rarity": {
+                "COMMON": "Commun",
+                "RARE": "Rare",
+                "EPIC": "Épique",
+                "LEGENDARY": "Légendaire"
+            }
+        },
+        "hangar": {
+            "shop": "Boutique",
+            "augmentations": "Augmentations",
+            "consumables": "Consommables",
+            "scrap": "Ferraille",
+            "purchase": "Acheter",
+            "equipped": "Équipé",
+            "maxed": "Max",
+            "locked": "Verrouillé",
+            "repair": "Réparer la coque",
+            "upgradeHp": "Améliorer PV Max",
+            "upgradeDamage": "Améliorer Dégâts",
+            "craftingStation": "Station de Fabrication"
+        },
+        "stats": {
+            "totalKills": "Éliminations totales",
+            "highestStage": "Niveau le plus élevé",
+            "totalDamage": "Dégâts totaux infligés",
+            "gamesPlayed": "Parties jouées",
+            "victories": "Victoires",
+            "defeats": "Défaites",
+            "winRate": "Taux de victoire",
+            "playtime": "Temps de jeu total",
+            "favoritePilot": "Pilote favori",
+            "longestCombo": "Plus long combo",
+            "criticalHits": "Coups critiques",
+            "bossesDefeated": "Boss battus",
+            "winStreak": "Série de victoires",
+            "perfectRuns": "Missions parfaites"
+        },
+        "difficulties": {
+            "RECRUIT": {
+                "name": "Recrue",
+                "description": "Mode facile. Les ennemis ont 50% PV, +50% de récompenses ferraille."
+            },
+            "VETERAN": {
+                "name": "Vétéran",
+                "description": "Difficulté normale. Défi équilibré."
+            },
+            "ELITE": {
+                "name": "Élite",
+                "description": "Mode difficile. Ennemis +50% PV/DÉGÂTS, +100% ferraille."
+            },
+            "NIGHTMARE": {
+                "name": "Cauchemar",
+                "description": "EXTRÊME. +100% PV/DÉGÂTS, Permadeath, 1 seule vie."
+            }
+        },
+        "missions": {
+            "ASSAULT": {
+                "type": "Assaut",
+                "description": "Détruire tous les ennemis"
+            },
+            "DEFENSE": {
+                "type": "Défense",
+                "description": "Protéger l'objectif"
+            },
+            "SURVIVAL": {
+                "type": "Survie",
+                "description": "Survivre au temps imparti"
+            }
+        },
+        "stages": {
+            "stage1": "BRÈCHE DU PÉRIMÈTRE",
+            "stage2": "DÉFENSE DE LA LIAISON",
+            "stage3": "SECTEUR PROFOND",
+            "stage4": "SURVIE D'ESSAIM",
+            "stage5": "ASSAUT DU NOYAU"
+        },
+        "events": {
+            "salvage_pod": {
+                "title": "CAPSULE D'APPROVISIONNEMENT ABANDONNÉE",
+                "text": "Vous découvrez une capsule d'approvisionnement intacte enfouie dans les décombres. Elle est verrouillée avec des scanners biométriques. La forcer pourrait endommager le contenu ou déclencher une sécurité.",
+                "choice1": "FORCER L'OUVERTURE [FOR]",
+                "outcome1": "Vous arrachez la porte. Vous trouvez de la ferraille, mais des éclats endommagent votre coque.",
+                "choice2": "LAISSER",
+                "outcome2": "Vous décidez que ça ne vaut pas le risque et continuez."
+            },
+            "strange_signal": {
+                "title": "SIGNAL FANTÔME",
+                "text": "Vos communications captent un signal de détresse d'un pilote tombé à proximité. C'est soit un piège, soit ils ont des données précieuses.",
+                "choice1": "ENQUÊTER",
+                "outcome1": "C'était un piège! Une tourelle automatique tire avant que vous ne la désactiviez. Vous récupérez ses pièces.",
+                "choice2": "IGNORER",
+                "outcome2": "Vous bloquez la fréquence et vous concentrez sur la mission."
+            },
+            "repair_station": {
+                "title": "STATION AUTO-DOC",
+                "text": "Une station de réparation médicale active bourdonne dans le coin d'un laboratoire en ruines. Elle a une seule charge.",
+                "choice1": "UTILISER RÉPARATION [GRATUIT]",
+                "outcome1": "Les nanites envahissent votre coque, recousant le métal.",
+                "choice2": "RÉCUPÉRER LES PIÈCES",
+                "outcome2": "Vous récupérez les composants précieux."
+            }
+        },
+        "notifications": {
+            "levelUp": "Niveau supérieur!",
+            "unlockedPilot": "Pilote débloqué",
+            "unlockedAchievement": "Succès débloqué",
+            "savedLoadout": "Configuration sauvegardée",
+            "deletedLoadout": "Configuration supprimée",
+            "scrapGained": "Ferraille gagnée",
+            "hpRestored": "PV restauré"
+        },
+        "talents": {
+            "pilotPoints": "Points de Pilote",
+            "available": "Disponible",
+            "spent": "Dépensé",
+            "reset": "Réinitialiser les talents",
+            "unlock": "Débloquer",
+            "maxRank": "MAX",
+            "prerequisites": "Prérequis",
+            "effects": "Effets"
+        },
+        "endless": {
+            "wave": "Vague",
+            "score": "Score",
+            "highScore": "Meilleur Score",
+            "upgrade": "Choisir une amélioration",
+            "continue": "Continuer",
+            "waveComplete": "Vague terminée",
+            "upgrades": {
+                "hp_boost_small": "+15 PV MAX",
+                "dmg_boost_small": "+2 DÉGÂTS",
+                "heal_small": "SOIGNER 30 PV",
+                "scrap_bonus": "+50 FERRAILLE",
+                "hp_boost_large": "+30 PV MAX",
+                "dmg_boost_large": "+5 DÉGÂTS",
+                "cooldown_redux": "-15% TEMPS DE RECHARGE",
+                "free_consumable": "OBJET GRATUIT",
+                "full_heal": "RESTAURATION COMPLÈTE",
+                "mega_boost": "MÉGA BOOST",
+                "free_augmentation": "AUGMENTATION GRATUITE"
+            }
+        },
+        "status": {
+            "BURNING": "Brûlure",
+            "STUNNED": "Étourdi",
+            "SHIELDED": "Protégé",
+            "SLOWED": "Ralenti",
+            "OVERDRIVE": "Overdrive"
+        },
+        "waveComplete": {
+            "title": "VAGUE {{wave}} TERMINÉE",
+            "preparing": "Préparation de la prochaine vague...",
+            "waveKills": "Éliminations de la vague",
+            "timeElapsed": "Temps écoulé",
+            "hpRestored": "+10 PV restaurés",
+            "continueIn": "CONTINUER DANS {{countdown}}...",
+            "nextWave": "PROCHAINE VAGUE →"
+        },
+        "postRunStats": {
+            "missionFailed": "MISSION ÉCHOUÉE",
+            "damageDealt": "Dégâts Infligés",
+            "enemiesKilled": "Ennemis Tués",
+            "timeElapsed": "Temps Écoulé",
+            "scrapCollected": "Ferraille Collectée",
+            "hazardsFaced": "Dangers Affrontés",
+            "itemsUsed": "Objets Utilisés",
+            "viewFullStats": "📊 VOIR TOUTES LES STATS",
+            "return": "RETOUR"
+        },
+        "settings": {
+            "visualGameplay": "PARAMÈTRES VISUELS & GAMEPLAY",
+            "showDamageNumbers": "AFFICHER LES DÉGÂTS",
+            "enableScreenShake": "ACTIVER SECOUSSE ÉCRAN",
+            "performanceMode": "MODE PERFORMANCE (RÉDUIRE PARTICULES)",
+            "english": "Anglais",
+            "french": "Français",
+            "colorblindNone": "Aucun",
+            "colorblindProtanopia": "Protanopie",
+            "colorblindDeuteranopia": "Deutéranopie",
+            "colorblindTritanopia": "Tritanopie"
+        },
+        "bossIntro": {
+            "warningDetected": "[ ALERTE: SIGNATURE HOSTILE DÉTECTÉE ]",
+            "skipHint": "[ APPUYEZ SUR ÉCH, ESPACE, OU ENTRÉE POUR PASSER ]"
+        },
+        "errorBoundary": {
+            "subtitle": "Une erreur s'est produite",
+            "errorDetails": "L'application a rencontré une erreur inattendue.",
+            "restartGame": "Redémarrer le Jeu",
+            "returnToMenu": "Retour au Menu Principal",
+            "helpText": "Si ce problème persiste, essayez de vider le cache de votre navigateur."
+        },
+        "narrative": {
+            "continueMission": "CONTINUER LA MISSION"
+        },
+        "combat": {
+            "useKeysOrClick": "Utilisez les touches ou cliquez sur les ennemis pour attaquer",
+            "dataCoreIntegrity": "INTÉGRITÉ DU CORE DE DONNÉES",
+            "combatInProgress": "Combat en cours - Secteur {{stage}}"
+        },
+        "characterSelect": {
+            "combatModule": "Module de Combat",
+            "accessDenied": "ACCÈS REFUSÉ",
+            "pilotClearance": "AUTORISATION PILOTE INSUFFISANTE.",
+            "required": "REQUIS:",
+            "operatorLevel": "NIVEAU OPÉRATEUR {{level}}",
+            "totalKills": "{{kills}} ÉLIMINATIONS TOTALES",
+            "initializeLink": "Initialiser Lien Neural [ENTRÉE]",
+            "locked": "VERROUILLÉ",
+            "equipped": "Équipé",
+            "slowLogs": "LOGS LENTS",
+            "reduceMotion": "RÉDUIRE MOUVEMENT",
+            "loadouts": "💾 LOADOUTS",
+            "runDiagnostics": "[LANCER DIAGNOSTICS]",
+            "tacticalSystems": "SYSTÈMES TACTIQUES:",
+            "slots": "{{count}}/2 EMPLACEMENTS"
+        },
+        "hangar": {
+            "availableScrap": "FERRAILLE DISPONIBLE",
+            "systemUpgrades": "AMÉLIORATIONS SYSTÈME",
+            "emergencyRepairs": "RÉPARATIONS D'URGENCE",
+            "restoreHp": "Restaurer +20 PV",
+            "reinforceHull": "RENFORCER COQUE",
+            "incrementMaxHp": "Augmenter PV MAX (+10)",
+            "currentBonus": "Bonus Actuel: +{{bonus}}",
+            "weaponCalibration": "CALIBRATION DES ARMES",
+            "incrementBaseDamage": "Augmenter DÉGÂTS DE BASE (+1)",
+            "fabricator": "FABRICATEUR",
+            "blackMarket": "AUGMENTATIONS MARCHÉ NOIR",
+            "activeSynergies": "SYNERGIES ACTIVES",
+            "availableSynergies": "SYNERGIES DISPONIBLES"
+        },
+        "endlessLobby": {
+            "description": "Survivez à des vagues infinies. Dépassez vos limites. Dominez le classement.",
+            "selectPilot": "SÉLECTIONNER PILOTE",
+            "selectModule": "SÉLECTIONNER MODULE",
+            "freeUpgrade": "Amélioration gratuite",
+            "everyWaves": "toutes les 5 vagues",
+            "highestWave": "Vague la Plus Haute:",
+            "highScore": "Meilleur Score:",
+            "runsCompleted": "Parties Terminées:"
+        },
+        "stats": {
+            "allPilots": "Tous les Pilotes",
+            "totalDamage": "Dégâts Totaux",
+            "playTime": "Temps de Jeu",
+            "totalKills": "Éliminations Totales",
+            "fastestWin": "Victoire la Plus Rapide",
+            "longestStreak": "Plus Longue Série de Victoires",
+            "highestStage": "Niveau le Plus Élevé",
+            "perfectRuns": "Parties Parfaites",
+            "totalUsed": "Total Utilisé:"
+        },
+        "codex": {
+            "selectEntry": "SÉLECTIONNEZ UNE ENTRÉE DANS LA LISTE",
+            "unlockMore": "OU DÉBLOQUEZ-EN PLUS EN JOUANT"
+        },
+        "replay": {
+            "stage": "Niveau {{stage}}",
+            "damage": "Dégâts:",
+            "taken": "Reçus:",
+            "kills": "Éliminations:",
+            "items": "Objets:",
+            "crits": "Critiques:",
+            "duration": "Durée",
+            "actions": "Actions",
+            "noReplays": "Aucun replay disponible",
+            "completeRun": "Terminez un combat pour sauvegarder un replay"
+        },
+        "talents": {
+            "activeSynergies": "Synergies Actives:",
+            "talentLoadouts": "LOADOUTS DE TALENTS",
+            "totalEarned": "Total Gagné: {{points}} points",
+            "nextPoint": "Prochain Point: Niveau {{level}}"
+        },
+        "achievements": {
+            "collection": "Collection"
+        },
+        "loadoutManager": {
+            "loadoutName": "Nom du Loadout",
+            "enterLoadoutName": "Entrez le nom du loadout...",
+            "customColor": "Couleur Personnalisée",
+            "selected": "Sélectionné",
+            "consumables": "Consommables"
+        }
+    }
+}

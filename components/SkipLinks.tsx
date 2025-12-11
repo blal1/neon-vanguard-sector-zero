@@ -1,5 +1,6 @@
 import React from 'react';
 import { ScreenReaderOnly } from './ScreenReaderOnly';
+import { useTranslation } from 'react-i18next';
 
 interface SkipLinksProps {
     links: Array<{
@@ -9,12 +10,13 @@ interface SkipLinksProps {
 }
 
 /**
- * Skip Links pour navigation rapide au clavier
- * Conforme WCAG 2.4.1 - Bypass Blocks
+ * Skip Links for quick keyboard navigation
+ * WCAG 2.4.1 Compliant - Bypass Blocks
  */
 export const SkipLinks: React.FC<SkipLinksProps> = ({ links }) => {
+    const { t } = useTranslation();
     return (
-        <nav aria-label="Liens de navigation rapide" className="skip-links-container">
+        <nav aria-label={t('accessibility.skipNav')} className="skip-links-container">
             {links.map((link) => (
                 <a
                     key={link.href}
@@ -29,13 +31,13 @@ export const SkipLinks: React.FC<SkipLinksProps> = ({ links }) => {
 };
 
 /**
- * Skip Links par défaut pour le jeu
+ * Default skip links for the game
  */
 export const DefaultSkipLinks: React.FC = () => {
     const defaultLinks = [
-        { href: '#main-content', label: 'Aller au contenu principal' },
-        { href: '#main-navigation', label: 'Aller à la navigation' },
-        { href: '#combat-actions', label: 'Aller aux actions de combat' },
+        { href: '#main-content', label: 'Skip to main content' },
+        { href: '#main-navigation', label: 'Skip to navigation' },
+        { href: '#combat-actions', label: 'Skip to combat actions' },
     ];
 
     return <SkipLinks links={defaultLinks} />;

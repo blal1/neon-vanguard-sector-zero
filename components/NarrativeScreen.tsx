@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { getAllEvents } from '../data/dataManager';
 import { audio } from '../services/audioService';
+import { useTranslation } from 'react-i18next';
 
 interface NarrativeScreenProps {
   onContinue: () => void;
 }
 
 export const NarrativeScreen: React.FC<NarrativeScreenProps> = ({ onContinue }) => {
+  const { t } = useTranslation();
   const { updateRunState, runState } = useGame();
   const [event, setEvent] = useState(getAllEvents()[0]);
   const [outcome, setOutcome] = useState<string | null>(null);
@@ -29,7 +31,7 @@ export const NarrativeScreen: React.FC<NarrativeScreenProps> = ({ onContinue }) 
   return (
     <div className="flex flex-col h-full text-white font-mono p-4 md:p-12 justify-center max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-yellow-400 border-b border-gray-700 pb-2">{event.title}</h1>
-      
+
       {!outcome ? (
         <>
           <p className="text-lg leading-relaxed mb-8 text-gray-300">{event.text}</p>
@@ -47,15 +49,15 @@ export const NarrativeScreen: React.FC<NarrativeScreenProps> = ({ onContinue }) 
         </>
       ) : (
         <div className="animate-pulse">
-           <p className="text-lg leading-relaxed mb-8 text-gray-300 border-l-4 border-white pl-4 italic">
-             "{outcome}"
-           </p>
-           <button 
-             onClick={onContinue}
-             className="px-8 py-3 bg-white text-black font-bold uppercase tracking-widest hover:bg-gray-200"
-           >
-             CONTINUE MISSION
-           </button>
+          <p className="text-lg leading-relaxed mb-8 text-gray-300 border-l-4 border-white pl-4 italic">
+            "{outcome}"
+          </p>
+          <button
+            onClick={onContinue}
+            className="px-8 py-3 bg-white text-black font-bold uppercase tracking-widest hover:bg-gray-200"
+          >
+            {t('narrative.continueMission')}
+          </button>
         </div>
       )}
     </div>

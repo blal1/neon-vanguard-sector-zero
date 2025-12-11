@@ -1,4 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
 interface Props {
     children: ReactNode;
@@ -9,7 +10,7 @@ interface State {
     error: Error | null;
 }
 
-export class ErrorBoundary extends Component<Props, State> {
+class ErrorBoundaryComponent extends Component<Props & WithTranslation, State> {
     public state: State = {
         hasError: false,
         error: null
@@ -37,10 +38,10 @@ export class ErrorBoundary extends Component<Props, State> {
                             ⚠️ SYSTEM ERROR ⚠️
                         </h1>
                         <h2 className="text-2xl font-bold text-white mb-4">
-                            Something went wrong
+                            {this.props.t('errorBoundary.subtitle')}
                         </h2>
                         <p className="text-gray-400 mb-2">
-                            The application encountered an unexpected error.
+                            {this.props.t('errorBoundary.errorDetails')}
                         </p>
                         {this.state.error && (
                             <details className="mb-6 text-left">
@@ -57,17 +58,17 @@ export class ErrorBoundary extends Component<Props, State> {
                                 onClick={this.handleReset}
                                 className="px-8 py-3 bg-cyan-500 text-black font-bold uppercase tracking-widest hover:bg-cyan-400 transition-all"
                             >
-                                Restart Game
+                                {this.props.t('errorBoundary.restartGame')}
                             </button>
                             <button
                                 onClick={() => window.location.href = '/'}
                                 className="px-8 py-3 border border-gray-500 text-gray-400 font-bold uppercase tracking-widest hover:bg-gray-800 transition-all"
                             >
-                                Return to Main Menu
+                                {this.props.t('errorBoundary.returnToMenu')}
                             </button>
                         </div>
                         <p className="text-gray-600 text-sm mt-6">
-                            If this issue persists, please try clearing your browser cache.
+                            {this.props.t('errorBoundary.helpText')}
                         </p>
                     </div>
                 </div>
@@ -77,3 +78,5 @@ export class ErrorBoundary extends Component<Props, State> {
         return this.props.children;
     }
 }
+
+export const ErrorBoundary = withTranslation()(ErrorBoundaryComponent);

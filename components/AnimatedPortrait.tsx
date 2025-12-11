@@ -12,7 +12,8 @@ const PILOT_EXPRESSIONS: Record<PilotId, { healthy: string; damaged: string; cri
     vanguard: { healthy: '🛡️', damaged: '⚔️', critical: '🔥' },
     solaris: { healthy: '☀️', damaged: '⚡', critical: '💫' },
     hydra: { healthy: '🔫', damaged: '💥', critical: '🌡️' },
-    wyrm: { healthy: '🐉', damaged: '🦎', critical: '🐍' }
+    wyrm: { healthy: '🐉', damaged: '🦎', critical: '🐍' },
+    ghost: { healthy: '👻', damaged: '💀', critical: '☠️' }
 };
 
 export const AnimatedPortrait = memo<AnimatedPortraitProps>(({
@@ -82,3 +83,5 @@ export const AnimatedPortrait = memo<AnimatedPortraitProps>(({
         </div>
     );
 });
+
+AnimatedPortrait.displayName = 'AnimatedPortrait';

@@ -4,6 +4,7 @@ import { audio } from '../services/audioService';
 import { CombatEffectsLayer, useCombatEffects } from './CombatEffectsLayer';
 import { AnimatedPortrait } from './AnimatedPortrait';
 import { ReplayEnemy } from './ReplayEnemy';
+import { useTranslation } from 'react-i18next';
 
 interface ReplayViewerProps {
     replay: CombatReplay;
@@ -32,6 +33,7 @@ export const ReplayViewer: React.FC<ReplayViewerProps> = ({ replay, onClose }) =
     const [replayEnemies, setReplayEnemies] = useState<ReplayEnemyDisplay[]>([]);
     const [keyMoments, setKeyMoments] = useState<KeyMoment[]>([]);
     const [notification, setNotification] = useState<string | null>(null);
+    const { t } = useTranslation();
 
     // Scan for key moments
     useEffect(() => {

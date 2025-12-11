@@ -10,7 +10,36 @@
       "talents": "Talents",
       "newRun": "New Run",
       "continueRun": "Continue Run",
+      "resumeOperation": "RESUME OPERATION",
       "settings": "Settings"
+    },
+    "screens": {
+      "menu": "Main Menu",
+      "hangar": "Hangar",
+      "combat": "Combat",
+      "event": "Event",
+      "victory": "Victory",
+      "defeat": "Defeat",
+      "briefing": "Mission Briefing",
+      "testing": "Tests",
+      "achievements": "Achievements",
+      "statistics": "Statistics",
+      "codex": "Codex",
+      "replays": "Replays",
+      "talents": "Talent Tree",
+      "replayViewer": "Replay Viewer",
+      "unknownScreen": "Unknown Screen"
+    },
+    "accessibility": {
+      "mainContent": "Main game content",
+      "resumeOperation": "Resume operation in progress",
+      "manageLoadouts": "Manage loadout configurations",
+      "endlessMode": "Endless Mode - Continuous wave combat",
+      "viewStatistics": "Statistics - View your game statistics",
+      "viewAchievements": "unlocked",
+      "selectPilotTree": "SELECT PILOT TREE",
+      "controls": "Controls",
+      "screenReaderSupportText": "Tactical mech combat game with full screen reader support"
     },
     "common": {
       "start": "Start",
@@ -20,6 +49,7 @@
       "close": "Close",
       "continue": "Continue",
       "loading": "Loading",
+      "loadingData": "LOADING DATA...",
       "save": "Save",
       "delete": "Delete",
       "reset": "Reset",
@@ -28,7 +58,187 @@
       "unlocked": "Unlocked",
       "purchase": "Purchase",
       "equipped": "Equipped",
-      "maxed": "Maxed"
+      "maxed": "Maxed",
+      "next": "Next",
+      "finish": "Finish",
+      "skip": "Skip",
+      "unknown": "Unknown",
+      "none": "None",
+      "pilot": "Pilot",
+      "module": "Module",
+      "items": "Items",
+      "level": "Level",
+      "augmentations": "Augmentations",
+      "playtime": "Playtime",
+      "general": "General"
+    },
+    "tutorial": {
+      "welcome": {
+        "title": "Welcome to Neon Vanguard: Sector Zero!",
+        "text": "This tutorial will guide you through the basics of combat."
+      },
+      "abilities": {
+        "title": "Abilities",
+        "text": "Your main abilities are on the left. Use them with SPACE and SHIFT keys. They have cooldowns, so use them wisely."
+      },
+      "consumables": {
+        "title": "Consumables",
+        "text": "Your consumables are on the right. Use them by clicking on them. They are limited, so save them for when you really need them."
+      },
+      "charge": {
+        "title": "Charge",
+        "text": "The bar in the middle is your charge bar. When it's full, you can use your abilities."
+      },
+      "enemies": {
+        "title": "Enemies",
+        "text": "Enemies will appear on the left. They have a health bar and a charge bar. When their charge bar is full, they will attack."
+      },
+      "goodLuck": {
+        "title": "Good Luck!",
+        "text": "You are now ready to face the challenges of Sector Zero. Good luck, pilot!"
+      },
+      "skipTutorial": "Skip Tutorial"
+    },
+    "loadoutManager": {
+      "title": "LOADOUT MANAGER",
+      "savedCount": "Saved",
+      "createNew": "CREATE NEW LOADOUT",
+      "importFromCode": "IMPORT FROM CODE",
+      "edit": "EDIT",
+      "export": "EXPORT",
+      "load": "LOAD",
+      "noLoadouts": "No loadouts saved yet",
+      "createFirstLoadout": "Create your first loadout to get started!",
+      "deleteConfirm": "Delete this loadout?",
+      "loadoutCodeCopied": "Loadout code copied to clipboard!",
+      "failedToExport": "Failed to export loadout.",
+      "importLoadout": "IMPORT LOADOUT FROM CODE",
+      "pasteCodeHere": "Paste loadout code here...",
+      "invalidCode": "Invalid or corrupt loadout code.",
+      "successfullyImported": "Successfully imported loadout:",
+      "createLoadout": "CREATE NEW LOADOUT",
+      "editLoadout": "EDIT LOADOUT",
+      "backToList": "← BACK TO LIST",
+      "loadoutName": "Loadout Name",
+      "enterLoadoutName": "Enter loadout name...",
+      "customColor": "Custom Color",
+      "selected": "Selected:",
+      "createLoadoutBtn": "CREATE LOADOUT",
+      "saveChanges": "SAVE CHANGES",
+      "enterName": "Please enter a loadout name",
+      "created": "Created",
+      "lastUsed": "Last Used",
+      "title": "LOADOUT MANAGER",
+      "saved": "{{count}} Loadout{{count, plural, one {} other {s}}} Saved",
+      "importFromCode": "IMPORT FROM CODE",
+      "createNew": "+ CREATE NEW LOADOUT",
+      "noLoadouts": "No loadouts saved yet",
+      "getStarted": "Create your first loadout to get started!",
+      "load": "LOAD",
+      "edit": "EDIT",
+      "export": "EXPORT",
+      "deleteConfirm": "Delete this loadout?",
+      "codeCopied": "Loadout code copied to clipboard!",
+      "exportFailed": "Failed to export loadout.",
+      "invalidCode": "Invalid loadout code.",
+      "importSuccess": "Successfully imported loadout: {{name}}",
+      "importFailed": "Invalid or corrupt loadout code.",
+      "importTitle": "IMPORT LOADOUT FROM CODE",
+      "pastePlaceholder": "Paste loadout code here...",
+      "import": "IMPORT LOADOUT"
+    },
+    "keyboardShortcuts": {
+      "title": "KEYBOARD SHORTCUTS",
+      "combat": "Combat Controls",
+      "toggleHelp": "Toggle this help screen",
+      "primaryAbility": "Use primary ability",
+      "specialAbility": "Use special ability",
+      "useConsumables": "Use consumables"
+    },
+    "missionBriefing": {
+      "title": "MISSION BRIEFING",
+      "deployingWithGear": "Deploying with Gear:",
+      "noEquipment": "NO EQUIPMENT SELECTED",
+      "engageSystems": "ENGAGE SYSTEMS [START RUN]"
+    },
+    "victoryScreen": {
+      "title": "SECTOR SECURED",
+      "subtitle": "UPLINK ESTABLISHED. DATA UPLOADING...",
+      "missionReport": "MISSION REPORT",
+      "pilotLevel": "PILOT LEVEL",
+      "totalKills": "TOTAL KILLS",
+      "scrapCollected": "SCRAP COLLECTED",
+      "returnToBase": "RETURN TO BASE"
+    },
+    "defeatScreen": {
+      "title": "CRITICAL FAILURE",
+      "subtitle": "SIGNAL LOST. PILOT FLATLINED.",
+      "casualtyReport": "CASUALTY REPORT",
+      "sectorReached": "SECTOR REACHED",
+      "enemiesDestroyed": "ENEMIES DESTROYED",
+      "augmentationsLost": "AUGMENTATIONS LOST",
+      "rebootSystem": "REBOOT SYSTEM"
+    },
+    "talentsScreen": {
+      "selectPilotTree": "SELECT PILOT TREE"
+    },
+    "endlessMode": {
+      "gameOver": "GAME OVER",
+      "defeatMessage": "Your defense has fallen to the endless waves",
+      "wavesSurvived": "WAVES SURVIVED",
+      "finalScore": "FINAL SCORE",
+      "enemiesKilled": "ENEMIES KILLED",
+      "survivalTime": "SURVIVAL TIME",
+      "newRecord": "🏆 NEW RECORD!",
+      "leaderboardRank": "LEADERBOARD RANK",
+      "scoreSaved": "Score saved to leaderboard",
+      "retry": "↻ RETRY",
+      "leaderboard": "🏆 LEADERBOARD",
+      "menu": "← MENU",
+      "upgradeSelection": "Click an upgrade to select and continue to the next wave",
+      "continueIn": "CONTINUE IN",
+      "nextWave": "NEXT WAVE →"
+    },
+    "narrative": {
+      "continueMission": "CONTINUE MISSION"
+    },
+    "codex": {
+      "newEntry": "NEW CODEX ENTRY UNLOCKED!",
+      "viewNow": "[VIEW NOW]",
+      "later": "[LATER]"
+    },
+    "errorBoundary": {
+      "title": "Critical System Error",
+      "subtitle": "The application encountered an unexpected error.",
+      "errorDetails": "Error Details:",
+      "returnToMenu": "Return to Main Menu",
+      "helpText": "If this issue persists, please try clearing your browser cache."
+    },
+    "settings": {
+      "audio": "Audio",
+      "visual": "Visual",
+      "gameplay": "Gameplay",
+      "masterVolume": "Master Volume",
+      "musicVolume": "Music Volume",
+      "sfxVolume": "Sound Effects",
+      "voiceLines": "Voice Lines",
+      "screenShake": "Screen Shake",
+      "damageNumbers": "Damage Numbers",
+      "combatLog": "Combat Log",
+      "combatSpeed": "COMBAT SPEED",
+      "slow": "SLOW",
+      "normal": "NORMAL",
+      "fast": "FAST",
+      "combatLogFontSize": "COMBAT LOG FONT SIZE",
+      "small": "SMALL",
+      "medium": "MEDIUM",
+      "large": "LARGE",
+      "difficulty": "Difficulty",
+      "keybindings": "Keybindings",
+      "particles": "Particle Effects",
+      "reducedMotion": "Reduced Motion",
+      "language": "Language",
+      "colorblindMode": "Colorblind Mode"
     },
     "combat": {
       "victory": "VICTORY",
@@ -194,7 +404,9 @@
       "scrap_converter": "SCRAP CONVERTER",
       "repair_kit": "REPAIR KIT",
       "requirements": "Requirements:",
-      "craft": "Craft"
+      "craft": "Craft",
+      "crafted": "✓ Crafted",
+      "insufficientMaterials": "✗ Insufficient materials!"
     },
     "bosses": {
       "alpha_sentinel": {
@@ -275,7 +487,7 @@
         "name": "Centurion",
         "description": "Eliminate 100 enemies."
       },
-      "sharpshooter": {
+      " sharpshooter": {
         "name": "Sharpshooter",
         "description": "Land 50 critical hits."
       },
@@ -352,22 +564,6 @@
         "EPIC": "Epic",
         "LEGENDARY": "Legendary"
       }
-    },
-    "settings": {
-      "audio": "Audio",
-      "visual": "Visual",
-      "gameplay": "Gameplay",
-      "masterVolume": "Master Volume",
-      "musicVolume": "Music Volume",
-      "sfxVolume": "Sound Effects",
-      "voiceLines": "Voice Lines",
-      "screenShake": "Screen Shake",
-      "damageNumbers": "Damage Numbers",
-      "combatLog": "Combat Log",
-      "difficulty": "Difficulty",
-      "keybindings": "Keybindings",
-      "particles": "Particle Effects",
-      "reducedMotion": "Reduced Motion"
     },
     "hangar": {
       "shop": "Shop",
@@ -510,6 +706,122 @@
       "SHIELDED": "Shielded",
       "SLOWED": "Slowed",
       "OVERDRIVE": "Overdrive"
+    },
+    "settings": {
+      "visualGameplay": "VISUAL & GAMEPLAY SETTINGS",
+      "showDamageNumbers": "SHOW DAMAGE NUMBERS",
+      "enableScreenShake": "ENABLE SCREEN SHAKE",
+      "performanceMode": "PERFORMANCE MODE (REDUCE PARTICLES)",
+      "english": "English",
+      "french": "Français",
+      "colorblindNone": "None",
+      "colorblindProtanopia": "Protanopia",
+      "colorblindDeuteranopia": "Deuteranopia",
+      "colorblindTritanopia": "Tritanopia"
+    },
+    "bossIntro": {
+      "warningDetected": "[ WARNING: HOSTILE SIGNATURE DETECTED ]",
+      "skipHint": "[ PRESS ESC, SPACE, OR ENTER TO SKIP ]"
+    },
+    "errorBoundary": {
+      "subtitle": "Something went wrong",
+      "errorDetails": "The application encountered an unexpected error.",
+      "restartGame": "Restart Game",
+      "returnToMenu": "Return to Main Menu",
+      "helpText": "If this issue persists, please try clearing your browser cache."
+    },
+    "narrative": {
+      "continueMission": "CONTINUE MISSION"
+    },
+    "combat": {
+      "useKeysOrClick": "Use keys or click on enemies to attack",
+      "dataCoreIntegrity": "DATA CORE INTEGRITY",
+      "combatInProgress": "Combat in progress - Sector {{stage}}"
+    },
+    "characterSelect": {
+      "combatModule": "Combat Module",
+      "accessDenied": "ACCESS DENIED",
+      "pilotClearance": "PILOT CLEARANCE INSUFFICIENT.",
+      "required": "REQUIRED:",
+      "operatorLevel": "OPERATOR LEVEL {{level}}",
+      "totalKills": "{{kills}} TOTAL KILLS",
+      "initializeLink": "Initialize Neural Link [ENTER]",
+      "locked": "LOCKED",
+      "equipped": "Equipped",
+      "slowLogs": "SLOW LOGS",
+      "reduceMotion": "REDUCE MOTION",
+      "loadouts": "💾 LOADOUTS",
+      "runDiagnostics": "[RUN DIAGNOSTICS]",
+      "tacticalSystems": "TACTICAL SYSTEMS:",
+      "slots": "{{count}}/2 SLOTS"
+    },
+    "hangar": {
+      "availableScrap": "AVAILABLE SCRAP",
+      "systemUpgrades": "SYSTEM UPGRADES",
+      "emergencyRepairs": "EMERGENCY REPAIRS",
+      "restoreHp": "Restore +20 HP",
+      "reinforceHull": "REINFORCE HULL",
+      "incrementMaxHp": "Increase MAX HP (+10)",
+      "currentBonus": "Current Bonus: +{{bonus}}",
+      "weapon Calibration": "WEAPON CALIBRATION",
+      "incrementBaseDamage": "Increase BASE DAMAGE (+1)",
+      "fabricator": "FABRICATOR",
+      "blackMarket": "BLACK MARKET AUGMENTATIONS",
+      "activeSynergies": "ACTIVE SYNERGIES",
+      "availableSynergies": "AVAILABLE SYNERGIES"
+    },
+    "endlessLobby": {
+      "description": "Survive infinite waves. Push your limits. Claim the leaderboard.",
+      "selectPilot": "SELECT PILOT",
+      "selectModule": "SELECT MODULE",
+      "freeUpgrade": "Free upgrade",
+      "everyWaves": "every 5 waves",
+      "highestWave": "Highest Wave:",
+      "highScore": "High Score:",
+      "runsCompleted": "Runs Completed:"
+    },
+    "stats": {
+      "allPilots": "All Pilots",
+      "totalDamage": "Total Damage",
+      "playTime": "Play Time",
+      "totalKills": "Total Kills",
+      "fastestWin": "Fastest Win",
+      "longestStreak": "Longest Win Streak",
+      "highestStage": "Highest Stage",
+      "perfectRuns": "Perfect Runs",
+      "totalUsed": "Total Used:"
+    },
+    "codex": {
+      "selectEntry": "SELECT AN ENTRY FROM THE LIST",
+      "unlockMore": "OR UNLOCK MORE BY PLAYING"
+    },
+    "replay": {
+      "stage": "Stage {{stage}}",
+      "damage": "Damage:",
+      "taken": "Taken:",
+      "kills": "Kills:",
+      "items": "Items:",
+      "crits": "Crits:",
+      "duration": "Duration",
+      "actions": "Actions",
+      "noReplays": "No replays available",
+      "completeRun": "Complete a combat to save a replay"
+    },
+    "talents": {
+      "activeSynergies": "Active Synergies:",
+      "talentLoadouts": "TALENT LOADOUTS",
+      "totalEarned": "Total Earned: {{points}} points",
+      "nextPoint": "Next Point: Level {{level}}"
+    },
+    "achievements": {
+      "collection": "Collection"
+    },
+    "loadoutManager": {
+      "loadoutName": "Loadout Name",
+      "enterLoadoutName": "Enter loadout name...",
+      "customColor": "Custom Color",
+      "selected": "Selected",
+      "consumables": "Consumables"
     }
   }
 }

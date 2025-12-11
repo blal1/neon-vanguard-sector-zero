@@ -1,26 +1,26 @@
 # Electron Build Guide
 
-Guide pour construire et distribuer l'application desktop **Neon Vanguard: Sector Zero** avec Electron.
+Guide for building and distributing the **Neon Vanguard: Sector Zero** desktop application with Electron.
 
-## 📋 Table des Matières
+## 📋 Table of Contents
 
 - [Configuration](#configuration)
-- [Développement](#développement)
-- [Build de Production](#build-de-production)
+- [Development](#development)
+- [Production Build](#production-build)
 - [Distribution](#distribution)
-- [Signature et Notarization](#signature-et-notarization)
-- [Updates Automatiques](#updates-automatiques)
+- [Code Signing and Notarization](#code-signing-and-notarization)
+- [Automatic Updates](#automatic-updates)
 - [Troubleshooting](#troubleshooting)
 
 ---
 
 ## Configuration
 
-### Fichiers Electron
+### Electron Files
 
 #### `electron/main.cjs`
 
-Main process Electron:
+Electron main process:
 
 ```javascript
 const { app, BrowserWindow } = require('electron');
@@ -127,29 +127,29 @@ app.on('activate', () => {
 
 ---
 
-## Développement
+## Development
 
-### Lancer en Mode Développement
+### Run in Development Mode
 
 ```bash
 npm run electron:dev
 ```
 
-Cette commande:
-1. Démarre le serveur Vite (http://localhost:5173)
-2. Attend que le serveur soit prêt
-3. Lance Electron qui charge l'URL locale
+This command:
+1. Starts the Vite server (http://localhost:5173)
+2. Waits for the server to be ready
+3. Launches Electron which loads the local URL
 
-**Avantages**:
-- ✅ Hot-reload automatique
-- ✅ DevTools ouvert
+**Advantages**:
+- ✅ Automatic hot-reload
+- ✅ DevTools open
 - ✅ Fast refresh
 
 ### Debugging
 
 #### Main Process
 
-Ajoutez dans `electron/main.cjs`:
+Add to `electron/main.cjs`:
 
 ```javascript
 console.log('Electron app started');
@@ -158,7 +158,7 @@ console.log('App path:', app.getPath('userData'));
 
 #### Renderer Process
 
-Ouvrir les DevTools (déjà actif en dev):
+Open DevTools (already active in dev):
 
 ```javascript
 mainWindow.webContents.openDevTools();
@@ -166,7 +166,7 @@ mainWindow.webContents.openDevTools();
 
 ---
 
-## Build de Production
+## Production Build
 
 ### Windows
 
@@ -174,15 +174,15 @@ mainWindow.webContents.openDevTools();
 npm run electron:build:win
 ```
 
-**Outputs** (dans `release/`):
-- `Neon Vanguard Sector Zero Setup 1.0.0.exe` - Installeur NSIS
+**Outputs** (in `release/`):
+- `Neon Vanguard Sector Zero Setup 1.0.0.exe` - NSIS installer
 - `Neon Vanguard Sector Zero 1.0.0.exe` - Portable
 
-**Configuration NSIS**:
-- Installation dans `C:\Program Files\Neon Vanguard Sector Zero`
-- Raccourci desktop optionnel
-- Raccourci menu démarrer
-- Désinstalleur inclus
+**NSIS Configuration**:
+- Installation in `C:\Program Files\Neon Vanguard Sector Zero`
+- Optional desktop shortcut
+- Start menu shortcut
+- Uninstaller included
 
 ### macOS
 
@@ -195,7 +195,7 @@ npm run electron:build:mac
 - Xcode Command Line Tools
 
 **Outputs**:
-- `Neon Vanguard Sector Zero-1.0.0.dmg` - Image disque
+- `Neon Vanguard Sector Zero-1.0.0.dmg` - Disk image
 - `Neon Vanguard Sector Zero-1.0.0-mac.zip` - Archive
 
 ### Linux
@@ -205,7 +205,7 @@ npm run electron:build:linux
 ```
 
 **Outputs**:
-- `Neon Vanguard Sector Zero-1.0.0.AppImage` - AppImage universelle
+- `Neon Vanguard Sector Zero-1.0.0.AppImage` - Universal AppImage
 - `neon-vanguard-sector-zero_1.0.0_amd64.deb` - Debian/Ubuntu
 - `neon-vanguard-sector-zero-1.0.0.x86_64.rpm` - Fedora/RHEL
 
@@ -213,23 +213,23 @@ npm run electron:build:linux
 
 ## Distribution
 
-### Taille des Builds
+### Build Sizes
 
-| Platform | Format | Taille (approx) |
-|----------|--------|-----------------|
+| Platform | Format | Size (approx) |
+|----------|--------|---------------|
 | Windows | NSIS | ~150 MB |
 | Windows | Portable | ~140 MB |
 | macOS | DMG | ~160 MB |
 | Linux | AppImage | ~155 MB |
 
-### Réduire la Taille
+### Reduce Size
 
-1. **Supprimer DevDependencies**:
+1. **Remove DevDependencies**:
    ```bash
    npm prune --production
    ```
 
-2. **Compression dans electron-builder**:
+2. **Compression in electron-builder**:
    ```json
    "build": {
      "compression": "maximum",
@@ -237,39 +237,39 @@ npm run electron:build:linux
    }
    ```
 
-3. **Tree-shaking Vite**:
-   - Déjà actif par défaut
-   - Supprime le code mort
+3. **Vite Tree-shaking**:
+   - Already active by default
+   - Removes dead code
 
-### Upload vers GitHub Releases
+### Upload to GitHub Releases
 
-1. **Tag la version**:
+1. **Tag the version**:
    ```bash
    git tag v1.0.0
    git push origin v1.0.0
    ```
 
-2. **Créer la release GitHub**:
-   - Aller sur GitHub Releases
+2. **Create GitHub release**:
+   - Go to GitHub Releases
    - "Draft a new release"
-   - Sélectionner le tag `v1.0.0`
-   - Upload les fichiers depuis `release/`
+   - Select tag `v1.0.0`
+   - Upload files from `release/`
 
-3. **Fichiers à upload**:
+3. **Files to upload**:
    - Windows: `.exe` (installer + portable)
    - macOS: `.dmg`
    - Linux: `.AppImage`, `.deb`, `.rpm`
-   - `latest.yml` / `latest-mac.yml` (pour auto-update)
+   - `latest.yml` / `latest-mac.yml` (for auto-update)
 
 ---
 
-## Signature et Notarization
+## Code Signing and Notarization
 
 ### Windows Code Signing
 
 **Requirements**:
-- Certificat code signing (.pfx ou .p12)
-- Password du certificat
+- Code signing certificate (.pfx or .p12)
+- Certificate password
 
 **Configuration**:
 
@@ -282,7 +282,7 @@ npm run electron:build:linux
 }
 ```
 
-**Via environment variables** (recommandé):
+**Via environment variables** (recommended):
 
 ```bash
 set CSC_LINK=path/to/certificate.pfx
@@ -293,7 +293,7 @@ npm run electron:build:win
 ### macOS Code Signing & Notarization
 
 **Requirements**:
-- Apple Developer Account ($99/an)
+- Apple Developer Account ($99/year)
 - Developer ID Application certificate
 - App-specific password
 
@@ -334,16 +334,16 @@ npm run electron:build:mac
 
 ---
 
-## Updates Automatiques
+## Automatic Updates
 
-### Avec electron-updater
+### With electron-updater
 
 1. **Installation**:
    ```bash
    npm install electron-updater
    ```
 
-2. **Configuration dans main.cjs**:
+2. **Configuration in main.cjs**:
 
    ```javascript
    const { autoUpdater } = require('electron-updater');
@@ -378,7 +378,7 @@ npm run electron:build:mac
    }
    ```
 
-4. **Publier update**:
+4. **Publish update**:
 
    ```bash
    npm run electron:build -- --publish always
@@ -390,25 +390,25 @@ npm run electron:build:mac
 
 ### "Application can't be opened" (macOS)
 
-**Cause**: App non signée.
+**Cause**: Unsigned app.
 
 **Solution**:
-1. Clic droit → Ouvrir
-2. OU: `xattr -cr /Applications/Neon\ Vanguard.app`
+1. Right-click → Open
+2. OR: `xattr -cr /Applications/Neon\ Vanguard.app`
 
 ### "Windows protected your PC" (Windows)
 
-**Cause**: App non signée ou certificat non reconnu.
+**Cause**: Unsigned app or unrecognized certificate.
 
 **Solutions**:
-- Obtenir certificat code signing
-- OU: Cliquer "More info" → "Run anyway"
+- Get code signing certificate
+- OR: Click "More info" → "Run anyway"
 
-### Build échoue avec "Cannot find module"
+### Build fails with "Cannot find module"
 
-**Cause**: Mauvais paths dans electron/main.cjs.
+**Cause**: Incorrect paths in electron/main.cjs.
 
-**Solution**: Vérifier:
+**Solution**: Verify:
 
 ```javascript
 // DEV
@@ -418,17 +418,17 @@ mainWindow.loadURL('http://localhost:5173');
 mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
 ```
 
-### Blank screen après build
+### Blank screen after build
 
-**Causes possibles**:
-1. **Base URL incorrecte**: Dans `vite.config.ts`, s'assurer `base: './'`
-2. **Paths assets**: Vérifier chemins dans `index.html`
-3. **CSP headers**: Désactiver ou ajuster Content Security Policy
+**Possible causes**:
+1. **Incorrect Base URL**: In `vite.config.ts`, ensure `base: './'`
+2. **Asset paths**: Verify paths in `index.html`
+3. **CSP headers**: Disable or adjust Content Security Policy
 
 **Debug**:
 
 ```javascript
-// Dans main.cjs
+// In main.cjs
 mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
   console.error('Failed to load:', errorCode, errorDescription);
 });
@@ -438,17 +438,17 @@ mainWindow.webContents.on('console-message', (event, level, message) => {
 });
 ```
 
-### App trop lourde
+### App too large
 
 **Solutions**:
-1. Activer `asar: true` dans build config
+1. Enable `asar: true` in build config
 2. `compression: "maximum"`
-3. Supprimer node_modules inutiles
-4. Ne pas inclure `src/` dans files (seulement `dist/`)
+3. Remove unnecessary node_modules
+4. Don't include `src/` in files (only `dist/`)
 
 ---
 
-## Ressources
+## Resources
 
 - [Electron Documentation](https://www.electronjs.org/docs)
 - [electron-builder Documentation](https://www.electron.build/)
@@ -457,4 +457,4 @@ mainWindow.webContents.on('console-message', (event, level, message) => {
 
 ---
 
-**Dernière mise à jour**: 2025-12-09
+**Last Updated**: 2025-12-09

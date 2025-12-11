@@ -3,6 +3,7 @@ import { useGame } from '../context/GameContext';
 import { PILOTS, CONSUMABLES } from '../constants';
 import { Loadout, PilotId, PilotModule, Consumable } from '../types';
 import { audio } from '../services/audioService';
+import { useTranslation } from 'react-i18next';
 
 interface LoadoutManagerProps {
     onClose: () => void;
@@ -11,6 +12,7 @@ interface LoadoutManagerProps {
 
 export const LoadoutManager: React.FC<LoadoutManagerProps> = ({ onClose, onApplyLoadout }) => {
     const { loadouts, createLoadout, updateLoadout, deleteLoadout, isPilotUnlocked } = useGame();
+    const { t } = useTranslation();
 
     const [mode, setMode] = useState<'list' | 'create' | 'edit' | 'import'>('list');
     const [editingLoadout, setEditingLoadout] = useState<Loadout | null>(null);
@@ -56,7 +58,7 @@ export const LoadoutManager: React.FC<LoadoutManagerProps> = ({ onClose, onApply
 
     const handleSave = () => {
         if (!formData.name.trim()) {
-            alert('Please enter a loadout name');
+            alert(t('loadoutManager.enterName'));
             return;
         }
 
@@ -114,11 +116,11 @@ export const LoadoutManager: React.FC<LoadoutManagerProps> = ({ onClose, onApply
             const json = JSON.stringify(data);
             const base64 = btoa(json);
             navigator.clipboard.writeText(base64);
-            showNotification('Loadout code copied to clipboard!');
+            showNotification(t('loadoutManager.codeCopied'));
             audio.playBlip();
         } catch (e) {
             console.error(e);
-            showNotification('Failed to export loadout.', 'error');
+            showNotification(t('loadoutManager.exportFailed'), 'error');
         }
     };
 
@@ -130,9 +132,9 @@ export const LoadoutManager: React.FC<LoadoutManagerProps> = ({ onClose, onApply
 
             // Basic validation
             if (!data.pilotId || !data.module || !data.name) {
-                throw new Error('Invalid loadout code.');
+                throw new Error(t('loadoutManager.invalidCode'));
             }
-            
+
             const pilot = PILOTS.find(p => p.id === data.pilotId);
             if (!pilot) {
                 throw new Error(`Pilot with ID "${data.pilotId}" not found.`);
@@ -147,13 +149,13 @@ export const LoadoutManager: React.FC<LoadoutManagerProps> = ({ onClose, onApply
                 data.color || pilot.color,
             );
 
-            showNotification(`Successfully imported loadout: ${data.name}`);
+            showNotification(t('loadoutManager.importSuccess', { name: data.name }));
             setImportCode('');
             setMode('list');
             audio.playBlip();
         } catch (e) {
             console.error(e);
-            showNotification('Invalid or corrupt loadout code.', 'error');
+            showNotification(t('loadoutManager.importFailed'), 'error');
         }
     };
 
@@ -167,12 +169,12 @@ export const LoadoutManager: React.FC<LoadoutManagerProps> = ({ onClose, onApply
                 )}
                 {/* Header */}
                 <div className="flex justify-between items-center mb-6 border-b-2 border-cyan-500 pb-4">
-                    <h2 className="text-3xl font-bold text-cyan-400 tracking-widest">💾 LOADOUT MANAGER</h2>
+                    <h2 className="text-3xl font-bold text-cyan-400 tracking-widest">💾 {t('loadoutManager.title')}</h2>
                     <button
                         onClick={() => { audio.playBlip(); onClose(); }}
                         className="border border-white text-white px-4 py-2 hover:bg-white hover:text-black transition-all"
                     >
-                        [ CLOSE ]
+                        {t('common.close')}
                     </button>
                 </div>
 
@@ -181,20 +183,20 @@ export const LoadoutManager: React.FC<LoadoutManagerProps> = ({ onClose, onApply
                     <>
                         <div className="mb-4 flex justify-between items-center">
                             <div className="text-sm text-gray-400">
-                                {loadouts.length} Loadout{loadouts.length !== 1 ? 's' : ''} Saved
+                                {t('loadoutManager.saved', { count: loadouts.length })}
                             </div>
                             <div className="flex gap-2">
                                 <button
                                     onClick={() => setMode('import')}
                                     className="border border-yellow-500 text-yellow-400 px-6 py-2 hover:bg-yellow-900/50 transition-all font-bold"
                                 >
-                                    IMPORT FROM CODE
+                                    {t('loadoutManager.importFromCode')}
                                 </button>
                                 <button
                                     onClick={handleCreate}
                                     className="border border-green-500 text-green-400 px-6 py-2 hover:bg-green-900/50 transition-all font-bold"
                                 >
-                                    + CREATE NEW LOADOUT
+                                    {t('loadoutManager.createNew')}
                                 </button>
                             </div>
                         </div>
@@ -202,8 +204,8 @@ export const LoadoutManager: React.FC<LoadoutManagerProps> = ({ onClose, onApply
                         {loadouts.length === 0 ? (
                             <div className="text-center py-16 text-gray-500">
                                 <div className="text-6xl mb-4">💾</div>
-                                <div className="text-xl">No loadouts saved yet</div>
-                                <div className="text-sm mt-2">Create your first loadout to get started!</div>
+                                <div className="text-xl">{t('loadoutManager.noLoadouts')}</div>
+                                <div className="text-sm mt-2">{t('loadoutManager.getStarted')}</div>
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -223,56 +225,56 @@ export const LoadoutManager: React.FC<LoadoutManagerProps> = ({ onClose, onApply
                                                             onClick={() => { audio.playBlip(); onApplyLoadout(loadout.id); }}
                                                             className="border border-cyan-500 text-cyan-400 px-3 py-1 text-sm hover:bg-cyan-900/50"
                                                         >
-                                                            LOAD
+                                                            {t('loadoutManager.load')}
                                                         </button>
                                                     )}
                                                     <button
                                                         onClick={() => handleEdit(loadout)}
                                                         className="border border-blue-500 text-blue-400 px-3 py-1 text-sm hover:bg-blue-900/50"
                                                     >
-                                                        EDIT
+                                                        {t('loadoutManager.edit')}
                                                     </button>
                                                     <button
                                                         onClick={() => handleExport(loadout)}
                                                         className="border border-yellow-500 text-yellow-400 px-3 py-1 text-sm hover:bg-yellow-900/50"
                                                     >
-                                                        EXPORT
+                                                        {t('loadoutManager.export')}
                                                     </button>
                                                     <button
                                                         onClick={() => setDeleteConfirmId(loadout.id)}
                                                         className="border border-red-500 text-red-400 px-3 py-1 text-sm hover:bg-red-900/50"
                                                     >
-                                                        DELETE
+                                                        {t('common.delete')}
                                                     </button>
                                                 </div>
                                             </div>
 
                                             <div className="text-sm text-gray-400 space-y-1">
-                                                <div><span className="text-cyan-400">Pilot:</span> {pilot?.name || 'Unknown'}</div>
-                                                <div><span className="text-cyan-400">Module:</span> {loadout.module}</div>
-                                                <div><span className="text-cyan-400">Items:</span> {loadout.consumables.length > 0 ? loadout.consumables.map(c => c.name).join(', ') : 'None'}</div>
+                                                <div><span className="text-cyan-400">{t('common.pilot')}:</span> {pilot?.name || t('common.unknown')}</div>
+                                                <div><span className="text-cyan-400">{t('common.module')}:</span> {loadout.module}</div>
+                                                <div><span className="text-cyan-400">{t('common.items')}:</span> {loadout.consumables.length > 0 ? loadout.consumables.map(c => c.name).join(', ') : t('common.none')}</div>
                                                 <div className="text-xs text-gray-600 mt-2">
-                                                    Created: {formatDate(loadout.createdAt)}
-                                                    {loadout.lastUsed && ` • Last Used: ${formatDate(loadout.lastUsed)}`}
+                                                    {t('loadoutManager.created')}: {formatDate(loadout.createdAt)}
+                                                    {loadout.lastUsed && ` • ${t('loadoutManager.lastUsed')}: ${formatDate(loadout.lastUsed)}`}
                                                 </div>
                                             </div>
 
                                             {/* Delete Confirmation */}
                                             {deleteConfirmId === loadout.id && (
                                                 <div className="mt-3 pt-3 border-t border-red-500/50 flex justify-between items-center">
-                                                    <span className="text-red-400 text-sm">Delete this loadout?</span>
+                                                    <span className="text-red-400 text-sm">{t('loadoutManager.deleteConfirm')}</span>
                                                     <div className="flex gap-2">
                                                         <button
                                                             onClick={() => handleDelete(loadout.id)}
                                                             className="border border-red-500 text-red-400 px-3 py-1 text-sm hover:bg-red-900/50"
                                                         >
-                                                            CONFIRM
+                                                            {t('common.confirm')}
                                                         </button>
                                                         <button
                                                             onClick={() => setDeleteConfirmId(null)}
                                                             className="border border-gray-500 text-gray-400 px-3 py-1 text-sm hover:bg-gray-900/50"
                                                         >
-                                                            CANCEL
+                                                            {t('common.cancel')}
                                                         </button>
                                                     </div>
                                                 </div>
@@ -288,16 +290,16 @@ export const LoadoutManager: React.FC<LoadoutManagerProps> = ({ onClose, onApply
                 {/* Import Mode */}
                 {mode === 'import' && (
                     <div className="space-y-6">
-                        <h3 className="text-xl font-bold text-cyan-400">IMPORT LOADOUT FROM CODE</h3>
+                        <h3 className="text-xl font-bold text-cyan-400">{t('loadoutManager.importTitle')}</h3>
                         <textarea
                             value={importCode}
                             onChange={(e) => setImportCode(e.target.value)}
                             className="w-full h-32 bg-gray-900 border border-gray-700 text-white p-2"
-                            placeholder="Paste loadout code here..."
+                            placeholder={t('loadoutManager.pastePlaceholder')}
                         />
                         <div className="flex gap-4 justify-end">
-                            <button onClick={() => setMode('list')} className="border border-gray-500 text-gray-400 px-6 py-2 hover:bg-gray-900/50 transition-all">CANCEL</button>
-                            <button onClick={handleImport} className="border border-yellow-500 text-yellow-400 px-6 py-2 hover:bg-yellow-900/50 transition-all font-bold">IMPORT LOADOUT</button>
+                            <button onClick={() => setMode('list')} className="border border-gray-500 text-gray-400 px-6 py-2 hover:bg-gray-900/50 transition-all">{t('common.cancel')}</button>
+                            <button onClick={handleImport} className="border border-yellow-500 text-yellow-400 px-6 py-2 hover:bg-yellow-900/50 transition-all font-bold">{t('loadoutManager.import')}</button>
                         </div>
                     </div>
                 )}
@@ -319,20 +321,20 @@ export const LoadoutManager: React.FC<LoadoutManagerProps> = ({ onClose, onApply
 
                         {/* Name */}
                         <div>
-                            <label className="block text-sm text-cyan-400 mb-2">Loadout Name</label>
+                            <label className="block text-sm text-cyan-400 mb-2">{t('loadoutManager.loadoutName')}</label>
                             <input
                                 type="text"
                                 value={formData.name}
                                 onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                                 className="w-full bg-gray-900 border border-gray-700 text-white px-4 py-2 focus:border-cyan-500 outline-none"
-                                placeholder="Enter loadout name..."
+                                placeholder={t('loadoutManager.enterLoadoutName')}
                                 maxLength={30}
                             />
                         </div>
 
                         {/* Pilot Selection */}
                         <div>
-                            <label className="block text-sm text-cyan-400 mb-2">Pilot</label>
+                            <label className="block text-sm text-cyan-400 mb-2">{t('common.pilot')}</label>
                             <div className="grid grid-cols-2 gap-2">
                                 {PILOTS.map(pilot => {
                                     const unlocked = isPilotUnlocked(pilot);
@@ -342,10 +344,10 @@ export const LoadoutManager: React.FC<LoadoutManagerProps> = ({ onClose, onApply
                                             onClick={() => unlocked && setFormData(prev => ({ ...prev, pilotId: pilot.id, color: pilot.color }))}
                                             disabled={!unlocked}
                                             className={`border p-3 text-left transition-all ${formData.pilotId === pilot.id
-                                                    ? 'bg-cyan-900/50 border-cyan-500'
-                                                    : unlocked
-                                                        ? 'border-gray-700 hover:border-cyan-500/50'
-                                                        : 'border-gray-800 opacity-50 cursor-not-allowed'
+                                                ? 'bg-cyan-900/50 border-cyan-500'
+                                                : unlocked
+                                                    ? 'border-gray-700 hover:border-cyan-500/50'
+                                                    : 'border-gray-800 opacity-50 cursor-not-allowed'
                                                 }`}
                                         >
                                             <div className="font-bold" style={{ color: pilot.color }}>{pilot.name}</div>
@@ -359,15 +361,15 @@ export const LoadoutManager: React.FC<LoadoutManagerProps> = ({ onClose, onApply
 
                         {/* Module Selection */}
                         <div>
-                            <label className="block text-sm text-cyan-400 mb-2">Module</label>
+                            <label className="block text-sm text-cyan-400 mb-2">{t('common.module')}</label>
                             <div className="grid grid-cols-2 gap-2">
                                 {(['ASSAULT', 'DEFENSE'] as PilotModule[]).map(mod => (
                                     <button
                                         key={mod}
                                         onClick={() => setFormData(prev => ({ ...prev, module: mod }))}
                                         className={`border p-3 transition-all ${formData.module === mod
-                                                ? 'bg-cyan-900/50 border-cyan-500 text-white'
-                                                : 'border-gray-700 text-gray-400 hover:border-cyan-500/50'
+                                            ? 'bg-cyan-900/50 border-cyan-500 text-white'
+                                            : 'border-gray-700 text-gray-400 hover:border-cyan-500/50'
                                             }`}
                                     >
                                         {mod}
@@ -378,7 +380,7 @@ export const LoadoutManager: React.FC<LoadoutManagerProps> = ({ onClose, onApply
 
                         {/* Consumables */}
                         <div>
-                            <label className="block text-sm text-cyan-400 mb-2">Consumables</label>
+                            <label className="block text-sm text-cyan-400 mb-2">{t('loadoutManager.consumables')}</label>
                             <div className="grid grid-cols-3 gap-2">
                                 {CONSUMABLES.map(consumable => {
                                     const selected = formData.consumables.some(c => c.id === consumable.id);
@@ -387,8 +389,8 @@ export const LoadoutManager: React.FC<LoadoutManagerProps> = ({ onClose, onApply
                                             key={consumable.id}
                                             onClick={() => toggleConsumable(consumable)}
                                             className={`border p-2 text-sm transition-all ${selected
-                                                    ? 'bg-cyan-900/50 border-cyan-500'
-                                                    : 'border-gray-700 hover:border-cyan-500/50'
+                                                ? 'bg-cyan-900/50 border-cyan-500'
+                                                : 'border-gray-700 hover:border-cyan-500/50'
                                                 }`}
                                         >
                                             <div className="font-bold" style={{ color: consumable.color.split(' ')[0] }}>
@@ -403,7 +405,7 @@ export const LoadoutManager: React.FC<LoadoutManagerProps> = ({ onClose, onApply
 
                         {/* Color Picker */}
                         <div>
-                            <label className="block text-sm text-cyan-400 mb-2">Custom Color</label>
+                            <label className="block text-sm text-cyan-400 mb-2">{t('loadoutManager.customColor')}</label>
                             <div className="flex gap-4 items-center">
                                 <input
                                     type="color"
@@ -412,7 +414,7 @@ export const LoadoutManager: React.FC<LoadoutManagerProps> = ({ onClose, onApply
                                     className="w-16 h-16 cursor-pointer border-2 border-gray-700"
                                 />
                                 <div className="flex-1">
-                                    <div className="text-sm text-gray-400">Selected: {formData.color}</div>
+                                    <div className="text-sm text-gray-400">{t('loadoutManager.selected')}: {formData.color}</div>
                                     <div className="flex gap-2 mt-2">
                                         {PILOTS.map(p => (
                                             <button

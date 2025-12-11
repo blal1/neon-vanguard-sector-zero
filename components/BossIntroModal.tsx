@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BossTemplate } from '../types';
+import { useTranslation } from 'react-i18next';
 
 interface BossIntroModalProps {
     boss: BossTemplate;
@@ -7,6 +8,7 @@ interface BossIntroModalProps {
 }
 
 export const BossIntroModal: React.FC<BossIntroModalProps> = ({ boss, onComplete }) => {
+    const { t } = useTranslation();
     const [currentLineIndex, setCurrentLineIndex] = useState(0);
     const [isSkipped, setIsSkipped] = useState(false);
 
@@ -53,7 +55,7 @@ export const BossIntroModal: React.FC<BossIntroModalProps> = ({ boss, onComplete
                 {/* Boss Title */}
                 <div className="text-center mb-12 animate-pulse">
                     <div className="text-sm text-red-500 mb-2 tracking-widest">
-                        [ WARNING: HOSTILE SIGNATURE DETECTED ]
+                        {t('bossIntro.warningDetected')}
                     </div>
                     <h1 className="text-6xl font-bold text-red-600 mb-2 drop-shadow-[0_0_20px_rgba(220,38,38,0.8)] tracking-wider">
                         {boss.name}
@@ -94,7 +96,7 @@ export const BossIntroModal: React.FC<BossIntroModalProps> = ({ boss, onComplete
 
                 {/* Skip hint */}
                 <div className="text-center text-gray-600 text-sm animate-pulse">
-                    [ PRESS ESC, SPACE, OR ENTER TO SKIP ]
+                    {t('bossIntro.skipHint')}
                 </div>
             </div>
 

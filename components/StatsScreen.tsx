@@ -8,12 +8,14 @@ import {
     ResponsiveContainer
 } from 'recharts';
 import { PilotId } from '../types';
+import { useTranslation } from 'react-i18next';
 
 interface StatsScreenProps {
     onBack: () => void;
 }
 
 export const StatsScreen: React.FC<StatsScreenProps> = ({ onBack }) => {
+    const { t } = useTranslation();
     const { stats, profile } = useGame();
     const [selectedPilot, setSelectedPilot] = useState<PilotId | 'all'>('all');
 
@@ -84,7 +86,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({ onBack }) => {
             value: count,
             fill: '#8b5cf6'
         }));
-        
+
     const stageStatsData = Object.entries(stats.stageStats).map(([stage, data]) => ({
         name: `Stage ${stage}`,
         wins: data.wins,
@@ -127,7 +129,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({ onBack }) => {
                     onChange={(e) => setSelectedPilot(e.target.value as PilotId | 'all')}
                     className="bg-gray-800 border border-cyan-500 text-white p-2"
                 >
-                    <option value="all">All Pilots</option>
+                    <option value="all">{t('stats.allPilots')}</option>
                     {PILOTS.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                 </select>
             </div>
@@ -135,11 +137,11 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({ onBack }) => {
             {/* Stats Overview */}
             <div className="grid grid-cols-4 gap-4 mb-6">
                 <div className="border border-cyan-500 bg-cyan-900/20 p-4">
-                    <div className="text-xs text-cyan-300 uppercase mb-1">Total Damage</div>
+                    <div className="text-xs text-cyan-300 uppercase mb-1">{t('stats.totalDamage')}</div>
                     <div className="text-2xl font-bold text-white">{displayStats.totalDamageDealt.toLocaleString()}</div>
                 </div>
                 <div className="border border-green-500 bg-green-900/20 p-4">
-                    <div className="text-xs text-green-300 uppercase mb-1">Play Time</div>
+                    <div className="text-xs text-green-300 uppercase mb-1">{t('stats.playTime')}</div>
                     <div className="text-2xl font-bold text-white">{formatPlayTime(displayStats.playTime)}</div>
                 </div>
                 <div className="border border-purple-500 bg-purple-900/20 p-4">
@@ -147,11 +149,11 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({ onBack }) => {
                     <div className="text-2xl font-bold text-white">{displayStats.winRate}%</div>
                 </div>
                 <div className="border border-yellow-500 bg-yellow-900/20 p-4">
-                    <div className="text-xs text-yellow-300 uppercase mb-1">Total Kills</div>
+                    <div className="text-xs text-yellow-300 uppercase mb-1">{t('stats.totalKills')}</div>
                     <div className="text-2xl font-bold text-white">{displayStats.kills}</div>
                 </div>
             </div>
-            
+
             {/* Personal Bests */}
             <div className="mb-6">
                 <h3 className="text-lg font-bold text-cyan-400 mb-3 border-b border-gray-700 pb-2">
@@ -159,19 +161,19 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({ onBack }) => {
                 </h3>
                 <div className="grid grid-cols-4 gap-4">
                     <div className="text-center">
-                        <div className="text-xs text-gray-500 uppercase">Fastest Win</div>
+                        <div className="text-xs text-gray-500 uppercase">{t('stats.fastestWin')}</div>
                         <div className="text-xl font-bold text-white">{formatPlayTime(stats.fastestWinTime)}</div>
                     </div>
                     <div className="text-center">
-                        <div className="text-xs text-gray-500 uppercase">Longest Win Streak</div>
+                        <div className="text-xs text-gray-500 uppercase">{t('stats.longestStreak')}</div>
                         <div className="text-xl font-bold text-white">{stats.longestWinStreak}</div>
                     </div>
                     <div className="text-center">
-                        <div className="text-xs text-gray-500 uppercase">Highest Stage</div>
+                        <div className="text-xs text-gray-500 uppercase">{t('stats.highestStage')}</div>
                         <div className="text-xl font-bold text-white">{stats.highestStageReached}</div>
                     </div>
                     <div className="text-center">
-                        <div className="text-xs text-gray-500 uppercase">Perfect Runs</div>
+                        <div className="text-xs text-gray-500 uppercase">{t('stats.perfectRuns')}</div>
                         <div className="text-xl font-bold text-white">{stats.perfectRuns}</div>
                     </div>
                 </div>
@@ -406,7 +408,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({ onBack }) => {
                             <div className="w-1/2 pl-8">
                                 <div className="text-sm text-gray-300 space-y-2">
                                     <div className="flex justify-between">
-                                        <span>Total Used:</span>
+                                        <span>{t('stats.totalUsed')}</span>
                                         <span className="font-bold text-white">{stats.consumablesUsed}</span>
                                     </div>
                                     {itemsData.map((item) => (

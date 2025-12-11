@@ -2,83 +2,83 @@
 
 ## 📝 Description
 
-Description claire de ce que cette PR fait et pourquoi.
+Clear description of what this PR does and why.
 
 Fixes # (issue number)
 
-## 🔄 Type de Changement
+## 🔄 Type of Change
 
-- [ ] 🐛 Bug fix (changement non-breaking qui corrige un problème)
-- [ ] ✨ New feature (changement non-breaking qui ajoute une fonctionnalité)
-- [ ] 💥 Breaking change (fix ou feature qui causerait un breaking change)
-- [ ] 📚 Documentation (mise à jour de documentation uniquement)
-- [ ] 🎨 Style (formatage, points-virgules manquants, etc.)
-- [ ] ♻️ Refactor (ni fix ni feature, juste refactorisation)
-- [ ] ⚡ Performance (amélioration de performance)
-- [ ] ✅ Test (ajout ou correction de tests)
+- [ ] 🐛 Bug fix (non-breaking change that fixes an issue)
+- [ ] ✨ New feature (non-breaking change that adds functionality)
+- [ ] 💥 Breaking change (fix or feature that would cause a breaking change)
+- [ ] 📚 Documentation (documentation update only)
+- [ ] 🎨 Style (formatting, missing semicolons, etc.)
+- [ ] ♻️ Refactor (neither fix nor feature, just refactoring)
+- [ ] ⚡ Performance (performance improvement)
+- [ ] ✅ Test (adding or fixing tests)
 
-## 🧪 Tests Effectués
+## 🧪 Tests Performed
 
-Décrivez les tests que vous avez effectués pour vérifier vos changements:
+Describe the tests you performed to verify your changes:
 
-- [ ] Test manuel sur navigateur (précisez: Chrome/Firefox/Edge)
-- [ ] Test manuel sur Electron
-- [ ] Tests unitaires (npm run test)
-- [ ] Tests d'intégration
-- [ ] Test sur différentes difficultés
-- [ ] Test avec différents pilotes
-- [ ] Test de performance
+- [ ] Manual test on browser (specify: Chrome/Firefox/Edge)
+- [ ] Manual test on Electron
+- [ ] Unit tests (npm run test)
+- [ ] Integration tests
+- [ ] Test on different difficulties
+- [ ] Test with different pilots
+- [ ] Performance test
 
-**Configuration de test:**
+**Test configuration:**
 * OS: [e.g. Windows 11]
-* Navigateur: [e.g. Chrome 120]
+* Browser: [e.g. Chrome 120]
 * Node version: [e.g. 18.17.0]
 
-## 📸 Screenshots (si applicable)
+## 📸 Screenshots (if applicable)
 
-Ajoutez des screenshots pour montrer les changements visuels.
+Add screenshots to show visual changes.
 
 ## ✅ Checklist
 
 ### Code Quality
-- [ ] Mon code suit les style guidelines du projet
-- [ ] J'ai effectué une self-review de mon code
-- [ ] J'ai commenté mon code, particulièrement dans les zones complexes
-- [ ] Mes changements ne génèrent pas de nouveaux warnings
-- [ ] J'ai utilisé TypeScript avec types stricts (pas de `any`)
+- [ ] My code follows the project's style guidelines
+- [ ] I have performed a self-review of my code
+- [ ] I have commented my code, particularly in complex areas
+- [ ] My changes do not generate new warnings
+- [ ] I have used TypeScript with strict types (no `any`)
 
 ### Documentation
-- [ ] J'ai mis à jour la documentation si nécessaire
-- [ ] J'ai mis à jour le CHANGELOG.md
-- [ ] J'ai ajouté/mis à jour les commentaires JSDoc si applicable
+- [ ] I have updated the documentation if necessary
+- [ ] I have updated CHANGELOG.md
+- [ ] I have added/updated JSDoc comments if applicable
 
 ### Tests
-- [ ] J'ai ajouté des tests qui prouvent que mon fix fonctionne ou que ma feature marche
-- [ ] Les tests existants passent en local (`npm run test`)
-- [ ] Le build de production fonctionne (`npm run build`)
+- [ ] I have added tests that prove my fix works or my feature works
+- [ ] Existing tests pass locally (`npm run test`)
+- [ ] Production build works (`npm run build`)
 
 ### Dependencies
-- [ ] Je n'ai pas ajouté de dépendances inutiles
-- [ ] Si j'ai ajouté des dépendances, j'ai expliqué pourquoi dans la description
-- [ ] J'ai vérifié que les nouvelles dépendances n'ont pas de vulnérabilités connues
+- [ ] I have not added unnecessary dependencies
+- [ ] If I added dependencies, I have explained why in the description
+- [ ] I have verified that new dependencies have no known vulnerabilities
 
 ### Breaking Changes
-- [ ] Cette PR NE contient PAS de breaking changes
-- [ ] OU j'ai documenté les breaking changes dans la description
-- [ ] OU j'ai créé un migration guide pour les breaking changes
+- [ ] This PR does NOT contain breaking changes
+- [ ] OR I have documented breaking changes in the description
+- [ ] OR I have created a migration guide for breaking changes
 
-## 🔗 Dépendances
+## 🔗 Dependencies
 
-Cette PR dépend de:
-- #issue_number (si applicable)
+This PR depends on:
+- #issue_number (if applicable)
 
-Cette PR bloque:
-- #issue_number (si applicable)
+This PR blocks:
+- #issue_number (if applicable)
 
 ## 📋 Additional Notes
 
-Toute information additionnelle pour les reviewers:
-- Décisions techniques prises
-- Alternatives considérées
-- Questions ouvertes
-- TODOs futurs
+Any additional information for reviewers:
+- Technical decisions made
+- Alternatives considered
+- Open questions
+- Future TODOs

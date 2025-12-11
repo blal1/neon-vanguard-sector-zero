@@ -1,4 +1,4 @@
-// Hook pour navigation au clavier avec touches fléchées
+// Hook for keyboard navigation with arrow keys
 import { useEffect, useState, useCallback } from 'react';
 import { tts } from '../services/ttsService';
 
@@ -12,7 +12,7 @@ export const useKeyboardNavigation = (enabled: boolean = true) => {
     const [focusedIndex, setFocusedIndex] = useState(0);
     const [elements, setElements] = useState<NavigableElement[]>([]);
 
-    // Trouver tous les éléments navigables
+    // Find all navigable elements
     const scanElements = useCallback(() => {
         const navigable = Array.from(
             document.querySelectorAll<HTMLElement>(
@@ -23,18 +23,18 @@ export const useKeyboardNavigation = (enabled: boolean = true) => {
         const mapped = navigable
             .filter(el => {
                 const rect = el.getBoundingClientRect();
-                return rect.width > 0 && rect.height > 0; // Visible seulement
+                return rect.width > 0 && rect.height > 0; // Visible only
             })
             .map((el, index) => ({
                 id: el.id || `nav-${index}`,
                 element: el,
-                label: el.getAttribute('aria-label') || el.textContent?.trim() || 'Sans label',
+                label: el.getAttribute('aria-label') || el.textContent?.trim() || 'Unlabeled',
             }));
 
         setElements(mapped);
     }, []);
 
-    // Naviguer vers un index
+    // Navigate to an index
     const focusElement = useCallback((index: number) => {
         if (index < 0 || index >= elements.length) return;
 
@@ -43,14 +43,14 @@ export const useKeyboardNavigation = (enabled: boolean = true) => {
             item.element.focus();
             item.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-            // Annoncer avec TTS
+            // Announce with TTS
             tts.announceFocus(item.element);
 
             setFocusedIndex(index);
         }
     }, [elements]);
 
-    // Gestionnaire de touches
+    // Key handler
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
         if (!enabled) return;
 
@@ -66,7 +66,7 @@ export const useKeyboardNavigation = (enabled: boolean = true) => {
                 break;
 
             case 'ArrowRight':
-                // Navigation horizontale (pour grilles, tabs, etc.)
+                // Horizontal navigation (for grids, tabs, etc.)
                 e.preventDefault();
                 const nextHorizontal = focusedIndex + 1;
                 if (nextHorizontal < elements.length) {
@@ -85,13 +85,13 @@ export const useKeyboardNavigation = (enabled: boolean = true) => {
             case 'Home':
                 e.preventDefault();
                 focusElement(0);
-                tts.speak('Début de la liste', true);
+                tts.speak('Start of list', true);
                 break;
 
             case 'End':
                 e.preventDefault();
                 focusElement(elements.length - 1);
-                tts.speak('Fin de la liste', true);
+                tts.speak('End of list', true);
                 break;
 
             case 't':
@@ -101,7 +101,7 @@ export const useKeyboardNavigation = (enabled: boolean = true) => {
                     e.preventDefault();
                     const newState = !tts['enabled']; // Access private for toggle
                     tts.setEnabled(newState);
-                    tts.speak(newState ? 'Synthèse vocale activée' : 'Synthèse vocale désactivée', true);
+                    tts.speak(newState ? 'Text-to-speech enabled' : 'Text-to-speech disabled', true);
                 }
                 break;
         }
@@ -111,10 +111,10 @@ export const useKeyboardNavigation = (enabled: boolean = true) => {
     useEffect(() => {
         if (!enabled) return;
 
-        // Scan initial
+        // Initial scan
         scanElements();
 
-        // Re-scan quand le DOM change
+        // Re-scan when DOM changes
         const observer = new MutationObserver(() => {
             scanElements();
         });
@@ -124,7 +124,7 @@ export const useKeyboardNavigation = (enabled: boolean = true) => {
             subtree: true,
         });
 
-        // Écouter les touches
+        // Listen for keystrokes
         window.addEventListener('keydown', handleKeyDown);
 
         return () => {
@@ -133,10 +133,10 @@ export const useKeyboardNavigation = (enabled: boolean = true) => {
         };
     }, [enabled, handleKeyDown, scanElements]);
 
-    // Annoncer le nombre d'éléments
+    // Announce number of elements
     useEffect(() => {
         if (elements.length > 0) {
-            tts.addToQueue(`${elements.length} éléments navigables`);
+            tts.addToQueue(`${elements.length} navigable elements`);
         }
     }, [elements.length]);
 

@@ -1,12 +1,12 @@
 # API Reference
 
-Documentation de référence des APIs principales de **Neon Vanguard: Sector Zero**.
+Reference documentation for the main APIs of **Neon Vanguard: Sector Zero**.
 
 ## GameContext API
 
-Le `GameContext` est le cœur du state management. Il fournit l'état global et les actions pour le modifier.
+The `GameContext` is the heart of state management. It provides global state and actions to modify it.
 
-### Utilisation
+### Usage
 
 ```typescript
 import { useGame } from './context/GameContext';
@@ -14,20 +14,20 @@ import { useGame } from './context/GameContext';
 const MyComponent = () => {
   const { profile, addXp, startRun } = useGame();
   
-  // Utiliser l'état et les actions
+  // Use state and actions
 };
 ```
 
-### État (State)
+### State
 
 #### `profile: PlayerProfile`
 
-Profil du joueur persisté.
+Persisted player profile.
 
 ```typescript
 interface PlayerProfile {
-  xp: number;              // Points d'expérience
-  level: number;           // Niveau actuel
+  xp: number;              // Experience points
+  level: number;           // Current level
   missionsCompleted: number;
   totalKills: number;
 }
@@ -35,7 +35,7 @@ interface PlayerProfile {
 
 #### `settings: GameSettings`
 
-Configuration du jeu.
+Game configuration.
 
 ```typescript
 interface GameSettings {
@@ -46,7 +46,7 @@ interface GameSettings {
   isMuted: boolean;
   voiceLinesEnabled: boolean;
   
-  // Visuel
+  // Visual
   showDamageNumbers: boolean;
   screenShake: boolean;
   reduceMotion: boolean;
@@ -63,7 +63,7 @@ interface GameSettings {
 
 #### `runState: RunState`
 
-État du run actif.
+Active run state.
 
 ```typescript
 interface RunState {
@@ -83,7 +83,7 @@ interface RunState {
 
 #### `stats: GameStats`
 
-Statistiques de jeu détaillées.
+Detailed game statistics.
 
 ```typescript
 interface GameStats {
@@ -93,7 +93,7 @@ interface GameStats {
   criticalHits: number;
   abilitiesUsed: number;
   
-  // Victoires
+  // Victories
   fastestWinTime: number;
   longestWinStreak: number;
   currentWinStreak: number;
@@ -109,30 +109,30 @@ interface GameStats {
   augmentationsOwned: string[];
   pilotsUnlocked: string[];
   
-  // Statistiques détaillées
+  // Detailed statistics
   runsCompleted: number;
   runsFailed: number;
   pilotStats: Record<string, PilotStats>;
   enemiesKilledByType: Record<string, number>;
-  // ... voir types.ts pour liste complète
+  // ... see types.ts for complete list
 }
 ```
 
 #### `achievements: AchievementProgress[]`
 
-Achievements débloqués.
+Unlocked achievements.
 
 ```typescript
 interface AchievementProgress {
   achievementId: string;
   unlockedAt: number;          // Timestamp
-  justUnlocked?: boolean;      // Pour notifications
+  justUnlocked?: boolean;      // For notifications
 }
 ```
 
 #### `loadouts: Loadout[]`
 
-Configurations sauvegardées.
+Saved configurations.
 
 ```typescript
 interface Loadout {
@@ -149,7 +149,7 @@ interface Loadout {
 
 #### `difficulty: DifficultyLevel`
 
-Niveau de difficulté actuel.
+Current difficulty level.
 
 ```typescript
 type DifficultyLevel = 'RECRUIT' | 'VETERAN' | 'ELITE' | 'NIGHTMARE';
@@ -157,11 +157,11 @@ type DifficultyLevel = 'RECRUIT' | 'VETERAN' | 'ELITE' | 'NIGHTMARE';
 
 #### `lives: number`
 
-Vies restantes (selon difficulté).
+Remaining lives (depending on difficulty).
 
 #### `endlessState: EndlessRunState`
 
-État du mode Endless.
+Endless mode state.
 
 ```typescript
 interface EndlessRunState {
@@ -183,19 +183,19 @@ interface EndlessRunState {
 
 ### Actions
 
-#### Profil & Progression
+#### Profile & Progression
 
 ##### `addXp(amount: number): void`
 
-Ajoute de l'XP et level up si nécessaire.
+Adds XP and levels up if necessary.
 
 ```typescript
-addXp(50); // Ajoute 50 XP
+addXp(50); // Adds 50 XP
 ```
 
 ##### `addKill(): void`
 
-Incrémente le compteur de kills.
+Increments the kill counter.
 
 ```typescript
 addKill();
@@ -205,7 +205,7 @@ addKill();
 
 ##### `startRun(pilot: PilotConfig, module: PilotModule, consumables: Consumable[]): void`
 
-Démarre un nouveau run.
+Starts a new run.
 
 ```typescript
 const pilot = getPilotById('vanguard');
@@ -214,7 +214,7 @@ startRun(pilot, 'ASSAULT', [medKit, empGrenade]);
 
 ##### `endRun(): void`
 
-Termine le run actif.
+Ends the active run.
 
 ```typescript
 endRun();
@@ -222,7 +222,7 @@ endRun();
 
 ##### `advanceStage(): void`
 
-Passe au secteur suivant.
+Advances to the next sector.
 
 ```typescript
 advanceStage(); // Stage 1 -> 2
@@ -230,7 +230,7 @@ advanceStage(); // Stage 1 -> 2
 
 ##### `updateRunHp(hp: number): void`
 
-Met à jour les HP du run.
+Updates the run's HP.
 
 ```typescript
 updateRunHp(80);
@@ -238,7 +238,7 @@ updateRunHp(80);
 
 ##### `updateRunConsumables(consumables: Consumable[]): void`
 
-Met à jour les consommables du run.
+Updates the run's consumables.
 
 ```typescript
 updateRunConsumables([...newConsumables]);
@@ -246,7 +246,7 @@ updateRunConsumables([...newConsumables]);
 
 ##### `updateRunState(updates: Partial<RunState>): void`
 
-Mise à jour partielle du run state.
+Partial update of the run state.
 
 ```typescript
 updateRunState({ scrap: runState.scrap + 100 });
@@ -256,7 +256,7 @@ updateRunState({ scrap: runState.scrap + 100 });
 
 ##### `addScrap(amount: number): void`
 
-Ajoute du scrap au run actif.
+Adds scrap to the active run.
 
 ```typescript
 addScrap(50);
@@ -264,7 +264,7 @@ addScrap(50);
 
 ##### `purchaseUpgrade(type: 'hp' | 'dmg' | 'repair' | 'item' | 'aug', itemId?: string, cost?: number): void`
 
-Achète un upgrade au hangar.
+Purchases an upgrade at the hangar.
 
 ```typescript
 purchaseUpgrade('hp'); // +20 Max HP
@@ -274,7 +274,7 @@ purchaseUpgrade('aug', 'shield-boost', 30); // Augmentation
 
 ##### `purchaseAugmentation(augmentationId: string, cost: number): void`
 
-Achète une augmentation.
+Purchases an augmentation.
 
 ```typescript
 purchaseAugmentation('shield-matrix', 40);
@@ -284,7 +284,7 @@ purchaseAugmentation('shield-matrix', 40);
 
 ##### `toggleSetting(setting: keyof GameSettings): void`
 
-Toggle un setting boolean.
+Toggles a boolean setting.
 
 ```typescript
 toggleSetting('isMuted');
@@ -293,7 +293,7 @@ toggleSetting('showDamageNumbers');
 
 ##### `updateSettings(updates: Partial<GameSettings>): void`
 
-Met à jour plusieurs settings.
+Updates multiple settings.
 
 ```typescript
 updateSettings({
@@ -307,7 +307,7 @@ updateSettings({
 
 ##### `checkAchievements(): AchievementProgress[]`
 
-Vérifie et unlock les achievements.
+Checks and unlocks achievements.
 
 ```typescript
 const newAchievements = checkAchievements();
@@ -315,7 +315,7 @@ const newAchievements = checkAchievements();
 
 ##### `recordStat(stat: keyof GameStats, value: number | string | string[]): void`
 
-Enregistre une statistique.
+Records a statistic.
 
 ```typescript
 recordStat('fastestWinTime', 180);
@@ -323,7 +323,7 @@ recordStat('fastestWinTime', 180);
 
 ##### `incrementStat(stat: keyof GameStats, amount?: number): void`
 
-Incrémente une statistique.
+Increments a statistic.
 
 ```typescript
 incrementStat('bossesDefeated');
@@ -332,7 +332,7 @@ incrementStat('totalKills', 1);
 
 ##### `recordDamageDealt(amount: number): void`
 
-Enregistre dégâts infligés.
+Records damage dealt.
 
 ```typescript
 recordDamageDealt(150);
@@ -340,7 +340,7 @@ recordDamageDealt(150);
 
 ##### `recordDamageTaken(amount: number): void`
 
-Enregistre dégâts reçus.
+Records damage taken.
 
 ```typescript
 recordDamageTaken(50);
@@ -348,7 +348,7 @@ recordDamageTaken(50);
 
 ##### `recordCriticalHit(): void`
 
-Enregistre un coup critique.
+Records a critical hit.
 
 ```typescript
 recordCriticalHit();
@@ -358,7 +358,7 @@ recordCriticalHit();
 
 ##### `createLoadout(name: string, pilotId: PilotId, module: PilotModule, consumables: Consumable[], color: string): void`
 
-Crée un loadout.
+Creates a loadout.
 
 ```typescript
 createLoadout('Tank Build', 'vanguard', 'DEFENSE', consumables, '#00ff00');
@@ -366,7 +366,7 @@ createLoadout('Tank Build', 'vanguard', 'DEFENSE', consumables, '#00ff00');
 
 ##### `updateLoadout(id: string, updates: Partial<Loadout>): void`
 
-Met à jour un loadout.
+Updates a loadout.
 
 ```typescript
 updateLoadout('loadout-123', { name: 'New Name' });
@@ -374,7 +374,7 @@ updateLoadout('loadout-123', { name: 'New Name' });
 
 ##### `deleteLoadout(id: string): void`
 
-Supprime un loadout.
+Deletes a loadout.
 
 ```typescript
 deleteLoadout('loadout-123');
@@ -382,7 +382,7 @@ deleteLoadout('loadout-123');
 
 ##### `applyLoadout(id: string): { pilot, module, consumables } | null`
 
-Charge un loadout.
+Loads a loadout.
 
 ```typescript
 const applied = applyLoadout('loadout-123');
@@ -395,7 +395,7 @@ if (applied) {
 
 ##### `setDifficulty(level: DifficultyLevel): void`
 
-Change le niveau de difficulté.
+Changes the difficulty level.
 
 ```typescript
 setDifficulty('VETERAN');
@@ -403,7 +403,7 @@ setDifficulty('VETERAN');
 
 ##### `loseLife(): void`
 
-Perd une vie (modes avec vies limitées).
+Loses a life (modes with limited lives).
 
 ```typescript
 loseLife();
@@ -413,7 +413,7 @@ loseLife();
 
 ##### `startEndlessRun(pilot: PilotConfig, module: PilotModule, consumables: Consumable[]): void`
 
-Démarre un run Endless.
+Starts an Endless run.
 
 ```typescript
 startEndlessRun(pilot, 'ASSAULT', consumables);
@@ -421,7 +421,7 @@ startEndlessRun(pilot, 'ASSAULT', consumables);
 
 ##### `endEndlessRun(): void`
 
-Termine le run Endless et enregistre le score.
+Ends the Endless run and records the score.
 
 ```typescript
 endEndlessRun();
@@ -429,7 +429,7 @@ endEndlessRun();
 
 ##### `advanceEndlessWave(): void`
 
-Passe à la vague suivante.
+Advances to the next wave.
 
 ```typescript
 advanceEndlessWave();
@@ -437,7 +437,7 @@ advanceEndlessWave();
 
 ##### `applyEndlessUpgrade(upgradeId: string): void`
 
-Applique un upgrade Endless.
+Applies an Endless upgrade.
 
 ```typescript
 applyEndlessUpgrade('damage-boost');
@@ -447,7 +447,7 @@ applyEndlessUpgrade('damage-boost');
 
 ### AudioService
 
-Service pour gérer l'audio du jeu.
+Service for managing game audio.
 
 #### Imports
 
@@ -455,11 +455,11 @@ Service pour gérer l'audio du jeu.
 import { audio } from './services/audioService';
 ```
 
-#### Méthodes
+#### Methods
 
 ##### `preloadAssets(): Promise<void>`
 
-Précharge tous les assets audio.
+Preloads all audio assets.
 
 ```typescript
 await audio.preloadAssets();
@@ -467,7 +467,7 @@ await audio.preloadAssets();
 
 ##### `playBlip(): void`
 
-Joue un son UI.
+Plays a UI sound.
 
 ```typescript
 audio.playBlip();
@@ -475,7 +475,7 @@ audio.playBlip();
 
 ##### `playMusic(type: 'combat' | 'stage' | 'boss' | 'victory' | 'defeat'): void`
 
-Joue une musique.
+Plays music.
 
 ```typescript
 audio.playMusic('combat');
@@ -483,7 +483,7 @@ audio.playMusic('combat');
 
 ##### `stopMusic(): void`
 
-Arrête la musique.
+Stops the music.
 
 ```typescript
 audio.stopMusic();
@@ -491,7 +491,7 @@ audio.stopMusic();
 
 ##### `playSound(soundId: string): void`
 
-Joue un effet sonore.
+Plays a sound effect.
 
 ```typescript
 audio.playSound('explosion');
@@ -499,7 +499,7 @@ audio.playSound('explosion');
 
 ##### `setVolume(volume: number): void`
 
-Change le volume master (0.0 - 1.0).
+Changes the master volume (0.0 - 1.0).
 
 ```typescript
 audio.setVolume(0.8);
@@ -507,7 +507,7 @@ audio.setVolume(0.8);
 
 ### TTSService
 
-Service Text-to-Speech.
+Text-to-Speech service.
 
 #### Imports
 
@@ -515,11 +515,11 @@ Service Text-to-Speech.
 import { tts, gameTTS } from './services/ttsService';
 ```
 
-#### Méthodes
+#### Methods
 
 ##### `tts.speak(text: string, options?: SpeechOptions): void`
 
-Lit du texte.
+Reads text aloud.
 
 ```typescript
 tts.speak('Welcome to Neon Vanguard', { rate: 1.0, pitch: 1.0 });
@@ -527,7 +527,7 @@ tts.speak('Welcome to Neon Vanguard', { rate: 1.0, pitch: 1.0 });
 
 ##### `gameTTS.announce(message: string, priority?: 'polite' | 'assertive'): void`
 
-Annonce un message avec priorité.
+Announces a message with priority.
 
 ```typescript
 gameTTS.announce('Enemy defeated', 'polite');
@@ -537,7 +537,7 @@ gameTTS.announce('Enemy defeated', 'polite');
 
 ### combatUtils
 
-Fonctions de calcul de combat.
+Combat calculation functions.
 
 #### Imports
 
@@ -545,11 +545,11 @@ Fonctions de calcul de combat.
 import { calculateDamage, applyConsumableEffect } from './utils/combatUtils';
 ```
 
-#### Fonctions
+#### Functions
 
 ##### `calculateDamage(baseDamage: number, multiplier: number, isCritical: boolean, isWeakPoint?: boolean): number`
 
-Calcule les dégâts d'une attaque.
+Calculates attack damage.
 
 ```typescript
 const damage = calculateDamage(100, 1.5, true, false);
@@ -558,7 +558,7 @@ const damage = calculateDamage(100, 1.5, true, false);
 
 ##### `applyConsumableEffect(consumableId: string, player: Player, enemies: Enemy[]): void`
 
-Applique l'effet d'un consommable.
+Applies a consumable's effect.
 
 ```typescript
 applyConsumableEffect('med-kit', playerState, enemyList);
@@ -566,7 +566,7 @@ applyConsumableEffect('med-kit', playerState, enemyList);
 
 ### synergyUtils
 
-Gestion des synergies d'augmentations.
+Augmentation synergy management.
 
 #### Imports
 
@@ -574,11 +574,11 @@ Gestion des synergies d'augmentations.
 import { getActiveSynergies, applySynergyEffect } from './utils/synergyUtils';
 ```
 
-#### Fonctions
+#### Functions
 
 ##### `getActiveSynergies(augmentationIds: string[]): Synergy[]`
 
-Retourne les synergies actives.
+Returns active synergies.
 
 ```typescript
 const synergies = getActiveSynergies(['shield-boost', 'armor-plating']);
@@ -586,7 +586,7 @@ const synergies = getActiveSynergies(['shield-boost', 'armor-plating']);
 
 ##### `applySynergyEffect(synergyId: SynergyId, state: CombatState): void`
 
-Applique un effet de synergie.
+Applies a synergy effect.
 
 ```typescript
 applySynergyEffect('INFERNO', combatState);
@@ -594,7 +594,7 @@ applySynergyEffect('INFERNO', combatState);
 
 ---
 
-## Types Référence Rapide
+## Quick Type Reference
 
 ### Enums
 
@@ -612,10 +612,10 @@ type HazardType = 'NONE' | 'ACID_RAIN' | 'ION_STORM' | 'SEISMIC_ACTIVITY';
 type DifficultyLevel = 'RECRUIT' | 'VETERAN' | 'ELITE' | 'NIGHTMARE';
 ```
 
-### Interfaces Principales
+### Main Interfaces
 
-Voir [`types.ts`](file:///c:/Users/bilal/Downloads/38833FF26BA1D.UnigramPreview_g9c9v27vpyspw!App/neon-vanguard_-sector-zero/types.ts) pour la liste complète.
+See [`types.ts`](file:///c:/Users/bilal/Downloads/38833FF26BA1D.UnigramPreview_g9c9v27vpyspw!App/neon-vanguard_-sector-zero/types.ts) for the complete list.
 
 ---
 
-**Dernière mise à jour**: 2025-12-09
+**Last Updated**: 2025-12-11

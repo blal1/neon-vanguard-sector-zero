@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AudioVisualizer } from './AudioVisualizer';
+import { useTranslation } from 'react-i18next';
 
 interface TerminalLayoutProps {
   children: React.ReactNode;
@@ -7,6 +8,7 @@ interface TerminalLayoutProps {
 }
 
 export const TerminalLayout: React.FC<TerminalLayoutProps> = ({ children, color }) => {
+  const { t } = useTranslation();
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const toggleFullscreen = () => {
@@ -37,7 +39,7 @@ export const TerminalLayout: React.FC<TerminalLayoutProps> = ({ children, color 
         aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
         className="absolute top-4 right-4 z-[60] text-[10px] md:text-xs border border-white/20 px-2 py-1 bg-black text-white/50 hover:bg-white hover:text-black hover:opacity-100 focus:opacity-100 focus:bg-white focus:text-black transition-all uppercase tracking-wider"
       >
-        {isFullscreen ? '[EXIT FULLSCREEN]' : '[FULLSCREEN]'}
+        {isFullscreen ? t('ui.exitFullscreen') : t('ui.fullscreen')}
       </button>
 
       {/* Main Content Area */}

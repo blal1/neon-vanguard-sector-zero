@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Achievement } from '../types';
 import { getRarityColor } from '../constants/achievements';
 import { audio } from '../services/audioService';
+import { useTranslation } from 'react-i18next';
 
 interface AchievementNotificationProps {
     achievement: Achievement;
@@ -15,6 +16,7 @@ export const AchievementNotification: React.FC<AchievementNotificationProps> = (
     onDismiss,
     autoDismissMs = 5000
 }) => {
+    const { t } = useTranslation();
     useEffect(() => {
         // Play sound on mount
         audio.playBlip();
@@ -65,7 +67,7 @@ export const AchievementNotification: React.FC<AchievementNotificationProps> = (
                 <div className="flex items-center gap-2 mb-2 border-b border-gray-700 pb-2">
                     <span className="text-2xl animate-bounce">🏆</span>
                     <span className="text-yellow-400 font-bold tracking-wider uppercase text-sm">
-                        Achievement Unlocked!
+                        {t('achievements.unlocked')}
                     </span>
                 </div>
 
@@ -90,7 +92,7 @@ export const AchievementNotification: React.FC<AchievementNotificationProps> = (
 
                 {/* Dismiss Hint */}
                 <div className="text-xs text-gray-600 text-right mt-2">
-                    Click to dismiss
+                    {t('ui.clickToDismiss')}
                 </div>
             </div>
         </motion.div>

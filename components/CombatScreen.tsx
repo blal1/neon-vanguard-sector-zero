@@ -32,6 +32,7 @@ import { CombatEffects } from './CombatEffects';
 import { gameTTS } from '../services/ttsService';
 import { AccessibilityAnnouncer } from './AccessibilityAnnouncer';
 import { ScreenReaderOnly } from './ScreenReaderOnly';
+import { useTranslation } from 'react-i18next';
 
 interface CombatScreenProps {
   pilot: PilotConfig;
@@ -41,6 +42,7 @@ interface CombatScreenProps {
 }
 
 export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVictory, onDefeat }) => {
+  const { t } = useTranslation();
 
   const {
     addXp, addKill, addScrap, updateRunHp, updateRunConsumables, runState, settings,
@@ -1199,8 +1201,8 @@ export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVic
         role="application" aria-label="Combat Interface"
       >
         <ScreenReaderOnly>
-          <h2>Combat en cours - Secteur {runState.currentStage}</h2>
-          <p>Utilisez les touches ou cliquez sur les ennemis pour attaquer</p>
+          <h2>{t('combat.combatInProgress', { stage: runState.currentStage })}</h2>
+          <p>{t('combat.useKeysOrClick')}</p>
         </ScreenReaderOnly>
 
         {/* Hazard Overlays */}
@@ -1322,7 +1324,7 @@ export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVic
             {runState.missionType === 'DEFENSE' && (
               <div className="bg-blue-900/20 border border-blue-500 p-2 mb-2">
                 <div className="flex justify-between text-blue-300 text-xs font-bold mb-1">
-                  <span>DATA CORE INTEGRITY</span>
+                  <span>{t('combat.dataCoreIntegrity')}</span>
                   <span>{coreHp}%</span>
                 </div>
                 <div className="h-2 w-full bg-gray-900">

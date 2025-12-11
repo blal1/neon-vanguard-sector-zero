@@ -1,4 +1,4 @@
-// Service TTS utilisant Web Speech API
+// TTS Service using Web Speech API
 class TTSService {
     private synth: SpeechSynthesis;
     private isSpeaking: boolean = false;
@@ -12,7 +12,7 @@ class TTSService {
         this.synth = window.speechSynthesis;
     }
 
-    // Parler immédiatement (annule le texte en cours)
+    // Speak immediately (cancels current text)
     speak(text: string, interrupt: boolean = false) {
         if (!this.enabled || !text) return;
 
@@ -21,7 +21,7 @@ class TTSService {
         }
 
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'fr-FR';
+        utterance.lang = 'en-US';
         utterance.rate = this.rate;
         utterance.volume = this.volume;
 
@@ -45,7 +45,7 @@ class TTSService {
         this.synth.speak(utterance);
     }
 
-    // Ajouter à la file d'attente
+    // Add to queue
     addToQueue(text: string) {
         if (!this.enabled || !text) return;
 
@@ -63,7 +63,7 @@ class TTSService {
         this.speak(text, false);
     }
 
-    // Arrêter la parole
+    // Stop speech
     stop() {
         this.synth.cancel();
         this.messageQueue = [];
@@ -71,7 +71,7 @@ class TTSService {
         this.currentUtterance = null;
     }
 
-    // Activer/Désactiver
+    // Enable/Disable
     setEnabled(enabled: boolean) {
         this.enabled = enabled;
         if (!enabled) {
@@ -79,27 +79,27 @@ class TTSService {
         }
     }
 
-    // Régler la vitesse (0.1 à 10)
+    // Set speed (0.1 to 10)
     setRate(rate: number) {
         this.rate = Math.max(0.1, Math.min(10, rate));
     }
 
-    // Régler le volume (0 à 1)
+    // Set volume (0 to 1)
     setVolume(volume: number) {
         this.volume = Math.max(0, Math.min(1, volume));
     }
 
-    // Check si disponible
+    // Check if available
     isAvailable(): boolean {
         return 'speechSynthesis' in window;
     }
 
-    // Annoncer un élément au focus
+    // Announce element on focus
     announceFocus(element: HTMLElement) {
         const label = element.getAttribute('aria-label') ||
             element.getAttribute('title') ||
             element.textContent ||
-            'Élément sans label';
+            'Unlabeled element';
 
         const role = element.getAttribute('role') || element.tagName.toLowerCase();
 
@@ -108,14 +108,14 @@ class TTSService {
 
     private getRoleDescription(role: string): string {
         const descriptions: Record<string, string> = {
-            'button': 'Bouton',
-            'link': 'Lien',
-            'checkbox': 'Case à cocher',
-            'radio': 'Bouton radio',
-            'textbox': 'Zone de texte',
-            'heading': 'Titre',
-            'menuitem': 'Élément de menu',
-            'tab': 'Onglet',
+            'button': 'Button',
+            'link': 'Link',
+            'checkbox': 'Checkbox',
+            'radio': 'Radio button',
+            'textbox': 'Text field',
+            'heading': 'Heading',
+            'menuitem': 'Menu item',
+            'tab': 'Tab',
         };
         return descriptions[role] || '';
     }
@@ -124,28 +124,28 @@ class TTSService {
 // Export singleton
 export const tts = new TTSService();
 
-// Raccourcis pour événements de jeu
+// Shortcuts for game events
 export const gameTTS = {
     // Combat
     damage: (amount: number, target: string) => {
-        tts.addToQueue(`${amount} points de dégâts infligés à ${target}`);
+        tts.addToQueue(`${amount} damage dealt to ${target}`);
     },
 
     playerDamage: (amount: number) => {
-        tts.speak(`Attention! Vous perdez ${amount} points de vie`, true);
+        tts.speak(`Warning! You lose ${amount} health points`, true);
     },
 
     enemyDefeated: (enemy: string) => {
-        tts.addToQueue(`${enemy} vaincu!`);
+        tts.addToQueue(`${enemy} defeated!`);
     },
 
     abilityUsed: (ability: string) => {
-        tts.addToQueue(`Capacité ${ability} utilisée`);
+        tts.addToQueue(`Ability ${ability} used`);
     },
 
     // UI
     screenChange: (screenName: string) => {
-        tts.speak(`Écran ${screenName}`, true);
+        tts.speak(`Screen: ${screenName}`, true);
     },
 
     notification: (message: string) => {
@@ -153,7 +153,7 @@ export const gameTTS = {
     },
 
     achievement: (name: string) => {
-        tts.speak(`Succès débloqué: ${name}!`, true);
+        tts.speak(`Achievement unlocked: ${name}!`, true);
     },
 
     // Combat log
@@ -161,7 +161,7 @@ export const gameTTS = {
         tts.addToQueue(message);
     },
 
-    // Statut
+    // Status
     status: (message: string) => {
         tts.addToQueue(message);
     },

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface CodexUnlockNotificationProps {
     title: string;
@@ -13,6 +14,7 @@ export const CodexUnlockNotification: React.FC<CodexUnlockNotificationProps> = (
     onView,
     onDismiss
 }) => {
+    const { t } = useTranslation();
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -52,7 +54,7 @@ export const CodexUnlockNotification: React.FC<CodexUnlockNotificationProps> = (
                     <div className="flex items-center gap-2 mb-2">
                         <span className="text-2xl">{getCategoryIcon()}</span>
                         <div className="text-yellow-400 font-bold animate-pulse">
-                            📖 NEW CODEX ENTRY UNLOCKED
+                            {t('codex.newEntry')}
                         </div>
                     </div>
 
@@ -73,7 +75,7 @@ export const CodexUnlockNotification: React.FC<CodexUnlockNotificationProps> = (
                             }}
                             className="px-3 py-1 border-2 border-cyan-400 bg-cyan-400/20 text-cyan-400 hover:bg-cyan-400/30 transition-all text-sm"
                         >
-                            [VIEW NOW]
+                            {t('codex.viewNow')}
                         </button>
                         <button
                             onClick={() => {
@@ -82,7 +84,7 @@ export const CodexUnlockNotification: React.FC<CodexUnlockNotificationProps> = (
                             }}
                             className="px-3 py-1 border-2 border-gray-600 text-gray-400 hover:border-gray-500 transition-all text-sm"
                         >
-                            [LATER]
+                            {t('codex.later')}
                         </button>
                     </div>
                 </div>

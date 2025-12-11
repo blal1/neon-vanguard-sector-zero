@@ -16,6 +16,7 @@ import {
 import { UpgradeSelectionModal } from './UpgradeSelectionModal';
 import { WaveCompleteModal } from './WaveCompleteModal';
 import { EndlessGameOverModal } from './EndlessGameOverModal';
+import { useTranslation } from 'react-i18next';
 
 interface EndlessWaveScreenProps {
     pilot: PilotConfig;
@@ -38,6 +39,7 @@ export const EndlessWaveScreen: React.FC<EndlessWaveScreenProps> = ({ pilot, mod
         recordCodexEnemyKill
     } = useGame();
 
+    const { t } = useTranslation();
     const maxHp = endlessState.maxHp;
 
     // UI State
@@ -369,7 +371,7 @@ export const EndlessWaveScreen: React.FC<EndlessWaveScreenProps> = ({ pilot, mod
 
                     {/* Abilities */}
                     <div className="mb-4">
-                        <h3 className="text-sm font-bold text-gray-400 mb-2">ABILITIES</h3>
+                        <h3 className="text-sm font-bold text-gray-400 mb-2">{t('endless.abilities')}</h3>
                         {pilot.abilities.map((ability, idx) => (
                             <button
                                 key={ability.id}
@@ -388,7 +390,7 @@ export const EndlessWaveScreen: React.FC<EndlessWaveScreenProps> = ({ pilot, mod
 
                     {/* Consumables */}
                     <div>
-                        <h3 className="text-sm font-bold text-gray-400 mb-2">ITEMS</h3>
+                        <h3 className="text-sm font-bold text-gray-400 mb-2">{t('endless.items')}</h3>
                         {consumables.map((item, idx) => (
                             <button
                                 key={idx}

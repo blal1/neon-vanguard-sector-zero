@@ -1,6 +1,7 @@
 import React from 'react';
 import { CombatReplay } from '../types/replay';
 import { audio } from '../services/audioService';
+import { useTranslation } from 'react-i18next';
 
 interface ReplayListScreenProps {
     replays: CombatReplay[];
@@ -19,6 +20,7 @@ export const ReplayListScreen: React.FC<ReplayListScreenProps> = ({
     onClearAll,
     maxReplays
 }) => {
+    const { t } = useTranslation();
     const formatDate = (timestamp: number) => {
         const date = new Date(timestamp);
         return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -94,8 +96,8 @@ export const ReplayListScreen: React.FC<ReplayListScreenProps> = ({
                                     </div>
                                 </div>
                                 <div className={`px-4 py-1 font-bold ${replay.outcome === 'VICTORY'
-                                        ? 'bg-green-600 text-white'
-                                        : 'bg-red-600 text-white'
+                                    ? 'bg-green-600 text-white'
+                                    : 'bg-red-600 text-white'
                                     }`}>
                                     {replay.outcome}
                                 </div>
@@ -104,7 +106,7 @@ export const ReplayListScreen: React.FC<ReplayListScreenProps> = ({
                             {/* Stats Grid */}
                             <div className="grid grid-cols-5 gap-3 mt-3 text-xs border-t border-green-800 pt-3">
                                 <div className="text-center">
-                                    <div className="text-gray-500">Duration</div>
+                                    <div className="text-gray-500">{t('replay.duration')}</div>
                                     <div className="text-cyan-400 font-bold">{formatDuration(replay.duration)}</div>
                                 </div>
                                 <div className="text-center">
@@ -120,7 +122,7 @@ export const ReplayListScreen: React.FC<ReplayListScreenProps> = ({
                                     <div className="text-yellow-400 font-bold">{replay.finalStats.itemsUsed}</div>
                                 </div>
                                 <div className="text-center">
-                                    <div className="text-gray-500">Actions</div>
+                                    <div className="text-gray-500">{t('replay.actions')}</div>
                                     <div className="text-purple-400 font-bold">{replay.actions.length}</div>
                                 </div>
                             </div>
@@ -140,8 +142,8 @@ export const ReplayListScreen: React.FC<ReplayListScreenProps> = ({
             ) : (
                 <div className="border-2 border-gray-700 p-12 text-center">
                     <div className="text-6xl mb-4 opacity-30">🎬</div>
-                    <div className="text-xl text-gray-600 mb-2">No replays available</div>
-                    <div className="text-sm text-gray-700">Complete a combat to save a replay</div>
+                    <div className="text-xl text-gray-600 mb-2">{t('replay.noReplays')}</div>
+                    <div className="text-sm text-gray-700">{t('replay.completeRun')}</div>
                 </div>
             )}
 

@@ -1,0 +1,5 @@
+[2025-12-11T21:14:32.733Z] === ELECTRON STARTING ===
+[2025-12-11T21:14:32.739Z] __dirname: C:\Users\bilal\Downloads\38833FF26BA1D.UnigramPreview_g9c9v27vpyspw!App\neon-vanguard_-sector-zero\electron
+[2025-12-11T21:14:32.739Z] process.cwd: C:\Users\bilal\Downloads\38833FF26BA1D.UnigramPreview_g9c9v27vpyspw!App\neon-vanguard_-sector-zero
+[2025-12-11T21:14:32.739Z] app.isPackaged: false
+[2025-12-11T21:14:32.739Z] main.cjs loaded

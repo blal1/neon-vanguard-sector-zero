@@ -6,6 +6,7 @@ import { RUN_CONFIG } from '../constants';
 import { useGame } from '../context/GameContext';
 import { getTalentRank, canUnlockTalent } from '../utils/talentUtils';
 import { audio } from '../services/audioService';
+import { useTranslation } from 'react-i18next';
 
 interface TalentNode {
     id: string;
@@ -28,10 +29,11 @@ interface TalentTreeScreenProps {
 }
 
 export const TalentTreeScreen: React.FC<TalentTreeScreenProps> = ({ pilotId, onBack }) => {
-    const { 
-        talentState, 
-        unlockTalent, 
-        resetTalents, 
+    const { t } = useTranslation();
+    const {
+        talentState,
+        unlockTalent,
+        resetTalents,
         getTalentSynergies,
         saveTalentPreset,
         loadTalentPreset,
@@ -154,7 +156,7 @@ export const TalentTreeScreen: React.FC<TalentTreeScreenProps> = ({ pilotId, onB
         <div className="w-full h-full bg-black text-cyan-400 font-mono p-6 overflow-y-auto" style={{
             '--glow-color': 'rgba(0, 255, 255, 0.7)'
         } as React.CSSProperties}>
-             <style>{`
+            <style>{`
                 .talent-node-active {
                     box-shadow: 0 0 15px var(--glow-color), 0 0 25px var(--glow-color);
                 }
@@ -186,9 +188,9 @@ export const TalentTreeScreen: React.FC<TalentTreeScreenProps> = ({ pilotId, onB
                         </div>
                     </div>
                 </div>
-                 {activeSynergies.length > 0 && (
+                {activeSynergies.length > 0 && (
                     <div className="border-t-2 border-cyan-700 mt-3 pt-3">
-                        <h3 className="text-lg font-bold text-yellow-400 mb-1">Active Synergies:</h3>
+                        <h3 className="text-lg font-bold text-yellow-400 mb-1">{t('talents.activeSynergies')}</h3>
                         {activeSynergies.map(synergy => (
                             <div key={synergy.id} className="text-sm text-yellow-200">
                                 <span className="font-bold">{synergy.name}:</span> {synergy.description}
@@ -200,10 +202,10 @@ export const TalentTreeScreen: React.FC<TalentTreeScreenProps> = ({ pilotId, onB
 
             {/* Talent Presets */}
             <div className="border-2 border-cyan-800 p-4 my-6 bg-gray-900/20">
-                <h2 className="text-xl font-bold mb-2 text-cyan-300">TALENT LOADOUTS</h2>
+                <h2 className="text-xl font-bold mb-2 text-cyan-300">{t('talents.talentLoadouts')}</h2>
                 <div className="flex flex-col md:flex-row gap-4">
                     <div className="flex-1">
-                        <select 
+                        <select
                             className="w-full bg-gray-800 border border-cyan-700 p-2 text-white"
                             onChange={(e) => setSelectedPreset(e.target.value)}
                             value={selectedPreset}
@@ -215,14 +217,14 @@ export const TalentTreeScreen: React.FC<TalentTreeScreenProps> = ({ pilotId, onB
                         </select>
                     </div>
                     <div className="flex gap-2">
-                        <button 
+                        <button
                             onClick={handleLoadPreset}
                             disabled={!selectedPreset}
                             className="px-4 py-2 border-2 border-green-500 text-green-400 hover:bg-green-900/30 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             LOAD
                         </button>
-                        <button 
+                        <button
                             onClick={handleDeletePreset}
                             disabled={!selectedPreset}
                             className="px-4 py-2 border-2 border-red-500 text-red-400 hover:bg-red-900/30 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -231,14 +233,14 @@ export const TalentTreeScreen: React.FC<TalentTreeScreenProps> = ({ pilotId, onB
                         </button>
                     </div>
                     <div className="flex-1 flex gap-2">
-                         <input 
+                        <input
                             type="text"
                             value={newPresetName}
                             onChange={(e) => setNewPresetName(e.target.value)}
                             placeholder="New loadout name..."
                             className="flex-1 bg-gray-800 border border-cyan-700 p-2 text-white"
-                         />
-                         <button 
+                        />
+                        <button
                             onClick={handleSavePreset}
                             disabled={!newPresetName.trim()}
                             className="px-4 py-2 border-2 border-yellow-500 text-yellow-400 hover:bg-yellow-900/30 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -257,7 +259,7 @@ export const TalentTreeScreen: React.FC<TalentTreeScreenProps> = ({ pilotId, onB
                             <stop offset="0%" stopColor="#0891b2" />
                             <stop offset="100%" stopColor="#fde047" />
                         </linearGradient>
-                         <filter id="glow">
+                        <filter id="glow">
                             <feGaussianBlur stdDeviation="3.5" result="coloredBlur" />
                             <feMerge>
                                 <feMergeNode in="coloredBlur" />
@@ -281,13 +283,13 @@ export const TalentTreeScreen: React.FC<TalentTreeScreenProps> = ({ pilotId, onB
                     const tieredTalents = talentsByTier[tier] || [];
                     if (tieredTalents.length === 0) return null;
 
-                    const isTierUnlocked = tieredTalents.some(t => getTalentRank(talentState, pilotId, t.id) > 0) 
-                                        || (tier === 1 && talentState.availablePoints > 0)
-                                        || tieredTalents.some(t => t.requires?.every(r => getTalentRank(talentState, pilotId, r) > 0));
+                    const isTierUnlocked = tieredTalents.some(t => getTalentRank(talentState, pilotId, t.id) > 0)
+                        || (tier === 1 && talentState.availablePoints > 0)
+                        || tieredTalents.some(t => t.requires?.every(r => getTalentRank(talentState, pilotId, r) > 0));
 
                     return (
                         <div key={tier} className={`border-t-2 pt-4 transition-opacity duration-500 ${isTierUnlocked ? 'opacity-100' : 'opacity-40'}`}>
-                             <div className="relative text-center mb-4">
+                            <div className="relative text-center mb-4">
                                 <span className="text-xl font-bold text-cyan-300 bg-black px-4 z-10 relative">TIER {tier}</span>
                                 <div className="absolute left-0 right-0 top-1/2 h-px bg-cyan-800" />
                             </div>
@@ -400,8 +402,8 @@ export const TalentTreeScreen: React.FC<TalentTreeScreenProps> = ({ pilotId, onB
                 <div className="flex-1"></div>
 
                 <div className="text-right text-sm text-gray-500">
-                    <div>Total Earned: {talentState.totalPointsEarned} points</div>
-                    <div>Next Point: Level {Math.floor(talentState.totalPointsEarned / (RUN_CONFIG.XP_PER_LEVEL || 100)) + 2}</div>
+                    <div>{t('talents.totalEarned', { points: talentState.totalPointsEarned })}</div>
+                    <div>{t('talents.nextPoint', { level: Math.floor(talentState.totalPointsEarned / (RUN_CONFIG.XP_PER_LEVEL || 100)) + 2 })}</div>
                 </div>
             </div>
         </div>

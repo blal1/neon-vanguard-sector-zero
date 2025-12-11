@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { CodexCategory, CodexEntry, CodexProgress } from '../types/codex';
+import { useTranslation } from 'react-i18next';
 
 interface CodexScreenProps {
     entries: Record<string, CodexEntry>;
@@ -14,6 +15,7 @@ export const CodexScreen: React.FC<CodexScreenProps> = ({
     onBack,
     onReadEntry
 }) => {
+    const { t } = useTranslation();
     const [selectedCategory, setSelectedCategory] = useState<CodexCategory>('PILOT');
     const [selectedEntryId, setSelectedEntryId] = useState<string | null>(null);
 
@@ -86,8 +88,8 @@ export const CodexScreen: React.FC<CodexScreenProps> = ({
                                     setSelectedEntryId(null);
                                 }}
                                 className={`px-4 py-2 border-2 transition-all ${selectedCategory === cat
-                                        ? 'border-cyan-400 bg-cyan-400/20 text-cyan-400'
-                                        : 'border-green-700 hover:border-green-500'
+                                    ? 'border-cyan-400 bg-cyan-400/20 text-cyan-400'
+                                    : 'border-green-700 hover:border-green-500'
                                     }`}
                             >
                                 <span className="mr-2">{getCategoryIcon(cat)}</span>
@@ -115,10 +117,10 @@ export const CodexScreen: React.FC<CodexScreenProps> = ({
                                     onClick={() => handleSelectEntry(entry)}
                                     disabled={!entry.isUnlocked}
                                     className={`w-full text-left p-2 border transition-all ${!entry.isUnlocked
-                                            ? 'border-gray-700 text-gray-700 cursor-not-allowed'
-                                            : selectedEntryId === entry.id
-                                                ? 'border-cyan-400 bg-cyan-400/10'
-                                                : 'border-green-700 hover:border-green-500 hover:bg-green-900/20'
+                                        ? 'border-gray-700 text-gray-700 cursor-not-allowed'
+                                        : selectedEntryId === entry.id
+                                            ? 'border-cyan-400 bg-cyan-400/10'
+                                            : 'border-green-700 hover:border-green-500 hover:bg-green-900/20'
                                         }`}
                                 >
                                     <div className="flex items-start justify-between">
@@ -242,8 +244,8 @@ export const CodexScreen: React.FC<CodexScreenProps> = ({
                             <div className="h-full flex items-center justify-center text-gray-600">
                                 <div className="text-center">
                                     <div className="text-6xl mb-4">📁</div>
-                                    <div>SELECT AN ENTRY FROM THE LIST</div>
-                                    <div className="text-xs mt-2">OR UNLOCK MORE BY PLAYING</div>
+                                    <div>{t('codex.selectEntry')}</div>
+                                    <div className="text-xs mt-2">{t('codex.unlockMore')}</div>
                                 </div>
                             </div>
                         )}

@@ -7,12 +7,14 @@ import { AudioSettings } from './AudioSettings';
 import { VisualSettings } from './VisualSettings';
 import { KeybindingSettings } from './KeybindingSettings';
 import { getActiveSynergies } from '../utils/synergyUtils';
+import { useTranslation } from 'react-i18next';
 
 interface HangarScreenProps {
   onContinue: () => void;
 }
 
 export const HangarScreen: React.FC<HangarScreenProps> = ({ onContinue }) => {
+  const { t } = useTranslation();
   const { runState, purchaseUpgrade, purchaseAugmentation, settings, dailyModifier } = useGame();
   const [activeTab, setActiveTab] = useState<'shop' | 'crafting' | 'settings' | 'synergies'>('shop');
 
@@ -50,7 +52,7 @@ export const HangarScreen: React.FC<HangarScreenProps> = ({ onContinue }) => {
           <p className="text-gray-500 text-xs md:text-sm">FIELD HANGAR // RESUPPLY SEQUENCE</p>
         </div>
         <div className="text-right mt-4 md:mt-0">
-          <div className="text-xs text-gray-500">AVAILABLE SCRAP</div>
+          <div className="text-xs text-gray-500">{t('hangar.availableScrap')}</div>
           <div className="text-2xl md:text-3xl font-bold text-[var(--color-accent)]">{runState.scrap}</div>
         </div>
       </header>
@@ -100,7 +102,7 @@ export const HangarScreen: React.FC<HangarScreenProps> = ({ onContinue }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 flex-1">
           {/* Upgrades */}
           <section>
-            <h2 className="text-xl font-bold mb-4 text-[var(--color-secondary)] border-b border-blue-900 pb-1">SYSTEM UPGRADES</h2>
+            <h2 className="text-xl font-bold mb-4 text-[var(--color-secondary)] border-b border-blue-900 pb-1">{t('hangar.systemUpgrades')}</h2>
             <div className="flex flex-col gap-4">
 
               {/* Repair */}
@@ -155,7 +157,7 @@ export const HangarScreen: React.FC<HangarScreenProps> = ({ onContinue }) => {
 
           {/* Consumables */}
           <section>
-            <h2 className="text-xl font-bold mb-4 text-purple-300 border-b border-purple-900 pb-1">FABRICATOR</h2>
+            <h2 className="text-xl font-bold mb-4 text-purple-300 border-b border-purple-900 pb-1">{t('hangar.fabricator')}</h2>
             <div className="flex flex-col gap-2">
               {runState.consumables
                 .filter(item => {
@@ -195,7 +197,7 @@ export const HangarScreen: React.FC<HangarScreenProps> = ({ onContinue }) => {
 
           {/* Augmentations */}
           <section className="md:col-span-2 border-t border-gray-800 pt-6 mt-2">
-            <h2 className="text-xl font-bold mb-4 text-purple-300 border-b border-purple-900 pb-1">BLACK MARKET AUGMENTATIONS</h2>
+            <h2 className="text-xl font-bold mb-4 text-purple-300 border-b border-purple-900 pb-1">{t('hangar.blackMarket')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {AUGMENTATIONS.map((aug) => {
                 const isOwned = runState.augmentations.includes(aug.id);
@@ -247,7 +249,7 @@ export const HangarScreen: React.FC<HangarScreenProps> = ({ onContinue }) => {
       {/* Synergies Tab */}
       {activeTab === 'synergies' && (
         <div className="flex-1 overflow-y-auto">
-          <h2 className="text-2xl font-bold mb-4 text-purple-400">ACTIVE SYNERGIES</h2>
+          <h2 className="text-2xl font-bold mb-4 text-purple-400">{t('hangar.activeSynergies')}</h2>
           {activeSynergies.length > 0 ? (
             <div className="grid grid-cols-1 gap-4">
               {activeSynergies.map(synergy => (
@@ -264,7 +266,7 @@ export const HangarScreen: React.FC<HangarScreenProps> = ({ onContinue }) => {
             <p className="text-gray-400">No active synergies. Collect augmentations to discover powerful combinations!</p>
           )}
 
-          <h2 className="text-2xl font-bold mt-8 mb-4 text-cyan-400">AVAILABLE SYNERGIES</h2>
+          <h2 className="text-2xl font-bold mt-8 mb-4 text-cyan-400">{t('hangar.availableSynergies')}</h2>
           <div className="grid grid-cols-1 gap-4">
             {SYNERGIES.filter(s => !activeSynergies.some(as => as.id === s.id)).map(synergy => (
               <div key={synergy.id} className="border border-gray-700 p-4 bg-gray-800/20 opacity-50">
