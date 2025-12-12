@@ -9,7 +9,6 @@
 > A tactical roguelite mech combat game with deep progression system, full accessibility support, and extensive modding capabilities.
 
 ![Game Banner](docs/assets/screenshots/banner.png)
-<!-- TODO: Add game banner/screenshot -->
 
 ## Table of Contents
 
@@ -92,10 +91,19 @@ Survive through 5 sectors of increasing difficulty, defeat sector-ending bosses,
 
 ## Screenshots
 
-<!-- TODO: Add screenshots -->
-```
-[Main Menu] [Pilot Selection] [Combat] [Hangar] [Talent Tree]
-```
+<table>
+  <tr>
+    <td align="center"><img src="docs/assets/screenshots/main_menu.png" width="400" alt="Main Menu"/><br/><b>Main Menu</b></td>
+    <td align="center"><img src="docs/assets/screenshots/pilot_selection.png" width="400" alt="Pilot Selection"/><br/><b>Pilot Selection</b></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/assets/screenshots/combat.png" width="400" alt="Combat"/><br/><b>Combat</b></td>
+    <td align="center"><img src="docs/assets/screenshots/hangar.png" width="400" alt="Hangar"/><br/><b>Hangar</b></td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2"><img src="docs/assets/screenshots/talent_tree.png" width="400" alt="Talent Tree"/><br/><b>Talent Tree</b></td>
+  </tr>
+</table>
 
 ## Installation
 
