@@ -45,7 +45,7 @@ export const HangarScreen: React.FC<HangarScreenProps> = ({ onContinue }) => {
   const activeSynergies = getActiveSynergies(runState.augmentations);
 
   return (
-    <div className="flex flex-col h-full text-white font-mono p-4">
+    <div className="flex flex-col h-full text-white font-mono p-4" role="main" aria-label="Hangar resupply interface">
       <header className="border-b border-gray-700 pb-4 mb-6 flex flex-col md:flex-row justify-between items-start md:items-end">
         <div>
           <h1 className="text-2xl md:text-4xl font-bold text-gray-200">SECTOR {runState.currentStage} CLEARED</h1>
@@ -65,6 +65,9 @@ export const HangarScreen: React.FC<HangarScreenProps> = ({ onContinue }) => {
             ? 'text-cyan-400 border-b-2 border-cyan-400'
             : 'text-gray-500 hover:text-gray-300'
             }`}
+          aria-label="Shop tab - purchase upgrades and items"
+          aria-selected={activeTab === 'shop'}
+          role="tab"
         >
           🛒 Shop
         </button>
@@ -110,6 +113,7 @@ export const HangarScreen: React.FC<HangarScreenProps> = ({ onContinue }) => {
                 onClick={() => handleBuy('repair', undefined, SHOP_PRICES.REPAIR)}
                 className="flex justify-between items-center p-4 border border-green-800 bg-green-900/20 hover:bg-green-900/40 transition-colors group disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={runState.scrap < SHOP_PRICES.REPAIR}
+                aria-label={`Emergency repairs - restore 20 HP for ${SHOP_PRICES.REPAIR} scrap`}
               >
                 <div>
                   <div className="font-bold text-[var(--color-success)]">EMERGENCY REPAIRS</div>
@@ -290,6 +294,7 @@ export const HangarScreen: React.FC<HangarScreenProps> = ({ onContinue }) => {
         <button
           onClick={onContinue}
           className="mt-4 md:mt-0 px-8 py-3 bg-white text-black font-bold uppercase tracking-widest hover:bg-gray-200 hover:scale-105 transition-all w-full md:w-auto"
+          aria-label={`Deploy to sector ${runState.currentStage + 1}`}
         >
           DEPLOY TO NEXT SECTOR
         </button>

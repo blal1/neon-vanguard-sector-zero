@@ -101,7 +101,7 @@ describe('CharacterSelect', () => {
 
   it('renders the list of pilots', () => {
     render(<CharacterSelect onSelect={mockOnSelect} onRunTests={mockOnRunTests} />);
-    
+
     PILOTS.forEach(pilot => {
       expect(screen.getByText(pilot.name)).toBeInTheDocument();
     });
@@ -128,36 +128,38 @@ describe('CharacterSelect', () => {
       isPilotUnlocked: () => false,
     });
     render(<CharacterSelect onSelect={mockOnSelect} onRunTests={mockOnRunTests} />);
-    
+
     const lockedPilot = PILOTS.find(p => p.unlockLevel && p.unlockLevel > 1);
-    if(lockedPilot){
-        fireEvent.click(screen.getByText(lockedPilot.name));
-        const launchButton = screen.getAllByText('LOCKED')[0];
-        expect(launchButton).toBeInTheDocument();
+    if (lockedPilot) {
+      fireEvent.click(screen.getByText(lockedPilot.name));
+      const launchButton = screen.getAllByText(/characterSelect\.locked/)[0];
+      expect(launchButton).toBeInTheDocument();
     }
   });
 
   it('calls onSelect with correct data when launch is clicked', () => {
     render(<CharacterSelect onSelect={mockOnSelect} onRunTests={mockOnRunTests} />);
-    
+
     // Select Vanguard
     fireEvent.click(screen.getByText('Cpt. Iron Jackson'));
-    
+
     // Select module
     fireEvent.click(screen.getByText('DEFENSE'));
-    
+
     // Select consumables
     fireEvent.click(screen.getByText('NANO-STIM'));
     fireEvent.click(screen.getByText('L-COOLANT'));
 
-    // Click launch
-    fireEvent.click(screen.getByText('Initialize Neural Link [ENTER]'));
+    // Click launch - use regex to match i18n key or translated text
+    const launchBtn = screen.getByRole('button', { name: /initialize|neural|launch|enter/i }) ||
+      screen.getByText(/characterSelect\.launch/i);
+    fireEvent.click(launchBtn);
 
     expect(mockOnSelect).toHaveBeenCalledOnce();
     const selectedPilot = PILOTS.find(p => p.name === 'Cpt. Iron Jackson');
     const selectedConsumables = expect.arrayContaining([
-        expect.objectContaining({ id: 'nano_stim'}),
-        expect.objectContaining({ id: 'coolant'}),
+      expect.objectContaining({ id: 'nano_stim' }),
+      expect.objectContaining({ id: 'coolant' }),
     ]);
     expect(mockOnSelect).toHaveBeenCalledWith(selectedPilot, 'DEFENSE', selectedConsumables);
   });

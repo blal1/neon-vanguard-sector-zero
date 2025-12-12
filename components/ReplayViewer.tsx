@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { CombatReplay } from '../types/replay';
 import { audio } from '../services/audioService';
 import { CombatEffectsLayer, useCombatEffects } from './CombatEffectsLayer';
 import { AnimatedPortrait } from './AnimatedPortrait';
 import { ReplayEnemy } from './ReplayEnemy';
 import { useTranslation } from 'react-i18next';
+import { importReplayFromJson } from '../utils/replayUtils';
 
 interface ReplayViewerProps {
     replay: CombatReplay;
     onClose: () => void;
+    onImport?: (replay: CombatReplay) => void; // Optional callback for importing
 }
 
 // Simplified enemy representation for the replay viewer
@@ -25,14 +27,15 @@ interface KeyMoment {
     type: 'CRITICAL' | 'BOSS' | 'VICTORY';
 }
 
-export const ReplayViewer: React.FC<ReplayViewerProps> = ({ replay, onClose }) => {
+export const ReplayViewer: React.FC<ReplayViewerProps> = ({ replay, onClose, onImport }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [playbackSpeed, setPlaybackSpeed] = useState<1 | 2 | 4 | 8>(2);
+    const [playbackSpeed, setPlaybackSpeed] = useState<0.5 | 1 | 2 | 4 | 8>(2);
     const { effects, screenFlash, screenShake, spawnParticles, triggerFlash, triggerScreenShake } = useCombatEffects();
     const [replayEnemies, setReplayEnemies] = useState<ReplayEnemyDisplay[]>([]);
     const [keyMoments, setKeyMoments] = useState<KeyMoment[]>([]);
     const [notification, setNotification] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const { t } = useTranslation();
 
     // Scan for key moments
@@ -191,9 +194,58 @@ export const ReplayViewer: React.FC<ReplayViewerProps> = ({ replay, onClose }) =
         audio.playBlip();
     };
 
-    const handleSpeedChange = (speed: 1 | 2 | 4 | 8) => {
+    const handleSpeedChange = (speed: 0.5 | 1 | 2 | 4 | 8) => {
         setPlaybackSpeed(speed);
         audio.playBlip();
+    };
+
+    const handleStepForward = () => {
+        if (currentIndex < replay.actions.length - 1) {
+            setCurrentIndex(prev => prev + 1);
+            setIsPlaying(false);
+            audio.playBlip();
+        }
+    };
+
+    const handleStepBackward = () => {
+        if (currentIndex > 0) {
+            setCurrentIndex(prev => prev - 1);
+            setIsPlaying(false);
+            audio.playBlip();
+        }
+    };
+
+    const handleImportClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleFileImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const content = event.target?.result as string;
+            const result = importReplayFromJson(content);
+
+            if (result.success && result.replay) {
+                if (onImport) {
+                    onImport(result.replay);
+                    setNotification('Replay imported successfully!');
+                } else {
+                    setNotification('Import successful (no handler)');
+                }
+            } else {
+                setNotification(`Import failed: ${result.error}`);
+            }
+            setTimeout(() => setNotification(null), 3000);
+        };
+        reader.readAsText(file);
+
+        // Reset input
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
     };
 
     const handleScrub = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -408,7 +460,23 @@ export const ReplayViewer: React.FC<ReplayViewerProps> = ({ replay, onClose }) =
 
                     {/* Controls */}
                     <div className="border-t-2 border-cyan-500 p-4 flex justify-between items-center bg-cyan-900/20">
+                        {/* Hidden file input for import */}
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            onChange={handleFileImport}
+                            accept=".json"
+                            className="hidden"
+                        />
+
                         <div className="flex gap-2">
+                            <button
+                                onClick={handleStepBackward}
+                                disabled={currentIndex === 0}
+                                className="px-3 py-2 border-2 border-cyan-600 text-cyan-400 hover:bg-cyan-900/30 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                            >
+                                ⏮
+                            </button>
                             <button
                                 onClick={handlePlayPause}
                                 className="px-6 py-2 bg-cyan-600 hover:bg-cyan-700 text-white font-bold transition-colors"
@@ -416,22 +484,30 @@ export const ReplayViewer: React.FC<ReplayViewerProps> = ({ replay, onClose }) =
                                 {isPlaying ? '⏸ PAUSE' : '▶ PLAY'}
                             </button>
                             <button
+                                onClick={handleStepForward}
+                                disabled={currentIndex >= replay.actions.length - 1}
+                                className="px-3 py-2 border-2 border-cyan-600 text-cyan-400 hover:bg-cyan-900/30 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                            >
+                                ⏭
+                            </button>
+                            <button
                                 onClick={handleRestart}
                                 className="px-4 py-2 border-2 border-cyan-600 text-cyan-400 hover:bg-cyan-900/30 transition-colors"
                             >
-                                ⏮ RESTART
+                                ↺
                             </button>
                         </div>
 
                         <div className="flex gap-2 items-center">
+                            <button onClick={handleImportClick} className="text-xs border border-green-700 text-green-400 px-2 py-1 hover:bg-green-900/30">IMPORT</button>
                             <button onClick={handleCopy} className="text-xs border border-cyan-700 text-cyan-400 px-2 py-1 hover:bg-cyan-900/30">COPY</button>
-                            <button onClick={handleDownload} className="text-xs border border-cyan-700 text-cyan-400 px-2 py-1 hover:bg-cyan-900/30">JSON</button>
-                            <span className="text-sm text-gray-400 mr-2">| Speed:</span>
-                            {([1, 2, 4, 8] as const).map(speed => (
+                            <button onClick={handleDownload} className="text-xs border border-cyan-700 text-cyan-400 px-2 py-1 hover:bg-cyan-900/30">EXPORT</button>
+                            <span className="text-sm text-gray-400 ml-2">|</span>
+                            {([0.5, 1, 2, 4, 8] as const).map(speed => (
                                 <button
                                     key={speed}
                                     onClick={() => handleSpeedChange(speed)}
-                                    className={`px-3 py-1 transition-colors ${playbackSpeed === speed
+                                    className={`px-2 py-1 text-xs transition-colors ${playbackSpeed === speed
                                         ? 'bg-cyan-600 text-white font-bold'
                                         : 'border border-cyan-700 text-cyan-400 hover:bg-cyan-900/30'
                                         }`}

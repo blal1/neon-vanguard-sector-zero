@@ -161,6 +161,19 @@ export const VisualSettings: React.FC = () => {
                         />
                     </div>
                 </div>
+
+                {/* Replay Tutorial */}
+                <div className="pt-4 border-t border-cyan-700 mt-4">
+                    <button
+                        onClick={() => updateSettings({ tutorialCompleted: false })}
+                        className="w-full px-4 py-3 border border-yellow-500 text-yellow-400 hover:bg-yellow-900/30 transition-colors font-bold tracking-wide"
+                    >
+                        🎓 REPLAY TUTORIAL
+                    </button>
+                    <p className="text-xs text-gray-500 mt-2 text-center">
+                        Show the tutorial again on next game start
+                    </p>
+                </div>
             </div>
         </div>
     );

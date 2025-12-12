@@ -23,6 +23,7 @@ export const initializeTalentState = (): PlayerTalentState => ({
     [PilotId.SOLARIS]: { unlockedTalents: [], totalPointsSpent: 0, presets: [] },
     [PilotId.HYDRA]: { unlockedTalents: [], totalPointsSpent: 0, presets: [] },
     [PilotId.WYRM]: { unlockedTalents: [], totalPointsSpent: 0, presets: [] },
+    [PilotId.GHOST]: { unlockedTalents: [], totalPointsSpent: 0, presets: [] },
     availablePoints: 0,
     totalPointsEarned: 0
 });
@@ -167,6 +168,7 @@ export const getAllocatedPointsTotal = (state: PlayerTalentState): number => {
         state[PilotId.VANGUARD].totalPointsSpent +
         state[PilotId.SOLARIS].totalPointsSpent +
         state[PilotId.HYDRA].totalPointsSpent +
-        state[PilotId.WYRM].totalPointsSpent
+        state[PilotId.WYRM].totalPointsSpent +
+        state[PilotId.GHOST].totalPointsSpent
     );
 };

@@ -16,7 +16,9 @@ import {
   applyConsumableEffect,
   generateEnemies,
   checkBossPhaseTransition,
-  executeBossAbility
+  executeBossAbility,
+  calculateDefenseTarget,
+  applySurvivalScaling
 } from '../utils/combatUtils';
 import { applyAugmentationEffects } from '../utils/combatUtils_augmentations';
 import { COMBAT_MECHANICS } from '../constants';
@@ -70,10 +72,11 @@ export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVic
   const [consumables, setConsumables] = useState<Consumable[]>(runState.consumables);
 
   // Mission Specifics
-
   const [missionTimer, setMissionTimer] = useState(stageInfo.mission === 'SURVIVAL' ? 60 : 0); // 60s survival
   const [coreHp, setCoreHp] = useState(100); // Defense Objective HP
   const [maxCoreHp] = useState(100);
+  const [survivalWave, setSurvivalWave] = useState(1); // Current wave in SURVIVAL
+  const [waveEnemiesDefeated, setWaveEnemiesDefeated] = useState(0); // Track wave progress
 
   // Boss-specific state
   const [showBossIntro, setShowBossIntro] = useState(false);
@@ -127,7 +130,9 @@ export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVic
     consumables: runState.consumables,
     missionTimer: stageInfo.mission === 'SURVIVAL' ? 60000 : 0, // ms
     survivalSpawnTimer: 0,
-    coreHp: 100
+    coreHp: 100,
+    survivalWave: 1,
+    waveEnemiesDefeated: 0
   });
   const logEndRef = useRef<HTMLDivElement>(null);
   const previousTimeRef = useRef<number>();
@@ -156,9 +161,16 @@ export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVic
     const isBoss = newEnemies.some(e => e.isBoss);
     audio.playStageMusic(runState.currentStage, isBoss);
 
-    // BOSS_RUSH Modifier: Convert regular enemies to mini-bosses (now handled in generateEnemies)
+    // Daily Modifier Log Messages
     if (dailyModifier === 'BOSS_RUSH' && newEnemies.length > 0 && !newEnemies[0]?.isBoss) {
+      addLog("⚠️ DAILY MODIFIER: BOSS RUSH ACTIVE", "alert");
       addLog("WARNING: ELITE ENEMY SIGNATURES DETECTED!", "alert");
+    } else if (dailyModifier === 'DOUBLE_HAZARDS') {
+      addLog("⚠️ DAILY MODIFIER: DOUBLE HAZARDS ACTIVE", "alert");
+      addLog("Environmental hazard frequency DOUBLED!", "hazard");
+    } else if (dailyModifier === 'PACIFIST') {
+      addLog("🛡️ DAILY MODIFIER: PACIFIST MODE ACTIVE", "special");
+      addLog("Offensive consumables unavailable. Defense only!", "info");
     }
 
     if (newEnemies.some(e => e.isBoss) && !bossTemplate) {
@@ -200,10 +212,14 @@ export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVic
     const tension = 1 - (playerHp / maxHp);
     audio.updateDroneIntensity(tension);
 
-    // Low HP voice line trigger
+    // Low HP and Near Death voice line triggers
     if (settings.voiceLinesEnabled) {
       const hpPercent = (playerHp / maxHp) * 100;
-      if (hpPercent < 30 && !lowHpWarnedRef.current) {
+      if (hpPercent < 15 && !lowHpWarnedRef.current) {
+        // Near death - critical urgency
+        voiceLines.speakRandom('NEAR_DEATH', pilot.id as any);
+        lowHpWarnedRef.current = true;
+      } else if (hpPercent < 30 && !lowHpWarnedRef.current) {
         voiceLines.speakRandom('LOW_HP', pilot.id as any);
         lowHpWarnedRef.current = true;
       } else if (hpPercent > 40) {
@@ -331,8 +347,13 @@ export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVic
           addLog("BONUS: Temporary Shield Consumable Added.", "loot");
           break;
         case 'SURVIVAL':
-          addXp(150);
-          addLog("BONUS: +150 XP for Survival Mission.", "loot");
+          const wavesCompleted = stateRef.current.survivalWave - 1; // Subtract 1 because wave increments before spawning
+          const waveBonus = wavesCompleted * 50; // 50 scrap per wave
+          const xpBonus = 150 + (wavesCompleted * 30); // Base 150 + 30 per wave
+
+          addScrap(waveBonus);
+          addXp(xpBonus);
+          addLog(`SURVIVAL COMPLETE! Waves: ${wavesCompleted} | Bonus: +${waveBonus} SCRAP, +${xpBonus} XP`, "loot");
           updateRunState({ maxHpUpgrade: (runState.maxHpUpgrade || 0) + 10 });
           addLog("BONUS: Max HP increased by +10.", "loot");
           break;
@@ -590,6 +611,11 @@ export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVic
       audio.playSound('crit_hit');
       result.targetsHit.forEach((idx, i) => spawnParticles('critical', 80, 20 + i * 20));
 
+      // Voice line for critical hit
+      if (settings.voiceLinesEnabled) {
+        voiceLines.speakRandom('CRIT_HIT', pilot.id as any);
+      }
+
       if (activeTalentSynergies.some(s => s.id === 'solaris_solar_flare') && Math.random() < 0.25) {
         result.targetsHit.forEach(idx => {
           if (enemiesCopy[idx]) {
@@ -601,6 +627,16 @@ export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVic
           }
         });
       }
+    }
+
+    // Voice line for combo milestone
+    if (settings.voiceLinesEnabled && newComboCount >= 5 && newComboCount % 5 === 0) {
+      voiceLines.speakRandom('COMBO', pilot.id as any);
+    }
+
+    // Voice line for weak point hit (COUNTER_ATTACK)
+    if (settings.voiceLinesEnabled && result.weakPointHit) {
+      voiceLines.speakRandom('COUNTER_ATTACK', pilot.id as any);
     }
 
     // Record damage dealt
@@ -735,7 +771,12 @@ export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVic
     addLog(result.log, "special");
     audio.playBlip();
 
-  }, [maxHp, recordItemUsage, spawnParticles, triggerFlash, triggerScreenShake]);
+    // Voice line for item use
+    if (settings.voiceLinesEnabled) {
+      voiceLines.speakRandom('ITEM_USE', pilot.id as any);
+    }
+
+  }, [maxHp, recordItemUsage, spawnParticles, triggerFlash, triggerScreenShake, settings.voiceLinesEnabled, pilot.id]);
 
   // --- Game Loop Update ---
   const updateGame = useCallback(() => {
@@ -747,20 +788,40 @@ export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVic
       current.missionTimer -= tickRate;
       setMissionTimer(Math.ceil(current.missionTimer / 1000));
 
-      // Spawn infinite enemies
+      // Wave-based enemy spawning
       current.survivalSpawnTimer += tickRate;
-      if (current.survivalSpawnTimer > 8000) { // New enemy every 8s
+
+      // Calculate wave spawn interval (gets faster over time)
+      const baseInterval = 10000; // 10 seconds
+      const minInterval = 5000; // 5 seconds minimum
+      const waveInterval = Math.max(minInterval, baseInterval - (current.survivalWave * 500));
+
+      if (current.survivalSpawnTimer >= waveInterval) {
+        // Calculate enemies per wave (increases over time)
+        const enemiesPerWave = Math.min(1 + Math.floor(current.survivalWave / 3), 4); // Max 4 enemies
+
         const difficultyConfig = DIFFICULTIES[difficulty];
-        const newEnemies = generateEnemies(
+        const baseEnemies = generateEnemies(
           runState.currentStage,
           difficultyConfig.enemyHpMult,
           difficultyConfig.enemyDmgMult,
           difficultyConfig.scrapMult
         );
-        current.enemies.push(newEnemies[0]); // Add 1
+
+        // Apply survival scaling and add multiple enemies
+        for (let i = 0; i < enemiesPerWave; i++) {
+          const spawnedEnemy = baseEnemies[i % baseEnemies.length];
+          const scaledEnemy = applySurvivalScaling(spawnedEnemy, current.survivalWave);
+          current.enemies.push(scaledEnemy);
+        }
+
         current.survivalSpawnTimer = 0;
-        addLog("WARNING: REINFORCEMENTS DETECTED!", "alert");
+        current.survivalWave++;
+        setSurvivalWave(current.survivalWave);
         setEnemies([...current.enemies]);
+
+        addLog(`⚠️ WAVE ${current.survivalWave}: ${enemiesPerWave} HOSTILES INBOUND!`, "alert");
+        audio.playAlarm();
       }
 
       if (current.missionTimer <= 0) {
@@ -868,6 +929,11 @@ export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVic
         addLog(`WARNING: ${hazardName} DETECTED`, "hazard");
         triggerFlash('warning');
         audio.playHazardWarning();
+
+        // Voice line for hazard
+        if (settings.voiceLinesEnabled) {
+          voiceLines.speakRandom('HAZARD', pilot.id as any);
+        }
       }
     }
 
@@ -1002,10 +1068,18 @@ export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVic
           addLog(`${enemy.name} ${actionResult.flavor}`, "info");
         }
         else {
-          // DEFENSE MODE LOGIC: 50% chance to attack Core
+          // DEFENSE MODE LOGIC: Smart AI Targeting
           let targetIsCore = false;
-          if (runState.missionType === 'DEFENSE' && Math.random() < 0.5) {
-            targetIsCore = true;
+          if (runState.missionType === 'DEFENSE') {
+            const target = calculateDefenseTarget(
+              current.playerHp,
+              maxHp,
+              current.coreHp,
+              maxCoreHp,
+              enemy.name,
+              enemy.isBoss || false
+            );
+            targetIsCore = (target === 'CORE');
           }
 
           if (targetIsCore) {
@@ -1257,6 +1331,26 @@ export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVic
                 );
               })}
             </div>
+
+            {/* Active Synergies */}
+            {(activeSynergies.length > 0 || activeTalentSynergies.length > 0) && (
+              <div className="flex gap-1 mt-1 flex-wrap">
+                {activeSynergies.map(synergy => (
+                  <Tooltip key={synergy.id} content={synergy.description}>
+                    <div className="text-[10px] bg-yellow-900/50 border border-yellow-500 text-yellow-300 px-1 cursor-help animate-pulse">
+                      ✦ {synergy.name}
+                    </div>
+                  </Tooltip>
+                ))}
+                {activeTalentSynergies.map(synergy => (
+                  <Tooltip key={synergy.id} content={synergy.description}>
+                    <div className="text-[10px] bg-cyan-900/50 border border-cyan-500 text-cyan-300 px-1 cursor-help animate-pulse">
+                      ⚡ {synergy.name}
+                    </div>
+                  </Tooltip>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="w-full md:w-1/3 text-center my-4 md:my-0 relative">
@@ -1312,13 +1406,65 @@ export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVic
           </div>
         </header>
 
+        {/* Daily Modifier Banner */}
+        {dailyModifier !== 'NONE' && (
+          <div className={`
+            mb-4 p-3 border-2 rounded-lg
+            ${dailyModifier === 'BOSS_RUSH' ? 'border-red-500 bg-red-900/20' :
+              dailyModifier === 'DOUBLE_HAZARDS' ? 'border-yellow-500 bg-yellow-900/20' :
+                dailyModifier === 'PACIFIST' ? 'border-blue-500 bg-blue-900/20' :
+                  'border-gray-500 bg-gray-900/20'}
+          `} role="alert" aria-live="polite">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <span className={`text-3xl ${dailyModifier === 'BOSS_RUSH' ? '🔴' :
+                  dailyModifier === 'DOUBLE_HAZARDS' ? '⚠️' :
+                    dailyModifier === 'PACIFIST' ? '🛡️' : ''
+                  }`}>
+                  {dailyModifier === 'BOSS_RUSH' && '💀'}
+                  {dailyModifier === 'DOUBLE_HAZARDS' && '⚠️'}
+                  {dailyModifier === 'PACIFIST' && '🛡️'}
+                </span>
+                <div>
+                  <div className={`font-bold text-lg tracking-wider ${dailyModifier === 'BOSS_RUSH' ? 'text-red-400' :
+                    dailyModifier === 'DOUBLE_HAZARDS' ? 'text-yellow-400' :
+                      dailyModifier === 'PACIFIST' ? 'text-blue-400' :
+                        'text-gray-400'
+                    }`}>
+                    DAILY MODIFIER: {dailyModifier.replace('_', ' ')}
+                  </div>
+                  <div className="text-xs text-gray-400 mt-1">
+                    {dailyModifier === 'BOSS_RUSH' && 'All enemies are Elite-class units with increased health and damage'}
+                    {dailyModifier === 'DOUBLE_HAZARDS' && 'Environmental hazards occur twice as frequently'}
+                    {dailyModifier === 'PACIFIST' && 'Offensive consumables unavailable - defensive items only'}
+                  </div>
+                </div>
+              </div>
+              <div className={`text-xs font-mono px-2 py-1 border ${dailyModifier === 'BOSS_RUSH' ? 'border-red-700 bg-red-950 text-red-300' :
+                dailyModifier === 'DOUBLE_HAZARDS' ? 'border-yellow-700 bg-yellow-950 text-yellow-300' :
+                  dailyModifier === 'PACIFIST' ? 'border-blue-700 bg-blue-950 text-blue-300' :
+                    'border-gray-700 bg-gray-950 text-gray-300'
+                }`}>
+                ACTIVE
+              </div>
+            </div>
+          </div>
+        )}
+
+
         {/* Main Combat Area */}
         <main className="flex-1 flex flex-col md:flex-row gap-4 overflow-hidden">
           {/* Enemy Display */}
           <div className="w-full md:w-1/2 flex flex-col gap-2 overflow-y-auto pr-2" role="region" aria-label="Enemy Targets">
             {runState.missionType === 'SURVIVAL' && (
-              <div className="bg-[var(--color-danger)]/20 border border-[var(--color-danger)] p-2 text-center text-[var(--color-danger)] font-bold text-sm mb-2 animate-pulse">
-                SURVIVE: {missionTimer}s
+              <div className="bg-[var(--color-danger)]/20 border border-[var(--color-danger)] p-3 mb-2">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-[var(--color-danger)] font-bold text-lg">🌊 WAVE {survivalWave}</span>
+                  <span className="text-[var(--color-danger)] font-bold text-lg animate-pulse">⏱️ {missionTimer}s</span>
+                </div>
+                <div className="text-xs text-gray-400 text-center">
+                  Enemies get {Math.floor(survivalWave * 10)}% stronger each wave
+                </div>
               </div>
             )}
             {runState.missionType === 'DEFENSE' && (
@@ -1374,6 +1520,11 @@ export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVic
                       {enemy.intent === 'ATTACK' && <span className="text-[10px] text-[var(--color-danger)] border border-red-900 px-1">ATTACK</span>}
                       {enemy.intent === 'HEAL' && <span className="text-[10px] text-[var(--color-success)] border border-green-900 px-1">REPAIR</span>}
                       {enemy.intent === 'CHARGE' && <span className="text-[10px] text-[var(--color-accent)] border border-yellow-900 px-1">CHARGE</span>}
+                      {enemy.weakPoint && (
+                        <Tooltip content={`${enemy.weakPoint.description} (${enemy.weakPoint.damageMultiplier}x DMG)`}>
+                          <span className="text-[10px] text-cyan-400 border border-cyan-900 px-1 cursor-help animate-pulse">◎ WEAK</span>
+                        </Tooltip>
+                      )}
                       {enemy.statuses.map(s => <span key={s.id} className="text-[10px] bg-white text-black px-1 font-bold">{s.type.substr(0, 1)}</span>)}
                     </div>
                   </div>
@@ -1421,6 +1572,26 @@ export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVic
               ))}
               <div ref={logEndRef} />
             </div>
+            {/* Export Log Button */}
+            <button
+              onClick={() => {
+                const logText = combatLog.map(e =>
+                  `[${new Date(e.timestamp).toLocaleTimeString()}] ${e.text}`
+                ).join('\n');
+                const blob = new Blob([`NEON VANGUARD - COMBAT LOG\nStage: ${runState.currentStage}\nPilot: ${pilot.name}\n${'='.repeat(40)}\n\n${logText}`], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `combat_log_stage${runState.currentStage}_${Date.now()}.txt`;
+                a.click();
+                URL.revokeObjectURL(url);
+                audio.playBlip();
+              }}
+              className="mt-2 px-3 py-1 text-xs border border-gray-600 text-gray-400 hover:bg-gray-800 hover:text-white transition-colors"
+              aria-label="Export combat log as text file"
+            >
+              📥 EXPORT LOG
+            </button>
           </div>
         </main>
 
@@ -1481,21 +1652,34 @@ export const CombatScreen: React.FC<CombatScreenProps> = ({ pilot, module, onVic
 
             {/* Consumables */}
             <div className="w-full md:w-1/4 grid grid-cols-2 md:grid-cols-1 gap-1">
-              {consumables.map((item, idx) => (
-                <Tooltip text={item.description} key={`${item.id}-${idx}`}>
-                  <button
-                    key={idx}
-                    onClick={() => handleConsumable(idx)}
-                    disabled={item.count <= 0 || playerCharge < 50}
-                    className={`border text-[10px] px-2 flex justify-between items-center transition-all ${item.count > 0 ? `${item.color.split(' ')[1]} hover:bg-white/10` : 'border-gray-800 text-gray-600'
-                      }`}
-                    aria-label={`Use ${item.name} (x${item.count})`}
-                  >
-                    <span className={item.count > 0 ? item.color.split(' ')[0] : ''}>{item.name}</span>
-                    <span>x{item.count}</span>
-                  </button>
-                </Tooltip>
-              ))}
+              {consumables
+                .filter(item => {
+                  // Filter out offensive items when PACIFIST modifier is active
+                  if (dailyModifier === 'PACIFIST') {
+                    return item.id !== 'emp_grenade' &&
+                      item.id !== 'overdrive_inj' &&
+                      item.id !== 'cryo_bomb' &&
+                      item.id !== 'plasma_grenade' &&
+                      item.id !== 'emergency_beacon';
+                  }
+                  return true;
+                })
+                .map((item, idx) => (
+                  <Tooltip text={item.description} key={`${item.id}-${idx}`}>
+                    <button
+                      key={idx}
+                      onClick={() => handleConsumable(idx)}
+                      disabled={item.count <= 0 || playerCharge < 50}
+                      className={`border text-[10px] px-2 flex justify-between items-center transition-all ${item.count > 0 ? `${item.color.split(' ')[1]} hover:bg-white/10` : 'border-gray-800 text-gray-600'
+                        }`}
+                      aria-label={`Use ${item.name} (x${item.count}) - Press ${idx + 1}`}
+                    >
+                      <span className="text-gray-500 mr-1">[{idx + 1}]</span>
+                      <span className={item.count > 0 ? item.color.split(' ')[0] : ''}>{item.name}</span>
+                      <span>x{item.count}</span>
+                    </button>
+                  </Tooltip>
+                ))}
               {consumables.length === 0 && (
                 <div className="border border-gray-800 text-[10px] text-gray-600 flex items-center justify-center">NO ITEMS</div>
               )}

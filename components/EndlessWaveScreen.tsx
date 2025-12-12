@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { PilotConfig, PilotModule, Enemy, CombatLogEntry, Ability, ActiveStatus, Consumable } from '../types';
 import { useGame } from '../context/GameContext';
 import { audio } from '../services/audioService';
-import { COMBAT_CONFIG, ENDLESS_CONFIG, DIFFICULTIES } from '../constants';
+import { COMBAT_CONFIG, ENDLESS_CONFIG, DIFFICULTIES, EndlessBlessing } from '../constants';
 import {
     calculateMaxHp,
     calculateDamage,
@@ -16,6 +16,8 @@ import {
 import { UpgradeSelectionModal } from './UpgradeSelectionModal';
 import { WaveCompleteModal } from './WaveCompleteModal';
 import { EndlessGameOverModal } from './EndlessGameOverModal';
+import { BlessingModal } from './BlessingModal';
+import { ShopWaveModal } from './ShopWaveModal';
 import { useTranslation } from 'react-i18next';
 
 interface EndlessWaveScreenProps {
@@ -60,7 +62,12 @@ export const EndlessWaveScreen: React.FC<EndlessWaveScreenProps> = ({ pilot, mod
     const [showUpgradeModal, setShowUpgradeModal] = useState(false);
     const [showWaveComplete, setShowWaveComplete] = useState(false);
     const [showGameOver, setShowGameOver] = useState(false);
+    const [showBlessingModal, setShowBlessingModal] = useState(false);
+    const [showShopModal, setShowShopModal] = useState(false);
     const [waveStartTime, setWaveStartTime] = useState(Date.now());
+
+    // Active blessings
+    const [activeBlessings, setActiveBlessings] = useState<Array<EndlessBlessing & { wavesRemaining: number }>>([]);
 
     // Mutable State Ref
     const stateRef = useRef({
@@ -237,8 +244,28 @@ export const EndlessWaveScreen: React.FC<EndlessWaveScreenProps> = ({ pilot, mod
         audio.playBlip();
         stateRef.current.gameOver = true;
 
+        // Decrement blessing durations
+        setActiveBlessings(prev =>
+            prev.map(b => ({ ...b, wavesRemaining: b.wavesRemaining - 1 }))
+                .filter(b => b.wavesRemaining > 0)
+        );
+
+        const wave = endlessState.currentWave;
+
+        // Check for shop wave (every 15)
+        if (wave % ENDLESS_CONFIG.SHOP_WAVE_INTERVAL === 0) {
+            setShowShopModal(true);
+            return;
+        }
+
+        // Check for blessing (every 5, but not on upgrade waves)
+        if (wave % ENDLESS_CONFIG.BLESSING_INTERVAL === 0 && wave % ENDLESS_CONFIG.UPGRADE_INTERVAL !== 0) {
+            setShowBlessingModal(true);
+            return;
+        }
+
         // Check for upgrade (every 5 waves)
-        if (endlessState.currentWave % ENDLESS_CONFIG.UPGRADE_INTERVAL === 0) {
+        if (wave % ENDLESS_CONFIG.UPGRADE_INTERVAL === 0) {
             setShowUpgradeModal(true);
         } else {
             setShowWaveComplete(true);
@@ -336,16 +363,25 @@ export const EndlessWaveScreen: React.FC<EndlessWaveScreenProps> = ({ pilot, mod
 
     return (
         <div className={`w-full h-full flex flex-col ${shakeIntensity > 0 ? `animate-shake-${Math.min(shakeIntensity, 5)}` : ''}`}>
-            {/* Header - Wave Info */}
             <div className="border-b-2 border-purple-500 bg-black/90 p-4">
                 <div className="flex justify-between items-center">
                     <div>
-                        <h1 className="text-3xl font-bold text-purple-400">🌊 WAVE {endlessState.currentWave}</h1>
+                        <h1 className="text-3xl font-bold text-purple-400">
+                            🌊 WAVE {endlessState.currentWave}
+                            {endlessState.currentWave % ENDLESS_CONFIG.BOSS_WAVE_INTERVAL === 0 &&
+                                <span className="text-red-500 ml-2">⚠️ BOSS</span>
+                            }
+                        </h1>
                         <p className="text-sm text-gray-400">{enemies.length} enemies remaining</p>
                     </div>
                     <div className="text-right">
                         <div className="text-yellow-400 text-2xl font-bold">{currentScore.toLocaleString()} PTS</div>
                         <div className="text-sm text-gray-400">Kills: {endlessState.totalKills}</div>
+                        {activeBlessings.length > 0 && (
+                            <div className="text-xs text-purple-400 mt-1">
+                                {activeBlessings.map(b => `${b.icon}${b.wavesRemaining}`).join(' ')}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -467,6 +503,43 @@ export const EndlessWaveScreen: React.FC<EndlessWaveScreenProps> = ({ pilot, mod
                     onRetry={handleRetry}
                     onBackToMenu={onBackToMenu}
                     onViewLeaderboard={onBackToMenu}
+                />
+            )}
+
+            {showBlessingModal && (
+                <BlessingModal
+                    wave={endlessState.currentWave}
+                    onSelectBlessing={(blessing) => {
+                        setActiveBlessings(prev => [...prev, { ...blessing, wavesRemaining: blessing.duration }]);
+                        setShowBlessingModal(false);
+                        setShowWaveComplete(true);
+                    }}
+                />
+            )}
+
+            {showShopModal && (
+                <ShopWaveModal
+                    wave={endlessState.currentWave}
+                    scrap={endlessState.scrap || 0}
+                    onPurchase={(item, cost) => {
+                        if (item.id === 'shop_heal') {
+                            setPlayerHp(prev => Math.min(maxHp, prev + 50));
+                        } else {
+                            setConsumables(prev => {
+                                const existing = prev.find(c => c.id === item.id);
+                                if (existing) {
+                                    existing.count++;
+                                    return [...prev];
+                                }
+                                return [...prev, { ...item, count: 1 }];
+                            });
+                        }
+                        updateEndlessState({ scrap: (endlessState.scrap || 0) - cost });
+                    }}
+                    onContinue={() => {
+                        setShowShopModal(false);
+                        setShowWaveComplete(true);
+                    }}
                 />
             )}
         </div>

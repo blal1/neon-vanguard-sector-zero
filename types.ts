@@ -229,13 +229,30 @@ export interface WeakPoint {
 export type CombatEffect = 'NORMAL' | 'CRITICAL' | 'COUNTER' | 'WEAK_POINT' | 'COMBO';
 
 // Synergy System
-export type SynergyId = 'INFERNO' | 'BLOOD_SHELL';
+export type SynergyId =
+  // Augmentation Synergies
+  | 'INFERNO'
+  | 'BLOOD_SHELL'
+  // Talent Synergies
+  | 'vanguard_unbreakable'
+  | 'vanguard_iron_will'
+  | 'solaris_solar_flare'
+  | 'solaris_energy_overload'
+  | 'hydra_phantom_protocol'
+  | 'wyrm_living_tank'
+  | 'ghost_shadow_assassin';
+
+export interface SynergyEffect {
+  type: string;
+  value: number;
+}
 
 export interface Synergy {
   id: SynergyId;
   name: string;
   description: string;
-  augmentationIds: string[]; // Augmentations required for this synergy
+  augmentationIds: string[]; // Augmentations or Talents required for this synergy
+  effects?: SynergyEffect[]; // Optional effects for the synergy
 }
 
 export interface PlayerProfile {

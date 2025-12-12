@@ -67,3 +67,64 @@ export const formatDuration = (ms: number): string => {
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 };
+
+// Validate replay data structure
+export const validateReplayData = (data: unknown): { valid: boolean; error?: string; replay?: CombatReplay } => {
+    if (!data || typeof data !== 'object') {
+        return { valid: false, error: 'Invalid data format' };
+    }
+
+    const obj = data as Record<string, unknown>;
+
+    // Required fields check
+    const requiredFields = ['id', 'timestamp', 'pilotId', 'pilotName', 'stage', 'duration', 'actions', 'outcome', 'finalStats'];
+    for (const field of requiredFields) {
+        if (!(field in obj)) {
+            return { valid: false, error: `Missing required field: ${field}` };
+        }
+    }
+
+    // Actions array check
+    if (!Array.isArray(obj.actions) || obj.actions.length === 0) {
+        return { valid: false, error: 'Actions must be a non-empty array' };
+    }
+
+    // Validate action structure
+    const firstAction = obj.actions[0] as Record<string, unknown>;
+    if (!firstAction.turn || !firstAction.timestamp || !firstAction.actor || !firstAction.result) {
+        return { valid: false, error: 'Invalid action structure' };
+    }
+
+    // Outcome check
+    if (obj.outcome !== 'VICTORY' && obj.outcome !== 'DEFEAT') {
+        return { valid: false, error: 'Invalid outcome value' };
+    }
+
+    return { valid: true, replay: obj as unknown as CombatReplay };
+};
+
+// Import replay from JSON string
+export const importReplayFromJson = (jsonString: string): { success: boolean; error?: string; replay?: CombatReplay } => {
+    try {
+        const data = JSON.parse(jsonString);
+        const validation = validateReplayData(data);
+
+        if (!validation.valid) {
+            return { success: false, error: validation.error };
+        }
+
+        return { success: true, replay: validation.replay };
+    } catch (e) {
+        return { success: false, error: 'Invalid JSON format' };
+    }
+};
+
+// Import replay and add to state
+export const importReplay = (state: ReplayState, replay: CombatReplay): ReplayState => {
+    // Check for duplicates
+    if (state.replays.some(r => r.id === replay.id)) {
+        // Generate new ID for duplicate
+        replay = { ...replay, id: `${replay.id}-import-${Date.now()}` };
+    }
+    return addReplay(state, replay);
+};

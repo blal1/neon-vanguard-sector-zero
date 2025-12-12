@@ -8,39 +8,83 @@ export const CraftingPanel: React.FC = () => {
     const { t } = useTranslation();
     const { runState, canCraft, craftItem } = useGame();
     const [notification, setNotification] = useState<string | null>(null);
+    const [craftingInProgress, setCraftingInProgress] = useState(false);
+    const [lastCraftedItem, setLastCraftedItem] = useState<string | null>(null);
 
     const handleCraft = (recipeId: string) => {
-        const success = craftItem(recipeId);
+        if (craftingInProgress) return;
 
-        if (success) {
-            const recipe = CRAFTING_RECIPES.find(r => r.id === recipeId);
-            setNotification(`✓ Crafted ${recipe?.name}!`);
-            audio.playHover();
-            setTimeout(() => setNotification(null), 2000);
-        } else {
-            setNotification('✗ Insufficient materials!');
-            audio.playAlarm();
-            setTimeout(() => setNotification(null), 2000);
-        }
+        setCraftingInProgress(true);
+        audio.playBlip(); // Crafting start sound
+
+        // Animation delay
+        setTimeout(() => {
+            const success = craftItem(recipeId);
+
+            if (success) {
+                const recipe = CRAFTING_RECIPES.find(r => r.id === recipeId);
+                setNotification(`✓ Crafted ${recipe?.name}!`);
+                setLastCraftedItem(recipeId);
+                audio.playSound('power_up'); // Success sound
+
+                // Clear success notification after 3s
+                setTimeout(() => {
+                    setNotification(null);
+                    setLastCraftedItem(null);
+                }, 3000);
+            } else {
+                setNotification('✗ Insufficient materials!');
+                audio.playAlarm(); // Fail sound
+                setTimeout(() => setNotification(null), 2000);
+            }
+
+            setCraftingInProgress(false);
+        }, 600); // Crafting animation duration
     };
+
+    // Count unlocked recipes
+    const unlockedCount = CRAFTING_RECIPES.filter(r => !r.unlockedAtStage || runState.currentStage >= r.unlockedAtStage).length;
+    const totalCount = CRAFTING_RECIPES.length;
 
     return (
         <div className="p-4">
             <div className="mb-4">
-                <h3 className="text-xl font-bold text-cyan-400 uppercase mb-2">
-                    🔧 Crafting Station
-                </h3>
+                <div className="flex justify-between items-center mb-2">
+                    <h3 className="text-xl font-bold text-cyan-400 uppercase">
+                        🔧 Crafting Station
+                    </h3>
+                    <span className="text-sm text-gray-400">
+                        Unlocked: {unlockedCount}/{totalCount}
+                    </span>
+                </div>
                 <p className="text-sm text-gray-400">
                     Combine consumables to create more powerful items.
                 </p>
             </div>
 
             {notification && (
-                <div className={`mb-4 p-3 border-2 ${notification.startsWith('✓')
-                    ? 'border-green-500 bg-green-900/20 text-green-400'
-                    : 'border-red-500 bg-red-900/20 text-red-400'
+                <div className={`mb-4 p-3 border-2 transition-all duration-300 ${notification.startsWith('✓')
+                    ? 'border-green-500 bg-green-900/30 text-green-400 animate-pulse'
+                    : 'border-red-500 bg-red-900/30 text-red-400'
                     }`}>
-                    {notification}
+                    <div className="flex items-center gap-2">
+                        {notification.startsWith('✓') && (
+                            <span className="text-2xl">✨</span>
+                        )}
+                        <span className="font-bold">{notification}</span>
+                        {notification.startsWith('✓') && (
+                            <span className="text-2xl">✨</span>
+                        )}
+                    </div>
+                </div>
+            )}
+
+            {craftingInProgress && (
+                <div className="mb-4 p-3 border-2 border-cyan-500 bg-cyan-900/20 text-cyan-400">
+                    <div className="flex items-center gap-2">
+                        <div className="animate-spin">⚙️</div>
+                        <span>Crafting...</span>
+                    </div>
                 </div>
             )}
 
@@ -63,6 +107,11 @@ export const CraftingPanel: React.FC = () => {
                                     <div>
                                         <h4 className={`font-bold text-lg ${recipe.result.color || 'text-white'}`}>
                                             {recipe.result.name}
+                                            {lastCraftedItem === recipe.id && (
+                                                <span className="ml-2 text-xs px-2 py-1 bg-green-500 text-black rounded animate-pulse">
+                                                    JUST CRAFTED!
+                                                </span>
+                                            )}
                                         </h4>
                                         <p className="text-sm text-gray-400">{recipe.result.description}</p>
                                     </div>
@@ -116,13 +165,13 @@ export const CraftingPanel: React.FC = () => {
 
                                 <button
                                     onClick={() => handleCraft(recipe.id)}
-                                    disabled={!canCraftThis || hasResult}
-                                    className={`w-full py-2 px-4 font-bold uppercase transition-colors ${canCraftThis && !hasResult
-                                        ? 'bg-cyan-600 hover:bg-cyan-500 text-white cursor-pointer'
-                                        : 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                                    disabled={!canCraftThis || hasResult || craftingInProgress}
+                                    className={`w-full py-2 px-4 font-bold uppercase transition-colors ${canCraftThis && !hasResult && !craftingInProgress
+                                            ? 'bg-cyan-600 hover:bg-cyan-500 text-white cursor-pointer'
+                                            : 'bg-gray-700 text-gray-500 cursor-not-allowed'
                                         }`}
                                 >
-                                    {hasResult ? 'Already Maxed' : canCraftThis ? 'Craft Item' : 'Insufficient Materials'}
+                                    {craftingInProgress ? '⚙️ Crafting...' : hasResult ? 'Already Maxed' : canCraftThis ? 'Craft Item' : 'Insufficient Materials'}
                                 </button>
                             </div>
                         );
@@ -147,11 +196,13 @@ export const CraftingPanel: React.FC = () => {
                     ))}
             </div>
 
-            {CRAFTING_RECIPES.length === 0 && (
-                <div className="text-center text-gray-500 py-8">
-                    {t('hangar.noRecipes')}
-                </div>
-            )}
-        </div>
+            {
+                CRAFTING_RECIPES.length === 0 && (
+                    <div className="text-center text-gray-500 py-8">
+                        {t('hangar.noRecipes')}
+                    </div>
+                )
+            }
+        </div >
     );
 };

@@ -34,6 +34,7 @@ import { useKeyboardNavigation } from './hooks/useKeyboardNavigation';
 import { DefaultSkipLinks } from './components/SkipLinks';
 import { AccessibilityAnnouncer } from './components/AccessibilityAnnouncer';
 import { ScreenReaderOnly } from './components/ScreenReaderOnly';
+import { SettingsScreen } from './components/SettingsScreen';
 
 
 const AppContent: React.FC = () => {
@@ -52,6 +53,7 @@ const AppContent: React.FC = () => {
 
   const [gameState, setGameState] = useState<GameState | 'TESTing' | 'ACHIEVEMENTS' | 'STATISTICS' | 'CODEX' | 'REPLAYS' | 'REPLAY_VIEWER' | 'TALENTS'>(GameState.MENU);
   const [showLoadoutManager, setShowLoadoutManager] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
 
   // Staging state for selection before starting run
   const [selectedPilot, setSelectedPilot] = useState<PilotConfig | null>(null);
@@ -265,6 +267,10 @@ const AppContent: React.FC = () => {
             />
           )}
 
+          {showSettings && (
+            <SettingsScreen onClose={() => setShowSettings(false)} />
+          )}
+
           {gameState === GameState.MENU && (
             <div className="relative w-full h-full">
               {hasActiveRun && (
@@ -325,6 +331,13 @@ const AppContent: React.FC = () => {
                   className="border border-cyan-500 text-cyan-400 px-4 py-2 hover:bg-cyan-900/50 transition-colors tracking-wide"
                 >
                   ⭐ {t('mainMenu.talents')} [{talentState.availablePoints}]
+                </button>
+                <button
+                  onClick={() => { audio.playBlip(); setShowSettings(true); }}
+                  className="border border-gray-500 text-gray-400 px-4 py-2 hover:bg-gray-900/50 transition-colors tracking-wide"
+                  aria-label={t('accessibility.openSettings')}
+                >
+                  ⚙️ SETTINGS
                 </button>
               </div>
 

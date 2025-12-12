@@ -1,8 +1,102 @@
-import { PilotConfig, PilotModule, PilotId, HazardType, Enemy, EnemyIntent, Ability, ActiveStatus, Consumable, RunState, EnemyAffix, BossTemplate, BossPhase, BossAbilityType, BossData, Synergy } from '../types';
+import { PilotConfig, PilotModule, PilotId, HazardType, Enemy, EnemyIntent, Ability, ActiveStatus, Consumable, RunState, EnemyAffix, BossTemplate, BossPhase, BossAbilityType, BossData, Synergy, WeakPoint } from '../types';
 import { COMBAT_CONFIG, RUN_CONFIG, BOSS_TEMPLATES, ENEMY_AFFIXES, ENDLESS_CONFIG } from '../constants';
 import { getActiveSynergies } from './synergyUtils';
 import { calculateSynergyEffects } from './combatUtils_augmentations';
 import { getAllEnemyTemplates } from '../data/dataManager';
+
+// Weak Point Templates - define enemy vulnerabilities
+export const WEAK_POINT_TEMPLATES: Record<string, WeakPoint> = {
+  electronic: {
+    abilityType: 'emp',
+    damageMultiplier: 2.0,
+    description: 'VULNERABLE TO EMP'
+  },
+  armored: {
+    abilityType: 'heavy',
+    damageMultiplier: 1.75,
+    description: 'WEAK TO HEAVY WEAPONS'
+  },
+  organic: {
+    abilityType: 'bio',
+    damageMultiplier: 2.0,
+    description: 'VULNERABLE TO BIO ATTACKS'
+  },
+  shielded: {
+    abilityType: 'overcharge',
+    damageMultiplier: 1.5,
+    description: 'SHIELD DISRUPTION WEAKNESS'
+  },
+  thermal: {
+    abilityType: 'laser',
+    damageMultiplier: 1.75,
+    description: 'WEAK TO THERMAL DAMAGE'
+  }
+};
+
+// Map enemy name patterns to weak point types
+const ENEMY_WEAK_POINT_MAP: Record<string, string> = {
+  'drone': 'electronic',
+  'sentinel': 'electronic',
+  'mech': 'armored',
+  'tank': 'armored',
+  'behemoth': 'armored',
+  'crawler': 'organic',
+  'swarm': 'organic',
+  'hunter': 'organic',
+  'guardian': 'shielded',
+  'defender': 'shielded',
+  'wraith': 'thermal',
+  'shadow': 'thermal'
+};
+
+/**
+ * Determines the weak point for an enemy based on its name/type
+ */
+export const getWeakPointForEnemy = (enemyName: string, isElite: boolean = false): WeakPoint | undefined => {
+  const nameLower = enemyName.toLowerCase();
+
+  // Check for matching weak point
+  for (const [pattern, weakPointType] of Object.entries(ENEMY_WEAK_POINT_MAP)) {
+    if (nameLower.includes(pattern)) {
+      return WEAK_POINT_TEMPLATES[weakPointType];
+    }
+  }
+
+  // Elite enemies always have a weak point (random if not mapped)
+  if (isElite) {
+    const types = Object.keys(WEAK_POINT_TEMPLATES);
+    const randomType = types[Math.floor(Math.random() * types.length)];
+    return WEAK_POINT_TEMPLATES[randomType];
+  }
+
+  // Regular enemies have 40% chance of a random weak point
+  if (Math.random() < 0.4) {
+    const types = Object.keys(WEAK_POINT_TEMPLATES);
+    const randomType = types[Math.floor(Math.random() * types.length)];
+    return WEAK_POINT_TEMPLATES[randomType];
+  }
+
+  return undefined;
+};
+
+/**
+ * Checks if an ability hits an enemy's weak point
+ */
+export const checkWeakPointHit = (ability: Ability, enemy: Enemy): { hit: boolean; multiplier: number } => {
+  if (!enemy.weakPoint || !enemy.weakPoint.abilityType) {
+    return { hit: false, multiplier: 1.0 };
+  }
+
+  // Check if ability ID contains the weak point trigger
+  const abilityIdLower = ability.id.toLowerCase();
+  const triggerLower = enemy.weakPoint.abilityType.toLowerCase();
+
+  if (abilityIdLower.includes(triggerLower)) {
+    return { hit: true, multiplier: enemy.weakPoint.damageMultiplier };
+  }
+
+  return { hit: false, multiplier: 1.0 };
+};
 
 /**
  * Calculates the maximum HP of a pilot based on module and run upgrades.
@@ -22,12 +116,12 @@ export const calculateMaxHp = (pilot: PilotConfig, module: PilotModule, runState
  * Calculates the base damage of a pilot based on module and run upgrades.
  */
 export const calculateDamage = (
-    pilot: PilotConfig,
-    module: PilotModule,
-    statuses: ActiveStatus[],
-    runState: RunState,
-    currentHeat: number = 0,
-    activeSynergies: Synergy[] = []
+  pilot: PilotConfig,
+  module: PilotModule,
+  statuses: ActiveStatus[],
+  runState: RunState,
+  currentHeat: number = 0,
+  activeSynergies: Synergy[] = []
 ): number => {
   let dmg = pilot.baseDamage;
   if (module === 'ASSAULT') dmg += 3;
@@ -66,11 +160,11 @@ export interface AbilityResult {
   logMessage: string;
   targetsHit: number[]; // Indices of enemies hit
   stunApplied: boolean;
+  weakPointHit: boolean; // Track if weak point was triggered
+  weakPointMultiplier: number; // The multiplier applied
+  isCritical: boolean; // Track critical hits
 }
 
-/**
- * Core combat logic for calculating the result of a player ABILITY usage.
- */
 export const calculateAbilityResult = (
   pilot: PilotConfig,
   ability: Ability,
@@ -92,14 +186,17 @@ export const calculateAbilityResult = (
   let logMessage = "";
   let targetsHit: number[] = [0]; // Default single target
   let stunApplied = ability.stuns || false;
+  let weakPointHit = false;
+  let weakPointMultiplier = 1.0;
+  let isCritical = false;
 
   // 1. Resource Checks
   if (ability.energyCost && currentEnergy < ability.energyCost) {
-    return { damage: 0, resourceConsumed: false, error: "LOW_ENERGY", newEnergy, newHeat, jammed, burrowedState, logMessage: "INSUFFICIENT ENERGY!", targetsHit: [], stunApplied: false };
+    return { damage: 0, resourceConsumed: false, error: "LOW_ENERGY", newEnergy, newHeat, jammed, burrowedState, logMessage: "INSUFFICIENT ENERGY!", targetsHit: [], stunApplied: false, weakPointHit: false, weakPointMultiplier: 1.0, isCritical: false };
   }
 
   if (isJammed && pilot.id === PilotId.HYDRA) {
-    return { damage: 0, resourceConsumed: false, error: "JAMMED", newEnergy, newHeat, jammed, burrowedState, logMessage: "WEAPONS JAMMED!", targetsHit: [], stunApplied: false };
+    return { damage: 0, resourceConsumed: false, error: "JAMMED", newEnergy, newHeat, jammed, burrowedState, logMessage: "WEAPONS JAMMED!", targetsHit: [], stunApplied: false, weakPointHit: false, weakPointMultiplier: 1.0, isCritical: false };
   }
 
   // 2. Resource Consumption
@@ -115,6 +212,7 @@ export const calculateAbilityResult = (
       damage = Math.floor(damage * 2.5); // Stealth Crit Bonus
       burrowedState = false; // Unburrow
       logMessage = `${ability.name}: AMBUSH CRIT!`;
+      isCritical = true;
     } else {
       logMessage = `${ability.name} hits.`;
     }
@@ -128,7 +226,32 @@ export const calculateAbilityResult = (
     logMessage += ` [AOE: ${targetsHit.length} TARGETS]`;
   }
 
-  return { damage, resourceConsumed, error, newEnergy, newHeat, jammed, burrowedState, logMessage, targetsHit, stunApplied };
+  // 5. Check for Weak Point hits on all targets
+  for (const targetIdx of targetsHit) {
+    const enemy = enemies[targetIdx];
+    if (enemy) {
+      const wpResult = checkWeakPointHit(ability, enemy);
+      if (wpResult.hit) {
+        weakPointHit = true;
+        weakPointMultiplier = Math.max(weakPointMultiplier, wpResult.multiplier);
+      }
+    }
+  }
+
+  // 6. Apply weak point damage multiplier
+  if (weakPointHit) {
+    damage = Math.floor(damage * weakPointMultiplier);
+    logMessage += ` [WEAK POINT! x${weakPointMultiplier}]`;
+  }
+
+  // 7. Critical hit chance (10% base, not on WYRM ambush which is already a crit)
+  if (!isCritical && Math.random() < 0.1) {
+    damage = Math.floor(damage * 1.5);
+    isCritical = true;
+    logMessage += ` [CRITICAL!]`;
+  }
+
+  return { damage, resourceConsumed, error, newEnergy, newHeat, jammed, burrowedState, logMessage, targetsHit, stunApplied, weakPointHit, weakPointMultiplier, isCritical };
 };
 
 /**
@@ -214,6 +337,64 @@ export const determineEnemyIntent = (enemy: Enemy): EnemyIntent => {
 };
 
 /**
+ * Calculates which target an enemy should prioritize in DEFENSE missions.
+ * Uses intelligent decision-making based on HP ratios, enemy type, and tactical priorities.
+ */
+export const calculateDefenseTarget = (
+  playerHp: number,
+  playerMaxHp: number,
+  coreHp: number,
+  maxCoreHp: number,
+  enemyName: string,
+  isBoss: boolean
+): 'PLAYER' | 'CORE' => {
+  // Bosses always prioritize the player (tactical challenge)
+  if (isBoss) return 'PLAYER';
+
+  const playerHpPercent = (playerHp / playerMaxHp) * 100;
+  const coreHpPercent = coreHp;
+
+  // Critical Core Protection: If core is below 25%, all enemies swarm it
+  if (coreHpPercent < 25) {
+    return 'CORE';
+  }
+
+  // Opportunistic Kill: If player is critically low, most enemies target player
+  if (playerHpPercent < 20) {
+    return Math.random() < 0.85 ? 'PLAYER' : 'CORE';
+  }
+
+  // Calculate threat weights for decision-making
+  const coreWeight = 100 - coreHpPercent; // Lower core HP = higher threat
+  const playerWeight = 100 - playerHpPercent; // Lower player HP = higher threat
+
+  // Elite enemies are smarter and prefer the weaker target
+  if (enemyName.includes('[')) { // Elites have [AFFIX] prefix
+    const totalWeight = coreWeight + playerWeight;
+    if (totalWeight === 0) return Math.random() < 0.5 ? 'PLAYER' : 'CORE';
+
+    // Weighted decision: target the more vulnerable one
+    return Math.random() < (playerWeight / totalWeight) ? 'PLAYER' : 'CORE';
+  }
+
+  return Math.random() < 0.6 ? 'CORE' : 'PLAYER';
+};
+
+/**
+ * Applies difficulty scaling to enemies in SURVIVAL missions based on wave number.
+ */
+export const applySurvivalScaling = (enemy: Enemy, waveNumber: number): Enemy => {
+  const hpMultiplier = 1 + (waveNumber * 0.1); // +10% HP per wave
+  const dmgMultiplier = 1 + (waveNumber * 0.05); // +5% damage per wave
+  return {
+    ...enemy,
+    maxHp: Math.floor(enemy.maxHp * hpMultiplier),
+    currentHp: Math.floor(enemy.maxHp * hpMultiplier),
+    damage: Math.floor(enemy.damage * dmgMultiplier)
+  };
+};
+
+/**
  * Resolves an enemy action based on its intent.
  */
 export const resolveEnemyAction = (enemy: Enemy, isBurrowed: boolean, hazard: HazardType, activeTalentSynergies: Synergy[] = []): EnemyAttackResult => {
@@ -267,7 +448,7 @@ export const resolveEnemyAction = (enemy: Enemy, isBurrowed: boolean, hazard: Ha
     lifesteal = Math.max(1, Math.floor(damage * 0.3)); // Lifesteal 30% of damage dealt
     enemy.currentHp = Math.min(enemy.maxHp, enemy.currentHp + lifesteal); // Heal enemy
   }
-  
+
   return { damage, flavor, isCrit: isCrit || enemy.isCharged, missed: false, healed: false, charged: false, newIntent: determineEnemyIntent(enemy), lifesteal };
 };
 
@@ -374,6 +555,32 @@ export const applyConsumableEffect = (
       newHp = Math.min(maxHp, currentHp + 40);
       log = "REPAIR KIT USED: +40 HP.";
       break;
+    case 'overcharge_cell':
+      newPlayerStatuses.push({ id: `overcharge-${Date.now()}`, type: 'OVERDRIVE', durationMs: 15000, value: 0 });
+      log = "OVERCHARGE CELL ACTIVATED: +50% DAMAGE (15s)!";
+      break;
+    case 'shield_matrix':
+      for (let i = 0; i < 3; i++) { newPlayerStatuses.push({ id: `shield-matrix-${Date.now()}-${i}`, type: 'SHIELDED', durationMs: 999999 }); }
+      log = "SHIELD MATRIX DEPLOYED: 3-HIT SHIELD ACTIVE!";
+      break;
+    case 'plasma_grenade':
+      newEnemies.forEach(e => { e.currentHp = Math.max(0, e.currentHp - 25); e.statuses.push({ id: `burn-plasma-${Date.now()}`, type: 'BURNING', durationMs: 8000, value: COMBAT_CONFIG.STATUS.BURN_DAMAGE_PER_TICK }); });
+      log = "PLASMA GRENADE DETONATED! ALL ENEMIES BURNING!";
+      break;
+    case 'emergency_beacon':
+      newHp = maxHp; newPlayerStatuses.push({ id: `emergency-shield-${Date.now()}`, type: 'SHIELDED', durationMs: 10000 });
+      log = "EMERGENCY BEACON ACTIVATED: FULL HEAL + SHIELD!";
+      break;
+    case 'energy_battery':
+      newEnergy = 100; newHeat = 0;
+      log = "ENERGY BATTERY USED: ENERGY RESTORED, HEAT CLEARED!";
+      break;
+    case 'scrap_magnet':
+      log = "SCRAP MAGNET ACTIVATED: +50% SCRAP FOR NEXT 3 COMBATS!";
+      break;
+    case 'tactical_scanner':
+      log = "TACTICAL SCANNER ACTIVE: ENEMY INTENTS REVEALED!";
+      break;
     default:
       break;
   }
@@ -470,7 +677,7 @@ export const generateEnemies = (
       eliteScrapMult = 1.5;
       namePrefix = '[ELITE] ';
     }
-    
+
     if (isElite && affix === 'NONE') { // Only pick a random affix if not already set by BOSS_RUSH
       const keys = Object.keys(ENEMY_AFFIXES) as (keyof typeof ENEMY_AFFIXES)[];
       const key = keys[Math.floor(Math.random() * keys.length)];
@@ -503,6 +710,9 @@ export const generateEnemies = (
     if (affix === 'SHIELDED') {
       newEnemy.statuses.push({ id: `shield-${Date.now()}`, type: 'SHIELDED', durationMs: 999999 });
     }
+
+    // Assign weak point to enemy
+    newEnemy.weakPoint = getWeakPointForEnemy(template.name, isElite);
 
     newEnemies.push(newEnemy);
   }

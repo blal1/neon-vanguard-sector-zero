@@ -24,7 +24,10 @@ export type TalentEffectType =
     | 'SINGLE_TARGET_DAMAGE' // +X% damage to single target abilities
     | 'BURROW_COOLDOWN_REDUCTION' // -X% burrow cooldown
     | 'ACID_BILE_BURN'      // Acid Bile ability now applies burn
-    | 'CRIT_STUN_CHANCE';   // X% chance to stun on critical hit
+    | 'CRIT_STUN_CHANCE'    // X% chance to stun on critical hit
+    | 'CLOAK_DURATION'      // +X ms cloak duration (GHOST)
+    | 'CLOAKED_CRIT_CHANCE' // +X% crit chance when cloaked (GHOST)
+    | 'SPEED_PERCENT';      // +X% speed (GHOST)
 
 export interface TalentEffect {
     type: TalentEffectType;
@@ -72,6 +75,7 @@ export interface PlayerTalentState {
     [PilotId.SOLARIS]: PilotTalentState;
     [PilotId.HYDRA]: PilotTalentState;
     [PilotId.WYRM]: PilotTalentState;
+    [PilotId.GHOST]: PilotTalentState;
     availablePoints: number;
     totalPointsEarned: number;
 }

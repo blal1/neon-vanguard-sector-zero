@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Welcome to the Neon Vanguard - Sector Zero modding guide! This document will walk you through the process of adding your own custom content to the game. The game is designed with a data-driven approach, allowing you to easily add new enemies, pilots, and events by creating simple JSON or TypeScript files.
+Welcome to the Neon Vanguard - Sector Zero modding guide! This document will walk you through the process of adding your own custom content to the game. The game is designed with a data-driven approach, allowing you to easily add new enemies, pilots, events, augmentations, talents, and more.
 
 ## Getting Started
 
@@ -13,10 +13,15 @@ All mod files are located in the `/mods` directory. The game will automatically 
 *   `/mods/enemies/`: Contains JSON files for new enemies.
 *   `/mods/pilots/`: Contains JSON files for new pilots.
 *   `/mods/events/`: Contains TypeScript files for new game events.
+*   `/mods/augmentations/`: Contains JSON files for new augmentations.
+*   `/mods/talents/`: Contains TypeScript files for new talent trees.
+*   `/mods/consumables/`: Contains JSON files for new consumables.
+
+---
 
 ## Creating a New Enemy
 
-To create a new enemy, simply add a new JSON file to the `/mods/enemies/` directory. The JSON file should have the following structure:
+To create a new enemy, simply add a new JSON file to the `/mods/enemies/` directory.
 
 ```json
 {
@@ -31,30 +36,32 @@ To create a new enemy, simply add a new JSON file to the `/mods/enemies/` direct
 
 ### Enemy Properties
 
-*   `name` (string): The name of your enemy.
-*   `maxHp` (number): The maximum health of your enemy.
-*   `speed` (number): The speed of your enemy's attacks (higher is faster).
-*   `damage` (number): The base damage of your enemy's attacks.
-*   `flavorText` (string): A short description of your enemy's attack, displayed in the combat log.
-*   `scrapValue` (number): The amount of scrap dropped when the enemy is defeated.
+| Property | Type | Description |
+|----------|------|-------------|
+| `name` | string | The name of your enemy |
+| `maxHp` | number | Maximum health |
+| `speed` | number | Attack speed (higher = faster) |
+| `damage` | number | Base attack damage |
+| `flavorText` | string | Combat log description |
+| `scrapValue` | number | Scrap dropped on defeat |
 
-**Example:** See `/mods/enemies/berserker.json`
+---
 
 ## Creating a New Pilot
 
-To create a new pilot, add a new JSON file to the `/mods/pilots/` directory. The JSON file should have the following structure:
+Add a JSON file to `/mods/pilots/`:
 
 ```json
 {
   "id": "your_pilot_id",
   "name": "Your Pilot Name",
   "mechName": "Your Mech Name",
-  "flavor": "A short, flavorful description of your pilot.",
+  "flavor": "A short description.",
   "color": "#RRGGBB",
   "textColor": "text-your-color-500",
   "borderColor": "border-your-color-500",
-  "statsDescription": "A brief overview of the pilot's stats.",
-  "mechanicDescription": "A description of the pilot's unique mechanic.",
+  "statsDescription": "Brief stat overview.",
+  "mechanicDescription": "Unique mechanic description.",
   "baseHp": 100,
   "baseSpeed": 100,
   "baseDamage": 10,
@@ -62,7 +69,7 @@ To create a new pilot, add a new JSON file to the `/mods/pilots/` directory. The
     {
       "id": "ability_id",
       "name": "Ability Name",
-      "description": "A description of the ability.",
+      "description": "What it does.",
       "damageMult": 1.0,
       "cooldownMs": 5000,
       "energyCost": 20,
@@ -75,37 +82,11 @@ To create a new pilot, add a new JSON file to the `/mods/pilots/` directory. The
 }
 ```
 
-### Pilot Properties
-
-*   `id` (string): A unique identifier for your pilot.
-*   `name` (string): The name of your pilot.
-*   `mechName` (string): The name of your pilot's mech.
-*   `flavor` (string): A short, flavorful description of your pilot.
-*   `color` (string): A hex color code for your pilot's UI theme.
-*   `textColor` (string): A Tailwind CSS class for your pilot's text color.
-*   `borderColor` (string): A Tailwind CSS class for your pilot's border color.
-*   `statsDescription` (string): A brief overview of the pilot's stats.
-*   `mechanicDescription` (string): A description of the pilot's unique mechanic.
-*   `baseHp` (number): The base health of the pilot.
-*   `baseSpeed` (number): The base speed of the pilot.
-*   `baseDamage` (number): The base damage of the pilot.
-*   `abilities` (array): An array of ability objects.
-    *   `id` (string): A unique identifier for the ability.
-    *   `name` (string): The name of the ability.
-    *   `description` (string): A description of the ability.
-    *   `damageMult` (number): A multiplier for the pilot's base damage.
-    *   `cooldownMs` (number): The cooldown of the ability in milliseconds.
-    *   `energyCost` (number): The energy cost of the ability.
-    *   `isAoe` (boolean): Whether the ability affects all enemies.
-    *   `stuns` (boolean): Whether the ability stuns enemies.
-*   `unlockLevel` (number): The player level required to unlock the pilot.
-*   `unlockKills` (number): The number of kills required to unlock the pilot.
-
-**Example:** See `/mods/pilots/ghost.json`
+---
 
 ## Creating a New Event
 
-To create a new event, add a new TypeScript file to the `/mods/events/` directory. The file should export a `GameEvent` object.
+Add a TypeScript file to `/mods/events/`:
 
 ```typescript
 import { GameEvent, RunState } from '../../types';
@@ -113,27 +94,21 @@ import { GameEvent, RunState } from '../../types';
 const myCustomEvent: GameEvent = {
   id: 'my-custom-event',
   title: 'MY CUSTOM EVENT',
-  text: 'A description of the event that occurred.',
+  text: 'Description of the event.',
   choices: [
     {
       text: 'CHOICE 1',
-      outcomeText: 'The outcome of choice 1.',
-      effect: (state: RunState): Partial<RunState> => {
-        // Modify the game state here
-        return {
-          scrap: state.scrap + 10,
-        };
-      },
+      outcomeText: 'Outcome for choice 1.',
+      effect: (state: RunState): Partial<RunState> => ({
+        scrap: state.scrap + 10,
+      }),
     },
     {
       text: 'CHOICE 2',
-      outcomeText: 'The outcome of choice 2.',
-      effect: (state: RunState): Partial<RunState> => {
-        // Modify the game state here
-        return {
-          currentHp: state.currentHp - 10,
-        };
-      },
+      outcomeText: 'Outcome for choice 2.',
+      effect: (state: RunState): Partial<RunState> => ({
+        currentHp: state.currentHp - 10,
+      }),
     },
   ],
 };
@@ -141,18 +116,212 @@ const myCustomEvent: GameEvent = {
 export default myCustomEvent;
 ```
 
-### Event Properties
+---
 
-*   `id` (string): A unique identifier for the event.
-*   `title` (string): The title of the event.
-*   `text` (string): The main text of the event.
-*   `choices` (array): An array of choice objects.
-    *   `text` (string): The text for the choice button.
-    *   `outcomeText` (string): The text displayed after the choice is made.
-    *   `effect` (function): A function that takes the current `RunState` and returns a `Partial<RunState>` with the modified state.
+## Creating a New Augmentation
 
-**Example:** See `/mods/events/derelict-ship.ts`
+Augmentations are permanent upgrades purchased at the Hangar. Add a JSON file to `/mods/augmentations/`:
+
+```json
+{
+  "id": "your_augmentation_id",
+  "name": "AUGMENTATION NAME",
+  "description": "+Effect description.",
+  "rarity": "COMMON",
+  "cost": 100,
+  "icon": "[A+]",
+  "synergyId": "OPTIONAL_SYNERGY_ID"
+}
+```
+
+### Augmentation Properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `id` | string | Unique identifier |
+| `name` | string | Display name |
+| `description` | string | Effect description |
+| `rarity` | `"COMMON"` \| `"RARE"` \| `"LEGENDARY"` | Rarity tier |
+| `cost` | number | Scrap cost |
+| `icon` | string | Icon displayed in UI |
+| `synergyId` | string? | Optional synergy this belongs to |
+
+### Example Augmentations
+
+```json
+// Thermal Converter - Damage scales with heat
+{
+  "id": "thermal_conv",
+  "name": "THERMAL CONVERTER",
+  "description": "+1 DMG per 10% HEAT.",
+  "rarity": "RARE",
+  "cost": 120,
+  "icon": "[H+]",
+  "synergyId": "INFERNO"
+}
+```
+
+---
+
+## Creating a New Synergy
+
+Synergies provide bonus effects when specific augmentations or talents are combined. Add to `constants.ts`:
+
+```typescript
+export const SYNERGIES: Synergy[] = [
+  {
+    id: 'YOUR_SYNERGY',
+    name: 'SYNERGY NAME',
+    description: 'Effect when activated',
+    augmentationIds: ['aug_id_1', 'aug_id_2']
+  }
+];
+```
+
+### Synergy Properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `id` | SynergyId | Unique identifier |
+| `name` | string | Display name |
+| `description` | string | Effect description |
+| `augmentationIds` | string[] | Required augmentations/talents |
+| `effects` | SynergyEffect[]? | Optional effect definitions |
+
+---
+
+## Creating New Talents
+
+Talents are pilot-specific upgrades purchased with Pilot Points. Add to `/constants/talents.ts`:
+
+```typescript
+const YOUR_PILOT_TALENTS: Talent[] = [
+  {
+    id: 'pilot_talent_name',
+    name: 'Talent Name',
+    description: '+Effect per rank',
+    icon: '🔥',
+    tier: 1,
+    maxRank: 3,
+    cost: 1,
+    effects: [{ type: 'DAMAGE_PERCENT', value: 10 }]
+  },
+  {
+    id: 'pilot_advanced_talent',
+    name: 'Advanced Talent',
+    description: 'Requires previous talent',
+    icon: '⚡',
+    tier: 2,
+    maxRank: 2,
+    cost: 2,
+    effects: [{ type: 'CRIT_CHANCE', value: 5 }],
+    requires: ['pilot_talent_name']
+  }
+];
+```
+
+### Talent Properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `id` | string | Unique identifier |
+| `name` | string | Display name |
+| `description` | string | Effect description |
+| `icon` | string | Emoji icon |
+| `tier` | 1 \| 2 \| 3 | Talent tier (unlock order) |
+| `maxRank` | number | Maximum ranks purchasable |
+| `cost` | number | Pilot Points per rank |
+| `effects` | TalentEffect[] | Effect type and value |
+| `requires` | string[]? | Prerequisite talent IDs |
+
+### Available Effect Types
+
+| Effect Type | Description |
+|-------------|-------------|
+| `MAX_HP_PERCENT` | +X% maximum HP |
+| `MAX_HP_FLAT` | +X flat HP |
+| `DAMAGE_PERCENT` | +X% damage |
+| `CRIT_CHANCE` | +X% crit chance |
+| `CRIT_DAMAGE` | +X% crit damage |
+| `DODGE_CHANCE` | +X% dodge chance |
+| `ENERGY_MAX` | +X max energy |
+| `COOLDOWN_REDUCTION` | -X% cooldowns |
+| `THORNS_DAMAGE` | Reflect X% damage |
+
+---
+
+## Creating New Consumables
+
+Consumables are single-use items. Add to `/mods/consumables/`:
+
+```json
+{
+  "id": "custom_item",
+  "name": "CUSTOM ITEM",
+  "description": "Effect description.",
+  "count": 2,
+  "maxCount": 2,
+  "color": "text-green-400 border-green-400",
+  "cost": 30
+}
+```
+
+### Consumable Properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `id` | string | Unique identifier |
+| `name` | string | Display name |
+| `description` | string | Effect description |
+| `count` | number | Starting quantity |
+| `maxCount` | number | Maximum stack size |
+| `color` | string | Tailwind CSS classes |
+| `cost` | number | Shop purchase price |
+
+---
+
+## API Reference
+
+### RunState Object
+
+The `RunState` object represents the current game state:
+
+```typescript
+interface RunState {
+  isActive: boolean;
+  pilotId: PilotId;
+  moduleId: PilotModule;
+  currentStage: number;
+  currentHp: number;
+  maxHpUpgrade: number;
+  damageUpgrade: number;
+  scrap: number;
+  augmentations: string[];
+  consumables: Consumable[];
+}
+```
+
+### Combat Modifiers
+
+When implementing effects, you can modify:
+
+| Modifier | Where | Effect |
+|----------|-------|--------|
+| Damage | `combatUtils.ts` | Multiply/add to damage |
+| HP | `calculateMaxHp()` | Increase max HP |
+| Cooldowns | Ability usage | Reduce ability cooldowns |
+| Status Effects | Enemy/player | Apply BURN, STUN, etc. |
+
+---
+
+## Best Practices
+
+1. **Test thoroughly** - Use the Test Runner to verify your mods work
+2. **Use unique IDs** - Prefix with your mod name (e.g., `mymod_fire_enemy`)
+3. **Balance carefully** - Compare stats to existing content
+4. **Document effects** - Clear descriptions help players
 
 ## Next Steps
 
-Now that you have the knowledge to create your own mods, it's time to start experimenting! Try creating a new enemy, pilot, or event and see it come to life in the game. If you have any questions, feel free to consult the existing mod files for examples.
+Now that you have the knowledge to create your own mods, start experimenting! Create new enemies, pilots, talents, or events. Consult existing files in `/constants` and `/data` for examples.
+

@@ -182,12 +182,78 @@ export const ENDLESS_CONFIG = {
   BASE_ENEMIES_PER_WAVE: 3,     // Starting enemy count
   ENEMY_SCALING_PER_WAVE: 0.2,  // +0.2 enemies per wave (every 5 waves = +1 enemy)
   BOSS_WAVE_INTERVAL: 10,       // Boss every 10 waves
+  SHOP_WAVE_INTERVAL: 15,       // Breather shop every 15 waves
+  BLESSING_INTERVAL: 5,         // Random blessing every 5 waves
   SCORE_PER_WAVE: 100,
   SCORE_PER_KILL: 10,
   SCORE_TIME_BONUS_PER_MINUTE: 50,
   WAVE_CLEAR_HP_BONUS: 10,      // HP restored per wave clear
   UPGRADE_CHOICES: 3            // Number of upgrade options to present
 };
+
+// Endless Mode Blessings (temporary buffs)
+export interface EndlessBlessing {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  duration: number; // waves
+  effect: {
+    type: 'DAMAGE_MULT' | 'HP_REGEN' | 'SCORE_MULT' | 'CRIT_CHANCE' | 'SHIELD';
+    value: number;
+  };
+}
+
+export const ENDLESS_BLESSINGS: EndlessBlessing[] = [
+  {
+    id: 'rage_blessing',
+    name: 'BERSERKER RAGE',
+    description: '+50% damage for 3 waves',
+    icon: '🔥',
+    duration: 3,
+    effect: { type: 'DAMAGE_MULT', value: 1.5 }
+  },
+  {
+    id: 'regen_blessing',
+    name: 'REGENERATION',
+    description: '+5 HP per wave for 5 waves',
+    icon: '💚',
+    duration: 5,
+    effect: { type: 'HP_REGEN', value: 5 }
+  },
+  {
+    id: 'fortune_blessing',
+    name: 'FORTUNE\'S FAVOR',
+    description: '+100% score for 2 waves',
+    icon: '🍀',
+    duration: 2,
+    effect: { type: 'SCORE_MULT', value: 2.0 }
+  },
+  {
+    id: 'precision_blessing',
+    name: 'DEADLY PRECISION',
+    description: '+25% crit chance for 3 waves',
+    icon: '🎯',
+    duration: 3,
+    effect: { type: 'CRIT_CHANCE', value: 25 }
+  },
+  {
+    id: 'shield_blessing',
+    name: 'ENERGY SHIELD',
+    description: 'Block first 50 damage next wave',
+    icon: '🛡️',
+    duration: 1,
+    effect: { type: 'SHIELD', value: 50 }
+  },
+  {
+    id: 'vampiric_blessing',
+    name: 'VAMPIRIC STRIKE',
+    description: 'Heal 10% of damage dealt for 3 waves',
+    icon: '🩸',
+    duration: 3,
+    effect: { type: 'HP_REGEN', value: 10 }
+  }
+];
 
 // Endless Mode Upgrades
 export const ENDLESS_UPGRADES: any[] = [
@@ -367,6 +433,137 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     ],
     description: '30 Scrap for 1 REPAIR KIT',
     unlockedAtStage: 1
+  },
+  // NEW RECIPES
+  {
+    id: 'overcharge_cell',
+    name: 'OVERCHARGE CELL',
+    result: {
+      id: 'overcharge_cell',
+      name: 'OVERCHARGE CELL',
+      description: '+50% damage for 15s (no self-damage).',
+      count: 1,
+      maxCount: 2,
+      color: 'text-orange-500 border-orange-500',
+      cost: 0
+    },
+    requirements: [
+      { consumableId: 'overdrive_inj', count: 2 },
+      { count: 0, scrap: 50 }
+    ],
+    description: '2x OVERDRIVE INJ + 50 Scrap',
+    unlockedAtStage: 4
+  },
+  {
+    id: 'shield_matrix',
+    name: 'SHIELD MATRIX',
+    result: {
+      id: 'shield_matrix',
+      name: 'SHIELD MATRIX',
+      description: 'Grant 3-hit shield (blocks next 3 attacks).',
+      count: 1,
+      maxCount: 2,
+      color: 'text-blue-400 border-blue-400',
+      cost: 0
+    },
+    requirements: [
+      { consumableId: 'coolant', count: 1 },
+      { count: 0, scrap: 30 }
+    ],
+    description: 'L-COOLANT + 30 Scrap',
+    unlockedAtStage: 3
+  },
+  {
+    id: 'plasma_grenade',
+    name: 'PLASMA GRENADE',
+    result: {
+      id: 'plasma_grenade',
+      name: 'PLASMA GRENADE',
+      description: 'AOE damage + BURN to all enemies.',
+      count: 1,
+      maxCount: 1,
+      color: 'text-purple-400 border-purple-400',
+      cost: 0
+    },
+    requirements: [
+      { consumableId: 'emp_grenade', count: 1 },
+      { consumableId: 'overdrive_inj', count: 1 }
+    ],
+    description: 'EMP CHARGE + OVERDRIVE INJ',
+    unlockedAtStage: 5
+  },
+  {
+    id: 'emergency_beacon',
+    name: 'EMERGENCY BEACON',
+    result: {
+      id: 'emergency_beacon',
+      name: 'EMERGENCY BEACON',
+      description: 'Instant full heal + shield.',
+      count: 1,
+      maxCount: 1,
+      color: 'text-yellow-400 border-yellow-400',
+      cost: 0
+    },
+    requirements: [
+      { count: 0, scrap: 75 }
+    ],
+    description: '75 Scrap for Emergency Heal',
+    unlockedAtStage: 6
+  },
+  {
+    id: 'energy_battery',
+    name: 'ENERGY BATTERY',
+    result: {
+      id: 'energy_battery',
+      name: 'ENERGY BATTERY',
+      description: 'Restore 100 energy or reduce heat to 0.',
+      count: 1,
+      maxCount: 2,
+      color: 'text-cyan-300 border-cyan-300',
+      cost: 0
+    },
+    requirements: [
+      { consumableId: 'coolant', count: 2 }
+    ],
+    description: '2x L-COOLANT',
+    unlockedAtStage: 2
+  },
+  {
+    id: 'scrap_magnet',
+    name: 'SCRAP MAGNET',
+    result: {
+      id: 'scrap_magnet',
+      name: 'SCRAP MAGNET',
+      description: '+50% scrap gain for next 3 combats.',
+      count: 1,
+      maxCount: 1,
+      color: 'text-yellow-300 border-yellow-300',
+      cost: 0
+    },
+    requirements: [
+      { count: 0, scrap: 40 }
+    ],
+    description: '40 Scrap for Scrap Boost',
+    unlockedAtStage: 3
+  },
+  {
+    id: 'tactical_scanner',
+    name: 'TACTICAL SCANNER',
+    result: {
+      id: 'tactical_scanner',
+      name: 'TACTICAL SCANNER',
+      description: 'Reveal enemy intents for 1 combat.',
+      count: 1,
+      maxCount: 1,
+      color: 'text-green-300 border-green-300',
+      cost: 0
+    },
+    requirements: [
+      { consumableId: 'emp_grenade', count: 1 },
+      { count: 0, scrap: 50 }
+    ],
+    description: 'EMP CHARGE + 50 Scrap',
+    unlockedAtStage: 4
   }
 ];
 
@@ -637,6 +834,183 @@ export const NARRATIVE_EVENTS: GameEvent[] = [
         text: "DECLINE",
         outcomeText: "You thank the drone but continue solo. It powers down respectfully.",
         effect: (state) => ({})
+      }
+    ]
+  },
+  // ===== NEW EVENTS =====
+  {
+    id: 'old_comrade',
+    title: "GHOST OF THE PAST",
+    text: "A damaged mech limps toward you. The pilot's voice crackles through comms—an old academy friend you thought was dead. 'I need repairs... or a quick death. Your choice, friend.'",
+    choices: [
+      {
+        text: "SHARE SUPPLIES",
+        outcomeText: "You transfer spare parts. They salute and disappear into the ruins. Somewhere, an ally survives.",
+        effect: (state) => ({ currentHp: Math.max(1, state.currentHp - 15), scrap: state.scrap + 30 })
+      },
+      {
+        text: "GRANT MERCY",
+        outcomeText: "A single shot. Silence. You salvage what you can and carry their memory.",
+        effect: (state) => ({ scrap: state.scrap + 60 })
+      },
+      {
+        text: "WALK AWAY",
+        outcomeText: "Some ghosts are better left behind. Their pleas fade as you march on.",
+        effect: (state) => ({})
+      }
+    ]
+  },
+  {
+    id: 'corporate_secrets',
+    title: "NEON CORP VAULT",
+    text: "You breach a hidden NeonCorp data vault. Holographic files reveal the truth: the 'infection' was engineered. Sector Zero was a testing ground. What do you do with this knowledge?",
+    choices: [
+      {
+        text: "BROADCAST TRUTH",
+        outcomeText: "The signal goes out. Somewhere, people will know. NeonCorp marks you priority target.",
+        effect: (state) => ({ damageUpgrade: state.damageUpgrade + 2 })
+      },
+      {
+        text: "ARCHIVE DATA",
+        outcomeText: "You store the evidence. Leverage for later. Knowledge is power.",
+        effect: (state) => ({ scrap: state.scrap + 40 })
+      },
+      {
+        text: "DESTROY EVIDENCE",
+        outcomeText: "Some truths are too dangerous. The vault burns. But the memory lingers.",
+        effect: (state) => ({ maxHpUpgrade: state.maxHpUpgrade + 10 })
+      }
+    ]
+  },
+  {
+    id: 'gladiator_pit',
+    title: "THE FIGHTING PIT",
+    text: "Survivors have built an arena in the ruins. Credits flow, champions die. The crowd roars as you're spotted. 'FRESH METAL! WILL YOU FIGHT?'",
+    choices: [
+      {
+        text: "ENTER THE PIT",
+        outcomeText: "Blood and fire! You emerge victorious, drenched in oil and glory.",
+        effect: (state) => ({ scrap: state.scrap + 80, currentHp: Math.max(1, state.currentHp - 20), damageUpgrade: state.damageUpgrade + 1 })
+      },
+      {
+        text: "BET ON ANOTHER",
+        outcomeText: "You pick a winner. Your scrap doubles. Easy money.",
+        effect: (state) => state.scrap >= 30 ? ({ scrap: state.scrap + 30 }) : ({})
+      },
+      {
+        text: "LEAVE QUIETLY",
+        outcomeText: "The crowd boos, but you slip away. Fighting for entertainment isn't your war.",
+        effect: (state) => ({})
+      }
+    ]
+  },
+  {
+    id: 'stealth_route',
+    title: "THE SHADOW PATH",
+    text: "Your sensors detect a maintenance tunnel—unguarded, but crawling with radiation. It bypasses the next enemy patrol entirely.",
+    choices: [
+      {
+        text: "TAKE THE TUNNEL",
+        outcomeText: "Radiation sears your hull, but you emerge behind enemy lines. The element of surprise is yours.",
+        effect: (state) => ({ currentHp: Math.max(1, state.currentHp - 10), damageUpgrade: state.damageUpgrade + 2 })
+      },
+      {
+        text: "SCOUT FIRST",
+        outcomeText: "Careful reconnaissance reveals a safer route through the tunnels.",
+        effect: (state) => ({ currentHp: Math.max(1, state.currentHp - 5) })
+      },
+      {
+        text: "FACE THEM HEAD-ON",
+        outcomeText: "No shortcuts. You prepare for direct engagement.",
+        effect: (state) => ({ maxHpUpgrade: state.maxHpUpgrade + 5 })
+      }
+    ]
+  },
+  {
+    id: 'survivor_camp',
+    title: "CIVILIAN SURVIVORS",
+    text: "A group of civilians huddle in a fortified shelter. They have medical supplies but no fighters. 'Please... we heard you were coming. Can you help us?'",
+    choices: [
+      {
+        text: "PROTECT THEM",
+        outcomeText: "You stand guard while they evacuate. Grateful tears and heartfelt thanks follow.",
+        effect: (state) => ({ currentHp: state.currentHp + 25 })
+      },
+      {
+        text: "TRADE PROTECTION",
+        outcomeText: "A fair exchange. Supplies for service. Business is business.",
+        effect: (state) => ({ scrap: state.scrap + 50 })
+      },
+      {
+        text: "LEAVE THEM",
+        outcomeText: "You're not a hero. You're a survivor. The weight of their stares follows you.",
+        effect: (state) => ({})
+      }
+    ]
+  },
+  {
+    id: 'weapon_cache',
+    title: "MILITARY CACHE",
+    text: "A sealed armory, still intact. Security systems are offline but there's only time to grab one item before reinforcements arrive.",
+    choices: [
+      {
+        text: "HEAVY ORDINANCE",
+        outcomeText: "You grab experimental munitions. Your weapons feel deadlier.",
+        effect: (state) => ({ damageUpgrade: state.damageUpgrade + 3 })
+      },
+      {
+        text: "ARMOR PLATING",
+        outcomeText: "Reactive armor strapped to your frame. You can take more punishment now.",
+        effect: (state) => ({ maxHpUpgrade: state.maxHpUpgrade + 25 })
+      },
+      {
+        text: "MEDICAL SUPPLIES",
+        outcomeText: "Emergency nanite injectors. Your wounds begin to close.",
+        effect: (state) => ({ currentHp: state.currentHp + 40 })
+      }
+    ]
+  },
+  {
+    id: 'enemy_defector',
+    title: "THE DEFECTOR",
+    text: "An enemy pilot approaches under white flag. 'I know their patrol routes, weak points, everything. I just want out. Help me escape and the intel is yours.'",
+    choices: [
+      {
+        text: "ACCEPT DEFECTOR",
+        outcomeText: "True to their word, tactical data floods your systems. The enemy's weakness is exposed.",
+        effect: (state) => ({ damageUpgrade: state.damageUpgrade + 2, scrap: state.scrap + 20 })
+      },
+      {
+        text: "TAKE INTEL BY FORCE",
+        outcomeText: "Trust no one. You extract the information your way.",
+        effect: (state) => ({ damageUpgrade: state.damageUpgrade + 3, currentHp: Math.max(1, state.currentHp - 15) })
+      },
+      {
+        text: "REFUSE",
+        outcomeText: "Could be a trap. You wave them off and continue your mission.",
+        effect: (state) => ({})
+      }
+    ]
+  },
+  {
+    id: 'final_revelation',
+    title: "THE ARCHITECT'S MESSAGE",
+    text: "A hologram flickers to life: the Architect of Sector Zero. 'You've come far, pilot. But do you understand why? This sector... it was meant to create you. The perfect weapon. Will you fulfill your purpose, or forge your own path?'",
+    choices: [
+      {
+        text: "EMBRACE DESTINY",
+        outcomeText: "Power surges through your systems. You are what they made you—and more.",
+        effect: (state) => ({ damageUpgrade: state.damageUpgrade + 5, maxHpUpgrade: state.maxHpUpgrade + 20 })
+      },
+      {
+        text: "REJECT THE LIE",
+        outcomeText: "You shatter the hologram. Your path is your own. The Architect laughs as they fade.",
+        effect: (state) => ({ maxHpUpgrade: state.maxHpUpgrade + 30 })
+      },
+      {
+        text: "DEMAND ANSWERS",
+        outcomeText: "The Architect shares forbidden knowledge before vanishing. Your mind reels with understanding.",
+        effect: (state) => ({ damageUpgrade: state.damageUpgrade + 2, currentHp: state.currentHp + 20 })
       }
     ]
   }
@@ -997,6 +1371,37 @@ export const PILOTS: PilotConfig[] = [
         description: "High DMG if Burrowed.",
         damageMult: 1.5,
         cooldownMs: 6000
+      }
+    ]
+  },
+  {
+    id: PilotId.GHOST,
+    name: "Ghost",
+    mechName: "SPECTRE",
+    flavor: "A mysterious pilot who haunts the battlefield.",
+    color: "#a855f7",
+    textColor: "text-purple-400",
+    borderColor: "border-purple-400",
+    statsDescription: "SPEED+ | HP- | COOLDOWN-",
+    mechanicDescription: "CLOAKING. SHIFT to become untargetable for a short duration.",
+    baseHp: 90,
+    baseSpeed: 1.2,
+    baseDamage: 12,
+    unlockKills: 75,
+    abilities: [
+      {
+        id: 'ghost_strike',
+        name: "GHOST STRIKE",
+        description: "A swift, silent strike.",
+        damageMult: 1.1,
+        cooldownMs: 0
+      },
+      {
+        id: 'ghost_vanish',
+        name: "VANISH",
+        description: "Become untargetable for 5s.",
+        damageMult: 0,
+        cooldownMs: 12000
       }
     ]
   }
